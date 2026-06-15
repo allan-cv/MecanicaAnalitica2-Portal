@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinemática de Partículas: Casos de Movimiento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 leading-relaxed">
+<script src="../js/global-layout.js"></script>
+    <header class="bg-blue-900 text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-6 py-16 md:py-20 text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-4 uppercase tracking-wide">
+                Cinemática de Partículas: Casos de Movimiento
+            </h1>
+            <p class="text-lg md:text-xl font-light max-w-3xl mx-auto">
+                Rama de la mecánica clásica dedicada a la descripción geométrica y matemática del movimiento de las partículas a través del espacio y el tiempo, sin analizar las fuerzas que lo producen.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-10">
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">Introducción</h2>
+            <p class="mb-4 text-justify">
+                La <strong>cinemática de partículas</strong> es el fundamento analítico que permite estudiar las trayectorias y los cambios de posición, velocidad y aceleración de un cuerpo, tratándolo como un point material sin dimensiones. Su <strong>importancia en la ingeniería</strong> es absoluta, ya que proporciona las bases para predecir el comportamiento de cualquier sistema en movimiento, garantizando diseños seguros y eficientes antes de considerar las causas dinámicas (fuerzas).
+            </p>
+            <p class="mb-2 font-semibold">5 Aplicaciones reales en la ingeniería:</p>
+            <ul class="list-disc pl-6 space-y-1">
+                <li>Diseño aerodinámico y trayectorias de <strong>vehículos</strong> y aeronaves.</li>
+                <li>Sincronización de engranajes y levas en <strong>sistemas mecánicos</strong>.</li>
+                <li>Cálculo de velocidades de operación en <strong>bandas transportadoras</strong> industriales.</li>
+                <li>Programación de movimientos y cinemática inversa en brazos de <strong>robótica</strong>.</li>
+                <li>Predicción de <strong>trayectorias de proyectiles</strong> en balística y sistemas aeroespaciales.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-blue-900 mb-6">Conceptos Fundamentales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Posición</h3>
+                    <p class="text-sm mb-2"><strong>Definición:</strong> Ubicación exacta de una partícula en el espacio respecto a un sistema de referencia en un instante dado.</p>
+                    <p class="text-sm mb-2"><strong>Interpretación física:</strong> Coordenada que define "dónde" está el objeto.</p>
+                    <p class="text-sm mb-3"><strong>Ejemplo:</strong> Un auto estacionado en el kilómetro 25 de una ruta.</p>
+                    <div class="bg-gray-100 p-3 rounded text-center text-blue-900 font-bold font-mono">
+                        \( x(t) \)
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Desplazamiento</h3>
+                    <p class="text-sm mb-2"><strong>Definición:</strong> Magnitud vectorial que define el cambio neto de posición de la partícula.</p>
+                    <p class="text-sm mb-2"><strong>Interpretación física:</strong> Distancia en línea recta y dirección desde el inicio hasta el final.</p>
+                    <p class="text-sm mb-3"><strong>Ejemplo:</strong> Moverse 10 metros hacia el norte.</p>
+                    <div class="bg-gray-100 p-3 rounded text-center text-blue-900 font-bold font-mono">
+                        \( \Delta x = x_f - x_i \)
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Distancia Recorrida</h3>
+                    <p class="text-sm mb-2"><strong>Definición:</strong> Magnitud escalar que mide la longitud total de la trayectoria real seguida por la partícula.</p>
+                    <p class="text-sm mb-2"><strong>Interpretación física:</strong> El camino total caminado sin importar la dirección.</p>
+                    <p class="text-sm mb-3"><strong>Ejemplo:</strong> Correr 400m en una pista circular (Desplazamiento = 0, Distancia = 400m).</p>
+                    <div class="bg-gray-100 p-3 rounded text-center text-blue-900 font-bold font-mono">
+                        \( d = \text{Longitud del trayecto} \)
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Rapidez</h3>
+                    <p class="text-sm mb-2"><strong>Definición:</strong> Magnitud escalar que relaciona la distancia total recorrida con el tiempo empleado.</p>
+                    <p class="text-sm mb-2"><strong>Interpretación física:</strong> Qué tan deprisa se mueve el objeto a lo largo de su ruta.</p>
+                    <p class="text-sm mb-3"><strong>Ejemplo:</strong> El velocímetro marca 80 km/h constantes.</p>
+                    <div class="bg-gray-100 p-3 rounded text-center text-blue-900 font-bold font-mono">
+                        \( \text{Rapidez} = \frac{\text{Distancia}}{\text{Tiempo}} \)
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Velocidad</h3>
+                    <p class="text-sm mb-2"><strong>Definición:</strong> Magnitud vectorial que mide la tasa de cambio del desplazamiento respecto al tiempo.</p>
+                    <p class="text-sm mb-2"><strong>Interpretación física:</strong> Rapidez combinada con una dirección específica.</p>
+                    <p class="text-sm mb-3"><strong>Ejemplo:</strong> Un avión viajando a 900 km/h hacia el Este.</p>
+                    <div class="bg-gray-100 p-3 rounded text-center text-blue-900 font-bold font-mono">
+                        \( v = \frac{\Delta x}{\Delta t} \)
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Aceleración</h3>
+                    <p class="text-sm mb-2"><strong>Definición:</strong> Magnitud vectorial que describe la tasa de cambio de la velocidad respecto al tiempo.</p>
+                    <p class="text-sm mb-2"><strong>Interpretación física:</strong> Indica si el objeto aumenta su velocidad, frena o cambia de dirección.</p>
+                    <p class="text-sm mb-3"><strong>Ejemplo:</strong> Un auto pasando de 0 a 100 km/h en 5 segundos.</p>
+                    <div class="bg-gray-100 p-3 rounded text-center text-blue-900 font-bold font-mono">
+                        \( a = \frac{\Delta v}{\Delta t} \)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-blue-900 mb-6">Casos de Movimiento</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200 flex flex-col">
+                    <h3 class="text-xl font-bold text-blue-900 mb-3 border-b pb-2">A. Movimiento Rectilíneo Uniforme (MRU)</h3>
+                    <p class="text-sm mb-2"><strong>Características:</strong> Movimiento en línea recta donde la velocidad es constante. La aceleración es nula (\(a = 0\)).</p>
+                    <p class="text-sm mb-4"><strong>Aplicaciones:</strong> Bandas transportadoras a velocidad constante, tramos rectos de tuberías con flujo uniforme.</p>
+                    <div class="mt-auto bg-gray-100 p-3 rounded text-center text-blue-900 font-bold">
+                        \( x = x_0 + vt \)
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200 flex flex-col">
+                    <h3 class="text-xl font-bold text-blue-900 mb-3 border-b pb-2">B. Movimiento Rectilíneo Uniformemente Acelerado (MRUA)</h3>
+                    <p class="text-sm mb-2"><strong>Características:</strong> La velocidad varía linealmente respecto al tiempo porque existe una aceleración constante (\(a \neq 0\)).</p>
+                    <p class="text-sm mb-4"><strong>Aplicaciones:</strong> Frenado de vehículos, arranque de motores, análisis de impacto.</p>
+                    <div class="mt-auto bg-gray-100 p-3 rounded text-center text-blue-900 font-bold space-y-2">
+                        <div>\( v = v_0 + at \)</div>
+                        <div>\( x = x_0 + v_0t + \frac{1}{2}at^2 \)</div>
+                        <div>\( v^2 = v_0^2 + 2a(x - x_0) \)</div>
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200 flex flex-col">
+                    <h3 class="text-xl font-bold text-blue-900 mb-3 border-b pb-2">C. Caída Libre</h3>
+                    <p class="text-sm mb-2"><strong>Concepto:</strong> Caso especial del MRUA en el eje vertical, donde el cuerpo cae bajo la influencia exclusiva de la gravedad.</p>
+                    <p class="text-sm mb-2"><strong>Gravedad:</strong> \( g \approx 9.81 \, \text{m/s}^2 \) (hacia abajo).</p>
+                    <p class="text-sm mb-4"><strong>Aplicaciones:</strong> Diseño de elevadores, análisis de caída de piezas mecánicas, grúas.</p>
+                    <div class="mt-auto bg-gray-100 p-3 rounded text-center text-blue-900 font-bold">
+                        \( y = y_0 + v_0t - \frac{1}{2}gt^2 \)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">Puntos Clave</h2>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>La posición indica la ubicación exacta de la partícula.</li>
+                <li>El desplazamiento es vectorial (importa la dirección).</li>
+                <li>La distancia es escalar (longitud total recorrida).</li>
+                <li>La rapidez no considera dirección, solo magnitud.</li>
+                <li>La velocidad considera tanto la magnitud como la dirección del movimiento.</li>
+                <li>La aceleración mide cómo y cuánto cambia la velocidad en el tiempo.</li>
+                <li>El MRU se caracteriza estrictamente por tener velocidad constante.</li>
+                <li>El MRUA se define por tener una aceleración constante distinta de cero.</li>
+                <li>La caída libre es un caso particular de MRUA donde la aceleración es la gravedad.</li>
+            </ul>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">Ejercicio Resuelto</h2>
+            <div class="bg-gray-100 p-4 rounded-lg mb-6 border-l-4 border-blue-900">
+                <p class="font-bold mb-1">Problema:</p>
+                <p>Un automóvil se desplaza con una velocidad inicial de 10 m/s y acelera uniformemente a razón de 2 m/s² durante 5 segundos. Determine su velocidad final.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-blue-900 mb-2">Paso 1: Datos</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>\( v_0 = 10 \, \text{m/s} \)</li>
+                        <li>\( a = 2 \, \text{m/s}^2 \)</li>
+                        <li>\( t = 5 \, \text{s} \)</li>
+                        <li>\( v = ? \)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-blue-900 mb-2">Paso 2: Ecuación</h3>
+                    <p class="mb-2">Ecuación de velocidad para MRUA:</p>
+                    <div class="bg-gray-100 p-2 rounded text-center">\[ v = v_0 + at \]</div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-blue-900 mb-2">Paso 3: Sustitución</h3>
+                    <div class="bg-gray-100 p-2 rounded text-center">
+                        \[ v = 10 + (2)(5) \]
+                        \[ v = 10 + 10 \]
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <h3 class="font-bold text-blue-900 mb-2">Paso 4: Resultado</h3>
+                    <div class="bg-blue-900 text-white font-bold text-xl p-4 rounded-lg text-center shadow-md">
+                        \[ v = 20 \, \text{m/s} \]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 border-b pb-2">Metodología para resolver problemas de cinemática</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                    <span class="bg-blue-900 text-white px-3 py-1 rounded-full font-bold mr-2">1</span>
+                    <strong class="text-blue-900">Identificar datos conocidos.</strong>
+                    <p class="text-sm mt-2">Extraer del enunciado todos los valores numéricos con sus unidades.</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                    <span class="bg-blue-900 text-white px-3 py-1 rounded-full font-bold mr-2">2</span>
+                    <strong class="text-blue-900">Determinar incógnitas.</strong>
+                    <p class="text-sm mt-2">Saber exactamente qué variable física se necesita encontrar.</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                    <span class="bg-blue-900 text-white px-3 py-1 rounded-full font-bold mr-2">3</span>
+                    <strong class="text-blue-900">Seleccionar ecuación adecuada.</strong>
+                    <p class="text-sm mt-2">Elegir la fórmula que relacione los datos conocidos con la incógnita.</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                    <span class="bg-blue-900 text-white px-3 py-1 rounded-full font-bold mr-2">4</span>
+                    <strong class="text-blue-900">Sustituir valores.</strong>
+                    <p class="text-sm mt-2">Reemplazar las letras por los números en la ecuación seleccionada.</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                    <span class="bg-blue-900 text-white px-3 py-1 rounded-full font-bold mr-2">5</span>
+                    <strong class="text-blue-900">Verificar unidades.</strong>
+                    <p class="text-sm mt-2">Asegurarse de que el resultado tenga congruencia dimensional (ej. m/s).</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                    <span class="bg-blue-900 text-white px-3 py-1 rounded-full font-bold mr-2">6</span>
+                    <strong class="text-blue-900">Interpretar el resultado físico.</strong>
+                    <p class="text-sm mt-2">Analizar si el valor y el signo tienen sentido en el contexto del problema.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 border-b pb-2">Test de Autoevaluación</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-bold mb-2">1. ¿Qué magnitud física no considera la dirección del movimiento?</h3>
+                    <ul class="space-y-1 pl-4">
+                        <li>a) Aceleración</li>
+                        <li>b) Velocidad</li>
+                        <li>c) Rapidez</li>
+                        <li>d) Desplazamiento</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">2. En el Movimiento Rectilíneo Uniforme (MRU), la aceleración es:</h3>
+                    <ul class="space-y-1 pl-4">
+                        <li>a) Constante y positiva</li>
+                        <li>b) Cero (Nula)</li>
+                        <li>c) Igual a la gravedad</li>
+                        <li>d) Variable en el tiempo</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">3. ¿Qué estudia la cinemática de partículas?</h3>
+                    <ul class="space-y-1 pl-4">
+                        <li>a) Las fuerzas que generan el movimiento.</li>
+                        <li>b) La resistencia de los materiales al ser movidos.</li>
+                        <li>c) El movimiento sin considerar las causas que lo originan.</li>
+                        <li>d) La energía térmica generada por fricción.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">4. La caída libre es un caso específico de:</h3>
+                    <ul class="space-y-1 pl-4">
+                        <li>a) MRU</li>
+                        <li>b) Movimiento Circular</li>
+                        <li>c) Movimiento Parabólico</li>
+                        <li>d) MRUA (Movimiento Rectilíneo Uniformemente Acelerado)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">5. Si la velocidad inicial y final de un objeto son iguales en un lapso de tiempo, su aceleración media es:</h3>
+                    <ul class="space-y-1 pl-4">
+                        <li>a) Infinita</li>
+                        <li>b) 9.81 m/s²</li>
+                        <li>c) Cero</li>
+                        <li>d) Negativa</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 bg-gray-100 p-4 rounded-lg border border-gray-200">
+                <p class="font-bold text-blue-900">Respuestas Correctas:</p>
+                <p>1-c, 2-b, 3-c, 4-d, 5-c</p>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">Conclusiones</h2>
+            <ul class="list-decimal pl-6 space-y-3 text-justify">
+                <li>La cinemática es la base descriptiva esencial en la mecánica analítica, ya que nos permite cuantificar y proyectar matemáticamente el comportamiento de una partícula en el tiempo sin requerir el conocimiento de las fuerzas impulsoras.</li>
+                <li>La correcta aplicación de estos fundamentos cinemáticos en la ingeniería es crucial para diseñar maquinaria, predecir trayectorias de manera segura y sincronizar procesos industriales automatizados.</li>
+                <li>Diferenciar rigurosamente entre magnitudes escalares (como distancia y rapidez) y vectoriales (como desplazamiento y velocidad) garantiza la comprensión precisa de los movimientos reales y evita fallos en los cálculos de diseño.</li>
+            </ul>
+        </section>
+
+
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+            <h2 class="text-xl font-bold text-blue-900 mb-4 border-b pb-2">Referencias Bibliográficas</h2>
+            <ol class="list-decimal pl-6 space-y-3 text-sm text-gray-800 break-words">
+                <li>
+                    F. P. Beer, E. R. Johnston, y P. J. Cornwell, <em>Mecánica vectorial para ingenieros: Dinámica</em>, 9ª ed. México: McGraw-Hill, 2010.
+                </li>
+                <li>
+                    Enfisica, "Cinemática en física: Todo sobre el movimiento," <em>Enfisica.com</em>. [En línea]. Disponible en: 
+                    <a href="https://enfisica.com/cinematica/" target="_blank" class="text-blue-600 hover:underline">https://enfisica.com/cinematica/</a>
+                </li>
+                <li>
+                    Matematrix, "Cinemática de la Partícula: Fundamentos y Aplicaciones Clave," <em>Matematrix.net</em>. [En línea]. Disponible en: 
+                    <a href="https://matematrix.net/cinematica-particula/" target="_blank" class="text-blue-600 hover:underline">https://matematrix.net/cinematica-particula/</a>
+                </li>
+                <li>
+                    GCFGlobal, "¿Qué es el movimiento? Conceptos y Sistemas de Referencia," <em>edu.gcfglobal.org</em>. [En línea]. Disponible en: 
+                    <a href="https://edu.gcfglobal.org" target="_blank" class="text-blue-600 hover:underline">https://edu.gcfglobal.org</a>
+                </li>
+                <li>
+                    GCFGlobal, "Velocidad, rapidez y aceleración: Diferencias y ejemplos prácticos," <em>edu.gcfglobal.org</em>. [En línea]. Disponible en: 
+                    <a href="https://edu.gcfglobal.org" target="_blank" class="text-blue-600 hover:underline">https://edu.gcfglobal.org</a>
+                </li>
+                <li>
+                    Futuros Sobresalientes, "QUÉ ES el MOVIMIENTO: Trayectoria, desplazamiento y espacio recorrido," <em>YouTube</em>. [En línea]. Disponible en: 
+                    <a href="https://www.youtube.com/watch?v=aqLrtH1gm-Q" target="_blank" class="text-blue-600 hover:underline">https://www.youtube.com/watch?v=aqLrtH1gm-Q</a>
+                </li>
+                <li>
+                    M. Fernández Collado, "VELOCIDAD: Explicación, fórmula y problemas prácticos de móviles," <em>YouTube</em>. [En línea]. Disponible en: 
+                    <a href="https://www.youtube.com/watch?v=XpfCaJw-0hc" target="_blank" class="text-blue-600 hover:underline">https://www.youtube.com/watch?v=XpfCaJw-0hc</a>
+                </li>
+                <li>
+                    La ciencia explicada, "La CINEMÁTICA explicada: principios, tipos de movimiento y ejemplos cotidianos," <em>YouTube</em>. [En línea]. Disponible en: 
+                    <a href="https://www.youtube.com/watch?v=S5wctMSPIV0" target="_blank" class="text-blue-600 hover:underline">https://www.youtube.com/watch?v=S5wctMSPIV0</a>
+                </li>
+                <li>
+                    Física desde Cero, "CINEMÁTICA desde cero: MRU, MRUA y conexiones analíticas," <em>YouTube</em>. [En línea]. Disponible en: 
+                    <a href="https://www.youtube.com/watch?v=j1MII9U9ALQ" target="_blank" class="text-blue-600 hover:underline">https://www.youtube.com/watch?v=j1MII9U9ALQ</a>
+                </li>
+                <li>
+                    Educatina, "Magnitudes Vectoriales y Escalares aplicadas a la velocidad instantánea," <em>YouTube</em>. [En línea]. Disponible en: 
+                    <a href="https://www.youtube.com/watch?v=IzfIdm-nXRU" target="_blank" class="text-blue-600 hover:underline">https://www.youtube.com/watch?v=IzfIdm-nXRU</a>
+                </li>
+            </ol>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white mt-12 py-10">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-2">
+            <p class="font-bold text-lg uppercase tracking-wide text-gray-300 mb-4">Integrantes</p>
+            <p class="font-semibold text-md">René Alberto Chaclan Reyes - 201830574</p>
+            <p class="font-semibold text-md">Julio Alejandro Rivera García - 202130673</p>
+            <div class="mt-6 pt-6 border-t border-gray-700 max-w-md mx-auto">
+                <p class="text-sm text-gray-400">Ingeniería Mecánica</p>
+                <p class="text-sm text-gray-400">Universidad de San Carlos de Guatemala</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

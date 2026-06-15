@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema X.X - [Nombre del Tema]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+
+    <nav class="bg-slate-900 text-white fixed top-0 left-0 w-full z-50 shadow-sm border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+            <span class="font-bold tracking-wide text-sm md:text-base text-blue-400">⚙️ Portal de Dinámica</span>
+            <a href="../index.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm font-medium py-1.5 px-4 rounded-lg transition">
+                ← Volver al Índice
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 pt-24 pb-12">
+        
+        <header class="mb-8 border-b border-slate-200 pb-4">
+            <span class="text-blue-600 font-bold text-sm tracking-wider uppercase">[UNIDAD X]</span>
+            <h1 class="text-3xl font-extrabold text-slate-900 mt-1">[ESCRIBIR AQUÍ EL TÍTULO DEL TEMA]</h1>
+            <p class="text-slate-500 text-sm mt-1">Autor: <span class="font-medium text-slate-700">[Nombre del Compañero]</span></p>
+        </header>
+
+        <div class="space-y-8">
+
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <span>📐</span> Introducción
+                </h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                    [Pegar aquí la introducción del compañero...]
+                </p>
+            </section>
+
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <span>💡</span> Conceptos Clave y Metodología
+                </h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                    [Pegar aquí los conceptos clave...]
+                </p>
+            </section>
+
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <span>🎯</span> Conclusiones
+                </h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                    [Pegar aquí las conclusiones...]
+                </p>
+            </section>
+
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <span>📝</span> Ejercicio Práctico
+                </h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                    [Pegar aquí el ejercicio...]
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-500 py-6 text-center text-xs mt-12">
+        <p>© 2026 Facultad de Ingeniería - USAC</p>
+    </footer>
+
+</body>
+</html>

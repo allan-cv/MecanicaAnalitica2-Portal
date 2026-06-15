@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibraciones: Conceptos fundamentales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Estilos estructurales para el mapa conceptual del árbol */
+        .tree ul {
+            padding-top: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        .tree li {
+            float: left;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 10px 0 10px;
+        }
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 2px solid #cbd5e1;
+            width: 50%;
+            height: 20px;
+        }
+        .tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid #cbd5e1;
+        }
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child {
+            padding-top: 0;
+        }
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:last-child::before {
+            border-right: 2px solid #cbd5e1;
+            border-radius: 0 5px 0 0;
+        }
+        .tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+        .tree ul ul::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-left: 2px solid #cbd5e1;
+            width: 0;
+            height: 20px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+<script src="../js/global-layout.js"></script>
+  
+    <header class="bg-slate-900 text-white py-20 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Vibraciones: Conceptos fundamentales</h1>
+            <p class="text-lg md:text-xl text-slate-300 mb-6">Un estudio integral del movimiento oscilatorio mecánico</p>
+            <div class="inline-block bg-slate-800 border border-slate-700 rounded-2xl px-6 py-3 shadow-inner text-left max-w-md mx-auto">
+                <span class="text-sm text-slate-400 font-medium block text-center mb-1">Autores:</span>
+                <div class="text-sm text-indigo-400 font-bold space-y-1">
+                    <div>202330607 Ronny Alexis López Vásquez</div>
+                    <div>202030226 Julio César Cochojil Ajsac</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-4 md:p-8 space-y-12">
+
+        <section class="bg-white rounded-lg shadow p-6 md:p-8 border-l-4 border-indigo-600">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Introducción</h2>
+            <p class="leading-relaxed text-justify">
+                Una vibración mecánica es el movimiento periódico de un sistema desplazado de su posición de equilibrio estable. Se clasifica en vibración libre, mantenida únicamente por fuerzas gravitacionales o elásticas (como un péndulo), y vibración forzada, provocada por una perturbación externa periódica. Ambas pueden ser amortiguadas o no amortiguadas. Aunque el análisis ideal no amortiguado asume un movimiento infinito al omitir la fricción, en la realidad física las fuerzas disipativas disminuyen la amplitud gradualmente con el tiempo. Así, los sistemas reales tienden a retornar al reposo bajo la acción de fuerzas restauradoras.
+            </p>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Resumen Ejecutivo e Investigación</h2>
+            <p class="mb-4 leading-relaxed text-justify">
+                El análisis de vibraciones ha tomado una relevancia imprescindible en las últimas décadas impulsado por la tendencia industrial hacia la fabricación de maquinarias de alta velocidad y estructuras cada vez más ligeras. La mayoría de las vibraciones en máquinas son indeseables, ya que aumentan drásticamente los esfuerzos en los materiales y causan pérdidas sustanciales de energía. 
+            </p>
+            <p class="leading-relaxed text-justify">
+                Por lo tanto, la investigación actual se centra en eliminar o reducir dichas oscilaciones mediante un diseño óptimo. Se requiere prever los impactos del amortiguamiento—el proceso por el cual se interrumpe el movimiento con el tiempo. Así mismo, es crucial estudiar las vibraciones libres mantenidas exclusivamente por fuerzas restauradoras como base del diseño.
+            </p>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Conceptos Claves</h2>
+            <ul class="list-disc list-inside space-y-2 text-justify">
+                <li><strong>Movimiento Armónico Simple (MAS):</strong> Es el movimiento periódico fundamental caracterizado porque la aceleración del sistema es directamente proporcional al desplazamiento y de dirección opuesta.</li>
+                <li><strong>Frecuencia Natural (\(\omega_n\)):</strong> Es la característica intrínseca de vibración del sistema; está determinada por la rigidez o fuerzas restauradoras y la masa.</li>
+                <li><strong>Vibración Libre:</strong> Movimiento que se origina al desplazar un sistema de su posición estable inicial sin someterlo posteriormente a una fuerza externa continuada.</li>
+                <li><strong>Amplitud:</strong> Valor máximo del desplazamiento respecto a la posición de equilibrio original de la partícula o sistema.</li>
+            </ul>
+        </section>
+
+        <section class="bg-slate-50 border-2 border-slate-200 rounded-lg p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Metodología de Solución</h2>
+            <p class="mb-4">Para analizar la frecuencia natural de un cuerpo o sistema de cuerpos con un grado de libertad, se procede con la siguiente metodología:</p>
+            <ol class="list-decimal list-inside space-y-2 text-justify">
+                <li><strong>Diagrama de cuerpo libre:</strong> Trace el diagrama mostrando el cuerpo desplazado una cantidad pequeña respecto a su posición de equilibrio natural.</li>
+                <li><strong>Definición de posición:</strong> Localice el centro o el cuerpo por medio de una coordenada inercial \(q\) adecuada.</li>
+                <li><strong>Ecuación de Movimiento o Energía:</strong> Aplique la suma de fuerzas (Segunda ley de Newton) o métodos basados en conservación de energía mecánica.</li>
+                <li><strong>Ecuación diferencial:</strong> Reorganice los términos para obtener una ecuación diferencial lineal de segundo orden en la forma estándar \(\ddot{x} + \omega_n^2 x = 0\).</li>
+            </ol>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Ejemplo: Oscilación del Péndulo Simple</h2>
+            <p class="mb-4 text-justify">
+                Determine el periodo de oscilación de un péndulo simple compuesto por una masa \(m\) atada a una cuerda de longitud \(l\). Asuma que el desplazamiento de la bola es un pequeño ángulo \(\theta\).
+            </p>
+             
+            <h3 class="font-bold text-lg text-slate-800 mt-6 mb-2">Solución:</h3>
+            <p class="mb-4">La fuerza de restauración es la componente tangencial del peso \(mg \sin \theta\). Aplicando la ecuación de movimiento en dirección tangencial obtenemos:</p>
+            <div class="overflow-x-auto text-center py-4 bg-slate-50 rounded">
+                $$\sum F_t = m a_t$$
+                $$-mg \sin \theta = m l \ddot{\theta}$$
+            </div>
+            <p class="mt-4">Para desplazamientos muy pequeños (\(\sin \theta \approx \theta\)), la ecuación se aproxima a un Movimiento Armónico Simple:</p>
+            <div class="overflow-x-auto text-center py-4 bg-slate-50 rounded">
+                $$\ddot{\theta} + \left( \frac{g}{l} \right) \theta = 0$$
+            </div>
+            <p class="mt-4">Comparando con la forma estándar \(\ddot{x} + \omega_n^2 x = 0\), deducimos que la frecuencia natural y el periodo son:</p>
+            <div class="overflow-x-auto text-center py-4 bg-slate-50 rounded">
+                $$\omega_n = \sqrt{\frac{g}{l}} \quad \implies \quad \tau = \frac{2\pi}{\omega_n} = 2\pi \sqrt{\frac{l}{g}}$$
+            </div>
+        </section>
+
+        <section class="bg-white text-center rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Mapa Conceptual</h2>
+            <p class="mb-6">Haz clic en el siguiente botón para visualizar la síntesis gráfica sobre vibraciones.</p>
+            <button onclick="document.getElementById('modalMapa').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded shadow-lg transition transform hover:scale-105">
+                Ver Mapa Conceptual
+            </button>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-6 text-slate-900">Ponte a Prueba: Conceptos Básicos</h2>
+            <div id="quiz-container" class="space-y-6">
+                </div>
+            <button onclick="evaluarQuiz()" class="mt-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded w-full transition">
+                Calificar Test
+            </button>
+            <div id="quiz-resultados" class="mt-6 font-bold text-lg hidden text-center"></div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Recurso Audiovisual</h2>
+            <p class="mb-4">Para complementar la lectura y ver ejemplos experimentales de oscilaciones y resonancia, te recomendamos visualizar el siguiente recurso.</p>
+             
+            <div class="w-full bg-slate-900 rounded-lg overflow-hidden shadow-lg border border-slate-200">
+                <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/TRrQXrOVPGo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <p class="text-center mt-4">
+                <a href="https://youtu.be/TRrQXrOVPGo?si=mZqwEWu050U-s5fT" target="_blank" class="text-blue-600 hover:underline font-semibold">Ir al video original en YouTube</a>
+            </p>
+        </section>
+
+        <section class="bg-slate-900 text-white rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4">Conclusión</h2>
+            <p class="leading-relaxed">
+                El estudio de las vibraciones mecánicas permite predecir el comportamiento dinámico de los sistemas expuestos a fuerzas o desplazamientos. Comprender la diferenciación entre las vibraciones libres y forzadas, así como la disipación de la energía mediante el amortiguamiento, resulta fundamental para asegurar el tiempo de vida útil, la eficiencia de las máquinas y la integridad estructural en los proyectos de ingeniería modernos.
+            </p>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-900">Referencia bibliográfica</h2>
+            
+            <ul class="list-disc list-inside space-y-2 text-sm text-slate-700 mb-6">
+                <li>Hibbeler, R. C. (2010). <em>Ingeniería Mecánica: Dinámica</em>. 12ma Edición. Pearson Educación. México.</li>
+                <li>Beer, F. P., Johnston, E. R., Clausen, W. E., & Cornwell, P. J. (2010). <em>Mecánica vectorial para ingenieros: Dinámica</em>. 9na Edición. McGraw-Hill. México.</li>
+                <li><em>Dinámica: Mecánica para Ingenieros</em>. 1ra Edición.</li>
+                <li>W.G Mclean, E.W Nelson. <em>Mecánica para ingenieros Estática y dinámica</em>.</li>
+                <li>J.L Meriam, L.G Kraige. <em>Mecánica para ingenieros. Dinámica</em> 3ra edición.</li>
+                <li>Shames, I. H. (1967). <em>Ingeniería mecánica: Dinámica</em> (Vol. 2).</li>
+                <li>Hibbler, R.C. <em>Mecánica vectorial para ingenieros. Dinámica</em> Decima edición. Centro Regional de Ayuda Técnica / Herrero Hermanos Sucesores.</li>
+                <li>Bedford, A., y Fowler, W. T. (2008). <em>Mecánica para ingeniería: Dinámica</em> (5ta ed.). Pearson Educación.</li>
+            </ul>
+
+            <!-- Acceso Directo a la Bibliografía del Proyecto (Google Drive) - Colocado abajo después de todas las citas -->
+            <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📂</span>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm">Repositorio Digital de la Bibliografía</h3>
+                        <p class="text-xs text-slate-500">Enlace directo a los libros y documentos de respaldo en la nube.</p>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/drive/folders/181jMo9mE35pULmYhBO3qqxQb8crjjw4f" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 px-4 rounded-lg shadow-sm transition inline-flex items-center gap-1.5 shrink-0">
+                    Ir a Google Drive
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white text-center py-6 mt-12">
+        <p class="text-sm">&copy; 2026 Proyecto Universitario - Dinámica de Vibraciones.</p>
+        <p class="text-xs text-slate-400 mt-2 font-light">Autores: 202330607 Ronny Alexis López Vásquez &nbsp;|&nbsp; 202030226 Julio César Cochojil Ajsac</p>
+    </footer>
+
+    <div id="modalMapa" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex justify-center items-center p-4">
+        <div class="bg-white rounded-lg max-w-5xl w-full p-6 relative shadow-2xl">
+            <button onclick="document.getElementById('modalMapa').classList.add('hidden')" class="absolute top-4 right-4 text-slate-500 hover:text-slate-900 text-3xl font-bold transition">&times;</button>
+            <h3 class="text-2xl font-bold mb-6 text-slate-900 text-center border-b pb-2">Estructura de las Vibraciones Mecánicas</h3>
+            
+            <div class="overflow-x-auto overflow-y-auto max-h-[75vh] p-4 bg-slate-50 rounded-lg">
+                <div class="tree min-w-[800px]">
+                    <ul>
+                        <li>
+                            <div class="bg-slate-900 text-white font-bold p-3 rounded-lg shadow-md border-2 border-slate-700">VIBRACIONES MECÁNICAS</div>
+                            <ul>
+                                <li>
+                                    <div class="bg-indigo-600 text-white font-semibold p-2.5 rounded-md shadow-sm">1. VIBRACIÓN LIBRE<br><span class="text-xs font-normal opacity-90">(Sin fuerzas externas)</span></div>
+                                    <ul>
+                                        <li>
+                                            <div class="bg-slate-100 border border-indigo-300 p-2 rounded text-sm font-medium text-slate-800">No Amortiguada</div>
+                                            <ul>
+                                                <li><div class="bg-white border border-dashed border-slate-400 p-2 rounded text-xs text-slate-600">Movimiento Infinito<br><span class="font-mono text-indigo-600 block mt-1">$$\omega_n = \sqrt{k/m}$$</span></div></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="bg-slate-100 border border-indigo-300 p-2 rounded text-sm font-medium text-slate-800">Amortiguada</div>
+                                            <ul>
+                                                <li><div class="bg-white border border-dashed border-slate-400 p-2 rounded text-xs text-slate-600 text-left space-y-1">• <b>Subamortiguado:</b> Oscila<br>• <b>Crítico:</b> Retorno veloz<br>• <b>Sobreamortiguado:</b> Lento</div></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <div class="bg-amber-600 text-white font-semibold p-2.5 rounded-md shadow-sm">2. VIBRACIÓN FORZADA<br><span class="text-xs font-normal opacity-90">(Excitación periódica externa)</span></div>
+                                    <ul>
+                                        <li>
+                                            <div class="bg-slate-100 border border-amber-300 p-2 rounded text-sm font-medium text-slate-800">No Amortiguada</div>
+                                            <ul>
+                                                <li><div class="bg-red-50 border border-red-200 p-2 rounded text-xs text-red-700"><b>Riesgo de Resonancia:</b> Amplitud teórica infinita si \(\omega = \omega_n\)</div></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="bg-slate-100 border border-amber-300 p-2 rounded text-sm font-medium text-slate-800">Amortiguada</div>
+                                            <ul>
+                                                <li><div class="bg-white border border-dashed border-slate-400 p-2 rounded text-xs text-slate-600">Amplitud controlada en resonancia por disipación</div></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const preguntas = [
+            {
+                pregunta: "1. ¿Qué es una vibración mecánica?",
+                opciones: [
+                    "A. Una fuerza constante aplicada a una masa",
+                    "B. El movimiento periódico de un cuerpo alrededor de su equilibrio",
+                    "C. Un movimiento rectilíneo uniforme sin fricción"
+                ],
+                correcta: 1, 
+                explicacion: "Una vibración se define específicamente como el movimiento periódico u oscilatorio de un objeto alrededor de una posición de equilibrio."
+            },
+            {
+                pregunta: "2. La vibración mantenida solo por fuerzas restauradoras sin fuerzas externas se llama:",
+                opciones: [
+                    "A. Vibración libre",
+                    "B. Vibración forzada",
+                    "C. Movimiento de resonancia"
+                ],
+                correcta: 0,
+                explicacion: "La vibración libre ocurre sin intervención de fuerzas externas, generada únicamente por las propiedades elásticas o gravitacionales internas."
+            },
+            {
+                pregunta: "3. En el Movimiento Armónico Simple (MAS), la aceleración es:",
+                opciones: [
+                    "A. Proporcional al cuadrado de la velocidad",
+                    "B. Inversamente proporcional a la masa",
+                    "C. Proporcional al desplazamiento y de dirección opuesta"
+                ],
+                correcta: 2,
+                explicacion: "Por definición, el MAS implica que la fuerza de restauración (y la aceleración) se oponen al desplazamiento proporcionalmente."
+            },
+            {
+                pregunta: "4. ¿De qué depende la frecuencia natural de vibración en un sistema básico?",
+                opciones: [
+                    "A. Únicamente de la velocidad inicial",
+                    "B. De la rigidez (restauración) y la masa",
+                    "C. Del rozamiento estático del aire"
+                ],
+                correcta: 1,
+                explicacion: "La frecuencia natural se determina a partir de la masa del cuerpo y la fuerza de restauración elástica de los componentes."
+            },
+            {
+                pregunta: "5. ¿Qué efecto genera el amortiguamiento sobre un sistema oscilatorio real?",
+                opciones: [
+                    "A. Mantiene el movimiento infinito y perpetuo",
+                    "B. Disipa la energía provocando que la amplitud decrezca en el tiempo",
+                    "C. Aumenta drásticamente la fuerza elástica inicial"
+                ],
+                correcta: 1,
+                explicacion: "El amortiguamiento está asociado a la fricción, cuya función física es disipar o perder la energía mecánica del sistema gradualmente."
+            }
+        ];
+
+        const container = document.getElementById('quiz-container');
+
+        // Renderizar las preguntas
+        preguntas.forEach((q, index) => {
+            let htmlOpciones = q.opciones.map((op, i) => `
+                <label class="block mt-2 ml-4 cursor-pointer">
+                    <input type="radio" name="q${index}" value="${i}" class="mr-2 text-blue-600 focus:ring-blue-500">
+                    <span class="text-slate-700">${op}</span>
+                </label>
+            `).join('');
+
+            container.innerHTML += `
+                <div class="border border-slate-200 rounded p-4 pb-6" id="card-q${index}">
+                    <p class="font-semibold text-slate-800">${q.pregunta}</p>
+                    ${htmlOpciones}
+                    <div id="feedback-q${index}" class="hidden mt-3 p-3 text-sm rounded"></div>
+                </div>
+            `;
+        });
+
+        // Lógica de calificación corregida
+        function evaluarQuiz() {
+            let puntaje = 0;
+            
+            preguntas.forEach((q, index) => {
+                const seleccionadas = document.getElementsByName(`q${index}`);
+                let valorElegido = null;
+                
+                seleccionadas.forEach(input => {
+                    if(input.checked) valorElegido = parseInt(input.value);
+                });
+
+                const divFeedback = document.getElementById(`feedback-q${index}`);
+                divFeedback.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800', 'bg-slate-100', 'text-slate-800');
+
+                if(valorElegido === null) {
+                    divFeedback.classList.add('bg-slate-100', 'text-slate-800');
+                    divFeedback.innerHTML = "⚠️ No respondiste esta pregunta.";
+                } else if(valorElegido === q.correcta) {
+                    puntaje++;
+                    divFeedback.classList.add('bg-green-100', 'text-green-800');
+                    divFeedback.innerHTML = `✅ ¡Correcto! ${q.explicacion}`;
+                } else {
+                    divFeedback.classList.add('bg-red-100', 'text-red-800');
+                    divFeedback.innerHTML = `❌ Incorrecto. La respuesta correcta era la opción: ${q.opciones[q.correcta]}. <br>${q.explicacion}`;
+                }
+                divFeedback.classList.remove('hidden');
+            });
+
+            // Mostrar resultados globales
+            const divResultados = document.getElementById('quiz-resultados');
+            divResultados.classList.remove('hidden', 'text-red-600', 'text-green-600');
+            divResultados.innerHTML = `Tu puntuación es de ${puntaje} / ${preguntas.length}`;
+            if(puntaje >= 3) {
+                divResultados.classList.add('text-green-600');
+            } else {
+                divResultados.classList.add('text-red-600');
+            }
+            divResultados.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

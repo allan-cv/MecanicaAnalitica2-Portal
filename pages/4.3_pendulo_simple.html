@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mecánica Analítica - El Péndulo Simple</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilo elegante y unificado para variables físicas en texto plano */
+        var {
+            font-family: 'Georgia', Cambria, "Times New Roman", Times, serif;
+            font-style: italic;
+            font-weight: 600;
+            color: #0f172a; /* slate-900 */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed min-h-screen flex flex-col">
+<script src="../js/global-layout.js"></script>
+    <!-- HERO / ENCABEZADO -->
+    <header class="bg-slate-900 text-white py-16 px-4 md:px-8 border-b-4 border-blue-600 shadow-lg">
+        <div class="max-w-6xl mx-auto">
+            <span class="bg-blue-600 text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full text-white inline-block mb-4">
+                Portal de Mecánica Analítica
+            </span>
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
+                El Péndulo Simple
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 max-w-3xl mb-6">
+                Un análisis riguroso de sus fundamentos físicos, modelación diferencial por métodos dinámicos y energéticos, y su relevancia en el diseño de ingeniería.
+            </p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 border-t border-slate-700/50">
+                <div>
+                    <p class="text-xs text-slate-400 uppercase tracking-widest">Autor de Investigación</p>
+                    <p class="text-sm md:text-base font-semibold text-slate-200">
+                        Ludvin Majukutaj Ajanel Santos — Carné: 202230386
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-12 md:py-16 space-y-12">
+
+        <!-- SECCIÓN 1: INTRODUCCIÓN -->
+        <section id="introduccion" class="scroll-mt-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                1. Introducción
+            </h2>
+            <div class="bg-white shadow-md rounded-lg p-6 md:p-8 border border-slate-200">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                    <div class="md:col-span-2 space-y-4">
+                        <p class="text-slate-700 text-justify">
+                            El <strong class="text-slate-950 font-semibold">péndulo simple</strong> es una de las construcciones teóricas fundamentales de la mecánica clásica. Se define idealmente como una masa puntual <var>m</var> suspendida de un hilo inextensible y sin masa de longitud <var>L</var>. Al desplazar la masa de su posición de equilibrio vertical e impartirle o no una velocidad inicial, el sistema comienza a oscilar bajo la acción exclusiva de la fuerza gravitacional.
+                        </p>
+                        <p class="text-slate-700 text-justify">
+                            Desde el punto de vista pedagógico, su estudio representa el punto de encuentro perfecto para comprender la transición entre la dinámica de traslación y rotación, el análisis de fuerzas restauradoras y la formulación de sistemas dinámicos lineales y no lineales. 
+                        </p>
+                        <p class="text-slate-700 text-justify">
+                            En ingeniería, este modelo no solo es útil para medir con alta precisión la aceleración de la gravedad <var>g</var> local, sino que también sirve de base para el diseño de dispositivos de medición temporal (cronómetros), sismógrafos primitivos y sistemas modernos de amortiguamiento dinámico en rascacielos expuestos a cargas de viento o actividad telúrica.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 flex flex-col justify-center items-center text-center">
+                        <div class="relative w-32 h-44 flex items-center justify-center mb-4">
+                            <!-- SVG Diagram representing a Simple Pendulum -->
+                            <svg class="w-full h-full" viewBox="0 0 120 160" aria-label="Esquema de un péndulo simple">
+                                <!-- Ceiling line -->
+                                <line x1="10" y1="10" x2="110" y2="10" stroke="#475569" stroke-width="4" stroke-dasharray="2,2"/>
+                                <!-- Vertical alignment line -->
+                                <line x1="60" y1="10" x2="60" y2="140" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,4"/>
+                                <!-- String of Pendulum at an angle -->
+                                <line x1="60" y1="10" x2="95" y2="110" stroke="#1d4ed8" stroke-width="2"/>
+                                <!-- Weight mass -->
+                                <circle cx="95" cy="110" r="10" fill="#1e293b"/>
+                                <!-- Angle arc theta -->
+                                <path d="M 60 50 A 40 40 0 0 1 73 47" fill="none" stroke="#2563eb" stroke-width="1.5" />
+                                <text x="64" y="44" font-size="12" fill="#2563eb" font-family="sans-serif">θ</text>
+                                <!-- Length label -->
+                                <text x="82" y="65" font-size="12" fill="#1d4ed8" font-family="sans-serif">L</text>
+                                <!-- Mass label -->
+                                <text x="110" y="115" font-size="12" fill="#1e293b" font-family="sans-serif">m</text>
+                            </svg>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Esquema Físico Ideal</span>
+                        <p class="text-xs text-slate-400 mt-1">Representación de la longitud, masa y amplitud angular.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: METODOLOGÍA COMPARADA O CONCEPTOS CLAVE -->
+        <section id="metodologia" class="scroll-mt-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                2. Metodología Comparada (Deducción del Modelo)
+            </h2>
+            
+            <p class="text-slate-700 mb-6 text-justify">
+                Para formular analíticamente la ecuación diferencial que gobierna el movimiento del péndulo, podemos optar por dos enfoques conceptuales de la mecánica racional. La convergencia de ambos métodos valida la robustez matemática del sistema físico:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Método 1 Card -->
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">1</span>
+                            <h3 class="text-lg font-bold text-slate-900">Enfoque Dinámico (Leyes de Newton)</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-4 text-justify">
+                            Se fundamenta en aislar la partícula suspendida y modelar las fuerzas vectoriales en un sistema de coordenadas polares (ejes radial y tangencial):
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-md border border-slate-100 space-y-3 mb-4">
+                            <p class="text-xs font-semibold text-slate-500 uppercase">Análisis Dinámico:</p>
+                            <p class="text-sm text-slate-700">
+                                La única fuerza que produce el movimiento rotacional es la componente tangencial del peso, que actúa siempre en sentido opuesto al desplazamiento angular:
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200 text-center font-mono text-base font-bold text-slate-900 overflow-x-auto">
+                                F<sub>t</sub> = -m · g · sen(θ)
+                            </div>
+                            <p class="text-sm text-slate-700">
+                                Aplicando la segunda ley de Newton para aceleración tangencial (a<sub>t</sub> = L · d²θ / dt²):
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200 text-center font-mono text-base font-bold text-slate-900 overflow-x-auto">
+                                -m · g · sen(θ) = m · L · (d²θ / dt²)
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-blue-600 font-semibold mt-2">→ Enfoque basado en el análisis directo de fuerzas instantáneas vectoriales.</p>
+                </div>
+
+                <!-- Método 2 Card -->
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">2</span>
+                            <h3 class="text-lg font-bold text-slate-900">Enfoque Energético (Conservación de la Energía)</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-4 text-justify">
+                            Asume un sistema conservativo libre de fuerzas disipativas (rozamiento nulo), donde la energía mecánica total <var>E</var> permanece constante durante el movimiento:
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-md border border-slate-100 space-y-3 mb-4">
+                            <p class="text-xs font-semibold text-slate-500 uppercase">Ecuación de Energía:</p>
+                            <p class="text-sm text-slate-700">
+                                La suma de la energía cinética (<var>K</var>) y potencial gravitacional (<var>U</var>) a una altura <var>h</var> = <var>L</var>(1 - cos(<var>θ</var>)) es:
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200 text-center font-mono text-base font-bold text-slate-900 overflow-x-auto">
+                                E = (1/2) · m · L² · (dθ/dt)² + m · g · L · (1 - cos(θ)) = Constante
+                            </div>
+                            <p class="text-sm text-slate-700">
+                                Derivando respecto al tiempo (dE/dt = 0) y aplicando la regla de la cadena:
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200 text-center font-mono text-base font-bold text-slate-900 overflow-x-auto">
+                                m · L² · (dθ/dt) · (d²θ/dt²) + m · g · L · sen(θ) · (dθ/dt) = 0
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-blue-600 font-semibold mt-2">→ Enfoque escalar que evalúa las magnitudes energéticas globales del sistema.</p>
+                </div>
+            </div>
+
+            <!-- Full-width Detail on Linearization -->
+            <div class="bg-white shadow-md rounded-lg p-6 md:p-8 border border-slate-200 mt-6 space-y-6">
+                <h3 class="text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">
+                    La Ecuación Diferencial del Péndulo Simple
+                </h3>
+                <p class="text-slate-700 text-justify">
+                    Al simplificar la masa <var>m</var> y dividir entre la longitud <var>L</var> en cualquiera de los dos métodos, llegamos a la ecuación diferencial de segundo orden <strong class="text-red-600">no lineal</strong> que rige el sistema:
+                </p>
+                <div class="bg-slate-900 text-white p-4 rounded-lg text-center font-mono text-xl overflow-x-auto my-4 font-bold">
+                    d²θ / dt² + (g / L) · sen(θ) = 0
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-900 text-md">Aproximación para Ángulos Pequeños (<var>θ</var> &lt; 15°)</h4>
+                        <p class="text-slate-600 text-sm text-justify">
+                            Cuando la amplitud máxima del ángulo es pequeña, el desarrollo en series de Taylor permite aproximar sen(<var>θ</var>) &approx; <var>θ</var> (en radianes). Esto da paso a la ecuación diferencial lineal del <strong>Movimiento Armónico Simple (MAS)</strong>:
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-center font-mono text-base font-bold text-slate-900">
+                            d²θ / dt² + (g / L) · θ = 0
+                        </div>
+                        <p class="text-slate-600 text-sm">
+                            Cuya solución analítica general es <var>θ</var>(<var>t</var>) = <var>θ</var><sub>máx</sub> · cos(<var>&omega;</var><sub>0</sub><var>t</var> + <var>&phi;</var>), con un periodo oscilatorio constante independiente de la masa y la amplitud:
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-center font-mono text-base text-blue-600 font-bold">
+                            T<sub>0</sub> = 2&pi; · &radic;(L / g)
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-900 text-md">El Péndulo Real (No linealidad y Amortiguamiento)</h4>
+                        <p class="text-slate-600 text-sm text-justify">
+                            En ángulos grandes, el periodo depende de la amplitud inicial y debe resolverse a través de integrales elípticas de primera especie. Además, el modelo práctico de ingeniería incluye la resistencia aerodinámica que frena al péndulo gradualmente:
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-center font-mono text-base font-bold text-slate-900">
+                            d²θ / dt² + &beta; · (dθ/dt) + (g / L) · sen(θ) = 0
+                        </div>
+                        <p class="text-slate-600 text-sm text-justify">
+                            Donde el coeficiente de amortiguamiento <var>&beta;</var> modela la pérdida progresiva de energía mecánica, atenuando la amplitud en el tiempo hasta detener el sistema en su punto de equilibrio mecánico estable (<var>θ</var> = 0).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: CONCLUSIONES -->
+        <section id="conclusiones" class="scroll-mt-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                3. Conclusiones Clave en la Ingeniería
+            </h2>
+            <div class="bg-white shadow-md rounded-lg p-6 md:p-8 border border-slate-200">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Conclusión 1 -->
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-100 hover:border-blue-500 transition-colors duration-300">
+                        <div class="text-blue-600 font-bold text-3xl mb-3">01</div>
+                        <h4 class="font-bold text-slate-950 mb-2">Principio de Isocronismo</h4>
+                        <p class="text-slate-600 text-sm text-justify">
+                            Bajo el régimen lineal de oscilaciones pequeñas, el período de oscilación es completamente independiente de la masa del cuerpo y de la amplitud del ángulo inicial. Depende exclusivamente de la longitud geométrica del cable y de la constante gravitatoria local.
+                        </p>
+                    </div>
+
+                    <!-- Conclusión 2 -->
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-100 hover:border-blue-500 transition-colors duration-300">
+                        <div class="text-blue-600 font-bold text-3xl mb-3">02</div>
+                        <h4 class="font-bold text-slate-950 mb-2">Limitación del Modelo Lineal</h4>
+                        <p class="text-slate-600 text-sm text-justify">
+                            La fórmula simplificada subestima el período real para ángulos mayores a 15 grados sexagesimales. A medida que la amplitud angular aumenta, la fuerza restauradora real disminuye comparativamente al modelo matemático linealizado.
+                        </p>
+                    </div>
+
+                    <!-- Conclusión 3 -->
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-100 hover:border-blue-500 transition-colors duration-300">
+                        <div class="text-blue-600 font-bold text-3xl mb-3">03</div>
+                        <h4 class="font-bold text-slate-950 mb-2">Transición a Sistemas Físicos</h4>
+                        <p class="text-slate-600 text-sm text-justify">
+                            El péndulo simple es una idealización matemática. En aplicaciones estructurales reales de ingeniería, se debe emplear el modelo de <strong>péndulo compuesto o físico</strong>, el cual considera la masa distribuida a lo largo de la geometría del cuerpo rígido.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: EJERCICIO PRÁCTICO -->
+        <section id="ejercicio" class="scroll-mt-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                4. Ejercicio Práctico y Simulador Interactivo
+            </h2>
+
+            <div class="bg-white shadow-md rounded-lg p-6 md:p-8 border border-slate-200 space-y-8">
+                <!-- Enunciado -->
+                <div class="bg-slate-50 p-6 rounded-lg border-l-4 border-blue-600">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Problema Propuesto (Análisis Experimental de Laboratorio)</h3>
+                    <p class="text-slate-700 text-justify mb-4">
+                        En un laboratorio de Mecánica Vectorial, se suspende una esfera metálica homogénea de masa <strong class="text-slate-900">m = 2.0 kg</strong> mediante un hilo de masa despreciable y una longitud calibrada de <strong class="text-slate-900">L = 0.30 m</strong>. El péndulo se separa de su posición de equilibrio hasta formar un ángulo inicial de <strong class="text-slate-900">&theta;<sub>0</sub> = 10°</strong> y se libera desde el reposo. Considerando la aceleración de gravedad estándar del laboratorio como <strong class="text-slate-900">g = 9.8 m/s²</strong>:
+                    </p>
+                    <ul class="list-decimal list-inside space-y-2 text-slate-600 text-sm">
+                        <li>Establecer si es viable usar el modelo aproximado de oscilación lineal.</li>
+                        <li>Calcular teóricamente el período de oscilación <var>T</var>.</li>
+                        <li>Calcular la tensión máxima <var>T</var><sub>máx</sub> que experimenta el hilo de suspensión.</li>
+                    </ul>
+                </div>
+
+                <!-- Solución Paso a Paso -->
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Metodología de Solución Teórica</h3>
+                    <div class="space-y-6">
+                        <!-- Paso 1 -->
+                        <div class="border-b border-slate-100 pb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Paso 1</span>
+                            <h4 class="font-bold text-slate-900 text-base mb-1">Verificación de Criterio de Linealización</h4>
+                            <p class="text-slate-600 text-sm text-justify leading-relaxed">
+                                Convertimos el ángulo de grados sexagesimales a radianes:<br>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    &theta;<sub>0</sub> = 10° × (&pi; rad / 180°) &approx; 0.1745 rad
+                                </span>
+                                Calculamos el error entre el ángulo y su seno: sen(0.1745) &approx; 0.1736. La diferencia porcentual es:<br>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    Error % = [ |0.1745 - 0.1736| / 0.1745 ] × 100 &approx; 0.51%
+                                </span>
+                                Como el error relativo es inferior al 1%, la hipótesis lineal sen(&theta;) &approx; &theta; es perfectamente válida para este experimento.
+                            </p>
+                        </div>
+
+                        <!-- Paso 2 -->
+                        <div class="border-b border-slate-100 pb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Paso 2</span>
+                            <h4 class="font-bold text-slate-900 text-base mb-1">Cálculo del Período de Oscilación (<var>T</var>)</h4>
+                            <p class="text-slate-600 text-sm text-justify leading-relaxed">
+                                Sustituyendo la longitud del hilo y la aceleración de la gravedad en la ecuación linealizada:<br>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    T = 2&pi; · &radic;(L / g) = 2&pi; · &radic;(0.30 m / 9.8 m/s²) &approx; 2&pi; · &radic;(0.0306 s²)
+                                </span>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    T &approx; 2&pi; × 0.1750 s &approx; 1.10 segundos
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Paso 3 -->
+                        <div class="pb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Paso 3</span>
+                            <h4 class="font-bold text-slate-900 text-base mb-1">Cálculo de la Tensión Máxima (<var>T</var><sub>máx</sub>)</h4>
+                            <p class="text-slate-600 text-sm text-justify leading-relaxed">
+                                La tensión máxima se alcanza en el punto más bajo de la oscilación (&theta; = 0°), donde la velocidad <var>v</var> es máxima y la fuerza centrípeta se suma de forma directa a la componente gravitacional del peso:<br>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    T<sub>máx</sub> = m · g + m · (v<sub>máx</sub>² / L)
+                                </span>
+                                Por conservación de la energía mecánica desde la altura inicial, la velocidad máxima cumple:<br>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    (1/2) · m · v<sub>máx</sub>² = m · g · L · (1 - cos(&theta;<sub>0</sub>))  ==>  m · v<sub>máx</sub>² / L = 2 · m · g · (1 - cos(&theta;<sub>0</sub>))
+                                </span>
+                                Al sustituir esta expresión en la ecuación de tensión:<br>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    T<sub>máx</sub> = m · g · (3 - 2 · cos(&theta;<sub>0</sub>))
+                                </span>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    T<sub>máx</sub> = (2.0 kg) × (9.8 m/s²) × [3 - 2 · cos(10°)]
+                                </span>
+                                <span class="font-mono block bg-slate-50 p-2 my-2 rounded text-slate-950 font-bold">
+                                    T<sub>máx</sub> = 19.6 N × [3 - 2 · (0.9848)] = 19.6 N × 1.0304 &approx; 20.20 N
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULADOR DINÁMICO INTERACTIVO -->
+                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <span class="inline-block w-2.5 h-2.5 bg-blue-600 rounded-full animate-ping"></span>
+                        Laboratorio Virtual de Péndulo Simple
+                    </h3>
+                    <p class="text-slate-600 text-xs mb-6">Modifica dinámicamente las variables de diseño para actualizar los cálculos analíticos de manera instantánea en tu navegador:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Control Sliders -->
+                        <div class="space-y-4 md:col-span-1 bg-white p-4 rounded-md border border-slate-200">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Parámetros de Entrada</span>
+                            
+                            <!-- Longitud (L) -->
+                            <div>
+                                <label class="flex justify-between text-xs font-semibold text-slate-700">
+                                    <span>Longitud (L):</span>
+                                    <span class="text-blue-600 font-bold" id="valL">0.30 m</span>
+                                </label>
+                                <input type="range" id="inputL" min="0.10" max="3.00" step="0.05" value="0.30" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+
+                            <!-- Masa (m) -->
+                            <div>
+                                <label class="flex justify-between text-xs font-semibold text-slate-700">
+                                    <span>Masa (m):</span>
+                                    <span class="text-blue-600 font-bold" id="valM">2.00 kg</span>
+                                </label>
+                                <input type="range" id="inputM" min="0.10" max="10.00" step="0.10" value="2.00" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+
+                            <!-- Ángulo Inicial (theta_0) -->
+                            <div>
+                                <label class="flex justify-between text-xs font-semibold text-slate-700">
+                                    <span>Ángulo Inicial (&theta;<sub>0</sub>):</span>
+                                    <span class="text-blue-600 font-bold" id="valTheta">10°</span>
+                                </label>
+                                <input type="range" id="inputTheta" min="1" max="90" step="1" value="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+                        </div>
+
+                        <!-- Results Dashboard -->
+                        <div class="space-y-4 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Periodo de oscilación MAS card -->
+                            <div class="bg-white p-5 rounded-md border border-slate-200 flex flex-col justify-between shadow-sm">
+                                <div>
+                                    <p class="text-xs font-semibold text-slate-500 uppercase">Período (T<sub>0</sub> aprox. lineal)</p>
+                                    <p class="text-2xl font-bold text-slate-900 mt-2" id="resPeriodo">1.10 s</p>
+                                </div>
+                                <p class="text-slate-400 text-xs mt-3">Calculado a partir de la fórmula aproximada de pequeñas oscilaciones T = 2 &middot; &pi; &middot; &radic;(L / g).</p>
+                            </div>
+
+                            <!-- Tension Maxima card -->
+                            <div class="bg-white p-5 rounded-md border border-slate-200 flex flex-col justify-between shadow-sm">
+                                <div>
+                                    <p class="text-xs font-semibold text-slate-500 uppercase">Tensión Máxima en el Hilo</p>
+                                    <p class="text-2xl font-bold text-slate-900 mt-2" id="resTension">20.20 N</p>
+                                </div>
+                                <p class="text-slate-400 text-xs mt-3">Ocurre en la posición de equilibrio mecánico inferior: T<sub>máx</sub> = m &middot; g &middot; (3 - 2 &middot; cos(&theta;<sub>0</sub>)).</p>
+                            </div>
+
+                            <!-- Validacion de Criterio card -->
+                            <div class="bg-white p-4 rounded-md border border-slate-200 sm:col-span-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-2">Criterio de Linealización Aplicable</p>
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2 py-1 text-xs font-bold rounded-md bg-green-100 text-green-700 border border-green-200" id="badgeCriterio">
+                                        Válido (Error &lt; 1%)
+                                    </span>
+                                    <p class="text-xs text-slate-500" id="textCriterio">Diferencia relativa entre el ángulo en radianes y su seno es menor al 1%.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER / BIBLIOGRAFÍA -->
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4 md:px-8 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8">
+            <!-- Author signature -->
+            <div class="space-y-2">
+                <h4 class="text-white font-bold text-md">Portal de Mecánica Analítica</h4>
+                <p class="text-sm text-slate-400 max-w-sm">
+                    Diseñado con fines exclusivamente académicos para la asimilación del movimiento armónico simple.
+                </p>
+                <p class="text-xs text-slate-500 pt-2">
+                    &copy; 2026 Universidad de Ingeniería. Todos los derechos reservados.
+                </p>
+            </div>
+
+            <!-- Referencias Bibliográficas -->
+            <div id="referencias" class="space-y-3">
+                <h4 class="text-white font-semibold text-sm uppercase tracking-wider">Referencias Bibliográficas</h4>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                    <li>
+                        • Beer, F. P., Johnston, E. R., &amp; Cornwell, P. J. (2010). <span class="italic">Mecánica Vectorial para Ingenieros: Dinámica</span> (9na Ed.). McGraw-Hill.
+                    </li>
+                    <li>
+                        • OpenStax. (2021). <span class="italic">Física Universitaria Volumen 1</span>. Acceso gratuito en openstax.org.
+                    </li>
+                    <li>
+                        • González López, A. (2022). <span class="italic">Manual de Mecánica Clásica</span>. Universidad Complutense de Madrid.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SIMULATOR CALCULATIONS SCRIPT -->
+    <script>
+        const inputL = document.getElementById('inputL');
+        const inputM = document.getElementById('inputM');
+        const inputTheta = document.getElementById('inputTheta');
+
+        const valL = document.getElementById('valL');
+        const valM = document.getElementById('valM');
+        const valTheta = document.getElementById('valTheta');
+
+        const resPeriodo = document.getElementById('resPeriodo');
+        const resTension = document.getElementById('resTension');
+        const badgeCriterio = document.getElementById('badgeCriterio');
+        const textCriterio = document.getElementById('textCriterio');
+
+        const g = 9.8; // Gravedad constante en m/s^2
+
+        function actualizarSimulador() {
+            // Obtener valores actuales
+            const L = parseFloat(inputL.value);
+            const m = parseFloat(inputM.value);
+            const thetaDeg = parseFloat(inputTheta.value);
+
+            // Actualizar etiquetas en la interfaz
+            valL.textContent = `${L.toFixed(2)} m`;
+            valM.textContent = `${m.toFixed(2)} kg`;
+            valTheta.textContent = `${thetaDeg}°`;
+
+            // Calcular periodo de oscilación (fórmula linealizada)
+            const T = 2 * Math.PI * Math.sqrt(L / g);
+            resPeriodo.textContent = `${T.toFixed(2)} s`;
+
+            // Calcular tensión máxima
+            const thetaRad = thetaDeg * (Math.PI / 180);
+            const tensionMax = m * g * (3 - 2 * Math.cos(thetaRad));
+            resTension.textContent = `${tensionMax.toFixed(2)} N`;
+
+            // Validar criterio de ángulo pequeño (error entre theta y sen(theta))
+            const error = Math.abs(thetaRad - Math.sin(thetaRad)) / thetaRad;
+            const errorPct = error * 100;
+
+            if (errorPct < 1.0) {
+                badgeCriterio.className = "px-2 py-1 text-xs font-bold rounded-md bg-green-100 text-green-700 border border-green-200";
+                badgeCriterio.textContent = `Aproximación Válida (Error: ${errorPct.toFixed(2)}%)`;
+                textCriterio.textContent = "La diferencia entre el ángulo en radianes y su seno es menor al 1% (ideal para MAS).";
+            } else if (errorPct < 5.0) {
+                badgeCriterio.className = "px-2 py-1 text-xs font-bold rounded-md bg-yellow-100 text-yellow-700 border border-yellow-200";
+                badgeCriterio.textContent = `Desviación Moderada (Error: ${errorPct.toFixed(2)}%)`;
+                textCriterio.textContent = "El error supera el 1%. La ecuación linealizada pierde exactitud progresivamente.";
+            } else {
+                badgeCriterio.className = "px-2 py-1 text-xs font-bold rounded-md bg-red-100 text-red-700 border border-red-200";
+                badgeCriterio.textContent = `No Lineal (Error: ${errorPct.toFixed(2)}%)`;
+                textCriterio.textContent = "Error elevado. Requiere solución no lineal con integrales elípticas en lugar de MAS.";
+            }
+        }
+
+        // Asignar listeners para actualización en tiempo real
+        inputL.addEventListener('input', actualizarSimulador);
+        inputM.addEventListener('input', actualizarSimulador);
+        inputTheta.addEventListener('input', actualizarSimulador);
+
+        // Ejecutar cálculo inicial al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            actualizarSimulador();
+        });
+    </script>
+</body>
+</html>

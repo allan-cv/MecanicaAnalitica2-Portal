@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis del movimiento plano general: Velocidad y Aceleración</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        .math-display { overflow-x: auto; padding: 0.75rem 0; margin: 0.5rem 0; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 relative antialiased">
+<script src="../js/global-layout.js"></script>
+    <header class="bg-slate-900 text-white p-8 md:p-12 shadow-lg text-center md:text-left">
+        <div class="max-w-6xl mx-auto space-y-4">
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white">
+                Análisis del Movimiento Plano General: Velocidad y Aceleración
+            </h1>
+            <p class="text-slate-300 max-w-3xl leading-relaxed text-sm md:text-base text-justify md:text-left">
+                Estudio detallado y riguroso de los principios cinemáticos fundamentales aplicados a cuerpos rígidos, analizando sus componentes absolutos y relativos para la resolución de mecanismos y eslabonamientos complejos en la ingeniería moderna.
+            </p>
+            <div class="pt-2">
+                <span class="inline-block bg-indigo-600 text-white font-semibold px-4 py-2 rounded-md shadow-sm text-sm">
+                    Autor: 202130990 Ricardo Orozco 
+                  
+                </span>
+<span class="inline-block bg-indigo-600 text-white font-semibold px-4 py-2 rounded-md shadow-sm text-sm">
+                    Autor:  202232101 Jorge Chuc
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8 space-y-8 mt-4">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Introducción</h2>
+                <p class="leading-relaxed text-justify text-sm md:text-base text-slate-700">
+                    El estudio de la dinámica de cuerpos rígidos es fundamental en ingeniería mecánica para diseñar maquinaria compleja. El movimiento plano general ocurre cuando un objeto experimenta traslación y rotación simultáneas en un plano determinado. Comprender el comportamiento cinemático a través de los conceptos de velocidad y aceleración absolutas y relativas permite predecir con exactitud las respuestas físicas del sistema bajo criterios específicos de carga y geometría. Este análisis resulta indispensable en el diseño optimizado de engranajes, bielas, manivelas y sistemas de suspensiones industriales.
+                </p>
+            </section>
+
+            <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Resumen Ejecutivo</h2>
+                <p class="leading-relaxed text-justify text-sm md:text-base text-slate-700 space-y-4">
+                    La investigación formal de la cinemática plana de cuerpos rígidos establece que cualquier desplazamiento en el plano puede interpretarse vectorialmente como la suma de un movimiento de traslación pura respecto a un punto de referencia (punto base) sumado a un movimiento de rotación pura alrededor de ese mismo punto base. Este enfoque analítico permite descomponer problemas geométricos hiperestáticos o complejos en sistemas acoplados de ecuaciones lineales fácilmente resolubles.
+                </p>
+                <p class="leading-relaxed text-justify text-sm md:text-base text-slate-700 mt-3">
+                    Durante el desarrollo investigativo recopilado de textos guía como Hibbeler y Beer-Johnston, se constata que mientras el análisis de velocidades puede abordarse mediante vectores relativos o mediante el concepto simplificador del Centro Instantáneo de Rotación (CIR), el análisis de aceleraciones añade un nivel crítico de complejidad física. Esto se debe a que la velocidad angular instantánea del elemento induce aceleraciones centrípetas o normales relativas hacia el propio eje de giro, las cuales coexisten con las aceleraciones tangenciales producto del cambio en el ritmo rotacional (aceleración angular). Ignorar esta interacción conduce a fallos estructurales catastróficos en el cálculo dinámico de eslabonamientos rápidos y maquinaria pesada.
+                </p>
+            </section>
+        </div>
+
+        
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h2 class="text-2xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-6">Conceptos Claves</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-base md:text-lg mb-1">Cuerpo Rígido</h3>
+                    <p class="text-sm text-slate-600 text-justify">Sistema idealizado de infinitas partículas donde las distancias relativas entre ellas permanecen completamente invariables independientemente de las fuerzas externas aplicadas, eliminando deformaciones elásticas del análisis cinemático puro.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-base md:text-lg mb-1">Movimiento Plano General</h3>
+                    <p class="text-sm text-slate-600 text-justify">Movimiento complejo en el cual todas las partículas del cuerpo rígido se desplazan en planos paralelos a un plano de referencia fijo, combinando efectos simultáneos de traslación lineal y rotación angular.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-base md:text-lg mb-1">Traslación (Rectilínea y Curvilínea)</h3>
+                    <p class="text-sm text-slate-600 text-justify">Ocurre cuando cualquier línea recta orientada dentro del objeto mantiene la misma dirección exacta a lo largo de todo el movimiento. En este estado, todos los puntos del cuerpo poseen velocidades y aceleraciones idénticas en cada instante de tiempo.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-base md:text-lg mb-1">Rotación Alrededor de un Eje Fijo</h3>
+                    <p class="text-sm text-slate-600 text-justify">Estado cinemático donde todas las partículas del cuerpo rígido, excepto las que se encuentran sobre el propio eje inercial, se mueven describiendo trayectorias circulares concéntricas fijas.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-base md:text-lg mb-1">Centro Instantáneo de Rotación (CIR)</h3>
+                    <p class="text-sm text-slate-600 text-justify">Punto espacial o geométrico vinculado a un cuerpo rígido en movimiento plano que, en un instante específico de tiempo, posee una velocidad lineal absoluta equivalente a cero. Permite simplificar las ecuaciones tratando el sistema momentáneamente como rotación pura.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-base md:text-lg mb-1">Aceleración Relativa Normal y Tangencial</h3>
+                    <p class="text-sm text-slate-600 text-justify">La aceleración normal relativa cuantifica el cambio de dirección del vector de velocidad lineal de un punto girando en torno al punto base. La aceleración tangencial relativa cuantifica el cambio en el módulo o magnitud de dicha velocidad lineal.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200 space-y-6">
+            <h2 class="text-2xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Metodología de Solución Rigurosa</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 rounded-md border border-slate-100 bg-slate-50 shadow-xs">
+                    <h3 class="text-md font-bold text-indigo-600 mb-2">Fase 1: Análisis de Movimiento Absoluto</h3>
+                    <p class="text-xs md:text-sm text-justify mb-2 text-slate-600">Este enfoque es puramente geométrico y se fundamenta en relacionar coordenadas directas de posición escalar antes de aplicar derivadas temporales directas.</p>
+                    <ol class="list-decimal list-inside text-xs md:text-sm space-y-1 ml-2 text-justify text-slate-700">
+                        <li>Establecer un origen de coordenadas fijo inercial $(X, Y)$ inalterable y ubicar líneas de referencia fijas.</li>
+                        <li>Medir la posición del cuerpo usando variables lineales ($s$, $x$, $y$) o angulares ($\theta$) que localicen los puntos geométricos variables.</li>
+                        <li>Formular ecuaciones trigonométricas o restricciones geométricas que vinculen estas coordenadas cinemáticas explícitamente.</li>
+                        <li>Derivar la ecuación de posición una vez respecto al tiempo físico aplicando rigurosamente la regla de la cadena para obtener las relaciones algebraicas de velocidad lineal y angular.</li>
+                        <li>Derivar la ecuación resultante de velocidad por segunda vez consecutiva respecto al tiempo para deducir las aceleraciones lineales absolutas y la aceleración angular $\alpha$.</li>
+                    </ol>
+                </div>
+
+                <div class="p-4 rounded-md border border-slate-100 bg-slate-50 shadow-xs">
+                    <h3 class="text-md font-bold text-indigo-600 mb-2">Fase 2: Análisis de Movimiento Relativo de Velocidades</h3>
+                    <p class="text-xs md:text-sm text-justify mb-2 text-slate-600">Utiliza sistemas de referencia de coordenadas trasladantes asociados a un punto del elemento mecánico en estudio.</p>
+                    <ol class="list-decimal list-inside text-xs md:text-sm space-y-1 ml-2 text-justify text-slate-700">
+                        <li>Seleccionar un punto del cuerpo rígido como "Punto Base" (denominado habitualmente punto $A$), del cual se conozca con precisión absoluta su vector de velocidad $\vec{v}_A$ (tanto magnitud como dirección).</li>
+                        <li>Trazar el vector de posición relativa $\vec{r}_{B/A}$ dirigido explícitamente desde el punto base $A$ elegido hacia el punto incógnita $B$.</li>
+                        <li>Plantear la ecuación fundamental vectorial de velocidades relativas: $\vec{v}_B = \vec{v}_A + \vec{\omega} \times \vec{r}_{B/A}$.</li>
+                        <li>Escribir los componentes vectoriales en formato cartesiano bidimensional empleando vectores unitarios de la base canónica $\hat{i}$ y $\hat{j}$, asumiendo el vector velocidad angular perpendicular al plano de movimiento como $\vec{\omega} = \omega \hat{k}$.</li>
+                        <li>Efectuar el producto cruz vectorial, agrupar de manera independiente los coeficientes de los ejes coordenados e igualar términos para resolver las variables incógnitas.</li>
+                    </ol>
+                </div>
+
+                <div class="p-4 rounded-md border border-slate-100 bg-slate-50 shadow-xs">
+                    <h3 class="text-md font-bold text-indigo-600 mb-2">Fase 3: Localización Opcional mediante CIR</h3>
+                    <p class="text-xs md:text-sm text-justify mb-2 text-slate-600">Método geométrico alternativo de velocidades para evitar el uso explícito de productos algebraicos vectoriales.</p>
+                    <ol class="list-decimal list-inside text-xs md:text-sm space-y-1 ml-2 text-justify text-slate-700">
+                        <li>Identificar las líneas de acción y direcciones de los vectores de velocidad de dos puntos cualesquiera del cuerpo rígido ($\vec{v}_A$ y $\vec{v}_B$).</li>
+                        <li>Trazar una línea recta perpendicular a cada una de estas direcciones de velocidad partiendo desde sus respectivos puntos de origen.</li>
+                        <li>Localizar el punto exacto de intersección física de ambas rectas perpendiculares; dicho cruce geométrico define unívocamente el Centro Instantáneo de Rotación (CIR).</li>
+                        <li>Calcular trigonométricamente las distancias lineales comprendidas entre el CIR y los puntos analizados ($r_{A/CIR}$ y $r_{B/CIR}$).</li>
+                        <li>Resolver la velocidad angular mediante la igualdad radial $\omega = \frac{v_A}{r_{A/CIR}}$ y aplicar este valor escalar para determinar magnitudes absolutas ajenas como $v_B = \omega \cdot r_{B/CIR}$.</li>
+                    </ol>
+                </div>
+
+                <div class="p-4 rounded-md border border-slate-100 bg-slate-50 shadow-xs">
+                    <h3 class="text-md font-bold text-indigo-600 mb-2">Fase 4: Análisis de Movimiento Relativo de Aceleraciones</h3>
+                    <p class="text-xs md:text-sm text-justify mb-2 text-slate-600">El cálculo de aceleraciones es estrictamente dependiente de los resultados numéricos de velocidad obtenidos previamente.</p>
+                    <ol class="list-decimal list-inside text-xs md:text-sm space-y-1 ml-2 text-justify text-slate-700">
+                        <li>Definir la ecuación vectorial completa de aceleraciones acopladas: $\vec{a}_B = \vec{a}_A + \vec{a}_{B/A}$.</li>
+                        <li>Descomponer el vector de aceleración relativa en sus componentes intrínsecas ortogonales: $\vec{a}_{B/A} = (\vec{a}_{B/A})_t + (\vec{a}_{B/A})_n$.</li>
+                        <li>Escribir formalmente la ecuación operativa extendida utilizando matrices o productos de cruzamiento tridimensionales: $\vec{a}_B = \vec{a}_A + \vec{\alpha} \times \vec{r}_{B/A} - \omega^2 \vec{r}_{B/A}$.</li>
+                        <li>Sustituir de forma exacta el valor escalar calculado previamente para la velocidad angular $\omega$. Plantear el vector de aceleración angular desconocido como $\vec{\alpha} = \alpha \hat{k}$.</li>
+                        <li>Efectuar exhaustivamente la descomposicion algebraica cartesiana en componentes horizontales ($\hat{i}$) y verticales ($\hat{j}$), estructurando un sistema de dos ecuaciones algebraicas simultáneas con dos incógnitas escalares a resolver.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200 space-y-4">
+            <h2 class="text-2xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Ejemplo Práctico de Ingeniería (Análisis Completo)</h2>
+            <div class="text-justify text-sm md:text-base bg-slate-50 p-4 border border-slate-200 rounded-lg text-slate-700">
+                <strong>Enunciado del problema:</strong> Una varilla rígida y delgada $AB$ posee una longitud total calibrada de $L = 2\,\text{m}$. Los extremos de la varilla se encuentran confinados y obligados a deslizarse sobre guías ortogonales: el punto $A$ se desplaza verticalmente hacia abajo con una rapidez constante de $v_A = 3\,\text{m/s}$ (por tanto, su aceleración es $\vec{a}_A = \vec{0}$), mientras que el punto $B$ se desliza libremente en sentido horizontal hacia la derecha sobre el piso. En el instante preciso en que la varilla forma un ángulo de $\theta = 30^\circ$ respecto a la línea horizontal del suelo, determine de forma exacta los vectores de velocidad angular $\vec{\omega}$, velocidad lineal del extremo $\vec{v}_B$, aceleración angular $\vec{\alpha}$ y aceleración lineal del extremo $\vec{a}_B$.
+            </div>
+            
+            <h3 class="text-lg font-bold text-slate-900 mt-4">1. Análisis Vectorial de Velocidades</h3>
+            <p class="text-sm text-slate-600 text-justify">Establecemos primero los vectores en términos de la base cartesiana ortogonal estándar $\hat{i}$ y $\hat{j}$:</p>
+            <div class="math-display text-center">
+                $$\vec{v}_A = -3\hat{j} \quad (\text{m/s})$$
+                $$\vec{v}_B = v_B\hat{i} \quad (\text{m/s})$$
+                $$\vec{\omega} = \omega\hat{k} \quad (\text{rad/s})$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">El vector de posición relativa del punto $B$ observado desde el punto base de referencia $A$ se define trigonométricamente como:</p>
+            <div class="math-display text-center">
+                $$\vec{r}_{B/A} = L\cos(\theta)\hat{i} - L\sin(\theta)\hat{j} = 2\cos(30^\circ)\hat{i} - 2\sin(30^\circ)\hat{j} = \sqrt{3}\hat{i} - 1\hat{j} \quad (\text{m})$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">Aplicamos la ecuación analítica del movimiento relativo general:</p>
+            <div class="math-display text-center">
+                $$\vec{v}_B = \vec{v}_A + \vec{\omega} \times \vec{r}_{B/A}$$
+                $$v_B\hat{i} = -3\hat{j} + (\omega\hat{k}) \times (\sqrt{3}\hat{i} - 1\hat{j})$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">Efectuamos detalladamente la distribución del producto cruz vectorial, recordando que $\hat{k} \times \hat{i} = \hat{j}$ y $\hat{k} \times \hat{j} = -\hat{i}$:</p>
+            <div class="math-display text-center">
+                $$v_B\hat{i} = -3\hat{j} + \sqrt{3}\omega\hat{j} - \omega(-\hat{i})$$
+                $$v_B\hat{i} = \omega\hat{i} + (\sqrt{3}\omega - 3)\hat{j}$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">Separamos los coeficientes independientes e igualamos componentes en ambos ejes cartesianos:</p>
+            <ul class="list-disc list-inside text-sm space-y-1 pl-4 text-slate-700">
+                <li>Para el eje vertical $\hat{j}$: $0 = \sqrt{3}\omega - 3 \implies \sqrt{3}\omega = 3 \implies \omega = \frac{3}{\sqrt{3}} = \sqrt{3} \approx 1.732\,\text{rad/s}$</li>
+                <li>Para el eje horizontal $\hat{i}$: $v_B = \omega \implies v_B = \sqrt{3} \approx 1.732\,\text{m/s}$</li>
+            </ul>
+
+            <h3 class="text-lg font-bold text-slate-900 mt-4">2. Análisis Vectorial de Aceleraciones</h3>
+            <p class="text-sm text-slate-600 text-justify">Debido a que el enunciado especifica que la velocidad de caída vertical del extremo A permanece constante, su aceleración absoluta lineal es nula ($\vec{a}_A = \vec{0}$). Planteamos la ecuación matricial y vectorial de aceleraciones acopladas para movimiento plano:</p>
+            <div class="math-display text-center">
+                $$\vec{a}_B = \vec{a}_A + \vec{\alpha} \times \vec{r}_{B/A} - \omega^2\vec{r}_{B/A}$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">Asumiendo vectorialmente que la aceleración angular es $\vec{\alpha} = \alpha\hat{k}$ y la aceleración del extremo derecho es $\vec{a}_B = a_B\hat{i}$, sustituimos de manera explícita todos los escalares e incógnitas analizadas:</p>
+            <div class="math-display text-center">
+                $$a_B\hat{i} = \vec{0} + (\alpha\hat{k}) \times (\sqrt{3}\hat{i} - 1\hat{j}) - (\sqrt{3})^2(\sqrt{3}\hat{i} - 1\hat{j})$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">Desarrollamos cada término de forma no abreviada por separado:</p>
+            <div class="math-display text-center">
+                $$\text{Término de Aceleración Tangencial: } \vec{\alpha} \times \vec{r}_{B/A} = (\alpha\hat{k}) \times (\sqrt{3}\hat{i}) - (\alpha\hat{k}) \times (1\hat{j}) = \sqrt{3}\alpha\hat{j} + \alpha\hat{i}$$
+                $$\text{Término de Aceleración Normal: } -\omega^2\vec{r}_{B/A} = -3(\sqrt{3}\hat{i} - 1\hat{j}) = -3\sqrt{3}\hat{i} + 3\hat{j}$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">Sustituimos y recombinamos los resultados dentro de la integridad cinemática principal:</p>
+            <div class="math-display text-center">
+                $$a_B\hat{i} = (\sqrt{3}\alpha\hat{j} + \alpha\hat{i}) + (-3\sqrt{3}\hat{i} + 3\hat{j})$$
+                $$a_B\hat{i} = (\alpha - 3\sqrt{3})\hat{i} + (\sqrt{3}\alpha + 3)\hat{j}$$
+            </div>
+            <p class="text-sm text-slate-600 text-justify">Establecemos el sistema de ecuaciones lineales igualando los términos vectoriales homólogos correspondientes:</p>
+            <ul class="list-disc list-inside text-sm space-y-2 pl-4 text-slate-700">
+                <li><strong>Eje Vertical $\hat{j}$:</strong> 
+                    $$0 = \sqrt{3}\alpha + 3 \implies \sqrt{3}\alpha = -3 \implies \alpha = -\frac{3}{\sqrt{3}} = -\sqrt{3} \approx -1.732\,\text{rad/s}^2$$
+                    <span class="text-xs text-slate-500 block pl-4">*(El signo negativo indica físicamente que el vector aceleración angular gira en sentido horario, contrario a la suposición inicial antihoraria).*</span>
+                </li>
+                <li><strong>Eje Horizontal $\hat{i}$:</strong>
+                    $$a_B = \alpha - 3\sqrt{3}$$
+                    Sustituyendo de forma directa el valor calculado de $\alpha = -\sqrt{3}$:
+                    $$a_B = (-\sqrt{3}) - 3\sqrt{3} = -4\sqrt{3} \approx -6.928\,\text{m/s}^2$$
+                    <span class="text-xs text-slate-500 block pl-4">*(El signo negativo demuestra que el extremo B experimenta una desaceleración lineal instantánea, apuntando su vector hacia la izquierda).*</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h2 class="text-2xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Test Práctico Evaluativo</h2>
+            <form id="quizForm" onsubmit="evaluateTest(event)" class="space-y-6 text-sm md:text-base text-slate-700">
+                
+                <div class="space-y-2">
+                    <p class="font-bold text-slate-900">1. ¿Qué tipo de movimiento define al movimiento plano general?</p>
+                    <label class="block pl-2"><input type="radio" name="q1" value="a" class="mr-2">Solo rotación pura alrededor de un eje inercial.</label>
+                    <label class="block pl-2"><input type="radio" name="q1" value="b" class="mr-2">Combinación simultánea de traslación lineal y rotación angular.</label>
+                    <label class="block pl-2"><input type="radio" name="q1" value="c" class="mr-2">Traslación rectilínea paralela únicamente.</label>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="font-bold text-slate-900">2. En la ecuación fundamental $\vec{v}_B = \vec{v}_A + \vec{v}_{B/A}$, el término relativo $\vec{v}_{B/A}$ representa:</p>
+                    <label class="block pl-2"><input type="radio" name="q2" value="a" class="mr-2">La velocidad de rotación del punto B considerando al punto base A como si estuviera fijo.</label>
+                    <label class="block pl-2"><input type="radio" name="q2" value="b" class="mr-2">La traslación pura del centro geométrico de gravedad.</label>
+                    <label class="block pl-2"><input type="radio" name="q2" value="c" class="mr-2">La velocidad absoluta medida desde el origen inercial inalterable.</label>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="font-bold text-slate-900">3. ¿Cuál es la propiedad cinemática fundamental del Centro Instantáneo de Rotación (CIR) de velocidades?</p>
+                    <label class="block pl-2"><input type="radio" name="q3" value="a" class="mr-2">Es un punto inercial del espacio donde la aceleración es nula.</label>
+                    <label class="block pl-2"><input type="radio" name="q3" value="b" class="mr-2">Es un punto con la máxima velocidad lineal del eslabonamiento.</label>
+                    <label class="block pl-2"><input type="radio" name="q3" value="c" class="mr-2">Es un punto del cuerpo rígido (o de su extensión geométrica) que tiene velocidad lineal instantánea cero.</label>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="font-bold text-slate-900">4. En el análisis de aceleración relativa en movimiento plano general, la componente normal se define matemáticamente como:</p>
+                    <label class="block pl-2"><input type="radio" name="q4" value="a" class="mr-2">$-\omega^2 \vec{r}_{B/A}$ dirigida radialmente hacia el punto base de rotación.</label>
+                    <label class="block pl-2"><input type="radio" name="q4" value="b" class="mr-2">$\vec{\alpha} \times \vec{r}_{B/A}$ perpendicular al radio geométrico de la varilla.</label>
+                    <label class="block pl-2"><input type="radio" name="q4" value="c" class="mr-2">La derivada temporal instantánea de la aceleración de Coriolis.</label>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="font-bold text-slate-900">5. Si un disco o rueda cilíndrica rueda de forma perfecta y sin resbalar sobre una superficie plana horizontal estática, la velocidad y aceleración de su punto de contacto físico son:</p>
+                    <label class="block pl-2"><input type="radio" name="q5" value="a" class="mr-2">Tanto su velocidad como su aceleración lineal son equivalentes a cero.</label>
+                    <label class="block pl-2"><input type="radio" name="q5" value="b" class="mr-2">Su velocidad instantánea es cero, pero su aceleración normal no es cero y apunta hacia el centro del disco.</label>
+                    <label class="block pl-2"><input type="radio" name="q5" value="c" class="mr-2">Su velocidad es máxima y su aceleración angular es tangencial al plano.</label>
+                </div>
+
+                <button type="submit" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded shadow-md transition duration-300">
+                    Evaluar Resultados del Test
+                </button>
+            </form>
+            
+            <div id="test-results" class="mt-6 hidden bg-slate-50 p-4 border border-slate-200 rounded-lg">
+                </div>
+        </section>
+
+<section id="seccion-mapa-conceptual" class="bg-white shadow-md rounded-lg p-6 border border-slate-200 my-8">
+            <div class="text-center py-4" id="mapa-presentacion">
+                <h2 class="text-2xl font-bold text-slate-900 mb-3">Estructura y Análisis del Movimiento Plano General</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto mb-6 text-sm text-justify md:text-center">
+                    Descubre la organización jerárquica de la cinemática de cuerpos rígidos. Este mapa interactivo descompone las ecuaciones de velocidad, aceleración y las metodologías vectoriales aplicadas a la ingeniería.
+                </p>
+                
+                <button onclick="toggleMapaConceptual()" id="btn-control-mapa" class="inline-flex items-center gap-2 px-6 py-3 text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg font-bold shadow-md transition-all duration-300 group text-sm">
+                    <span>Desplegar Mapa Conceptual Interactivo</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mapa-desplegable" class="hidden mt-6 pt-6 border-t border-slate-100 overflow-x-auto selection:bg-indigo-100">
+                <div class="flex flex-col items-center min-w-[950px] p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    
+                    <div class="bg-slate-900 text-white px-6 py-3 rounded-xl shadow-md text-center max-w-md border border-slate-700 z-10">
+                        <h3 class="font-extrabold text-sm md:text-base tracking-wide uppercase">MOVIMIENTO PLANO GENERAL</h3>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Cinemática del Cuerpo Rígido en 2D (Traslación + Rotación Simultánea)</p>
+                    </div>
+                    
+                    <div class="w-0.5 h-6 bg-slate-400"></div>
+                    
+                    <div class="w-3/4 border-t-2 border-slate-400 h-2 relative"></div>
+                    
+                    <div class="grid grid-cols-4 gap-4 w-full items-start mt-1">
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="bg-blue-600 text-white p-2 rounded-md font-bold text-center text-xs w-full shadow-xs uppercase">
+                                1. Naturaleza Física
+                            </div>
+                            <div class="w-0.5 h-4 bg-blue-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-blue-600 block mb-0.5">Cuerpo Rígido Ideal</span>
+                                Sistema de partículas con distancias intermoleculares invariables durante el movimiento.
+                            </div>
+                            <div class="w-0.5 h-4 bg-blue-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-blue-600 block mb-0.5">Traslación Pura de "A"</span>
+                                Elección de un punto base de referencia $A$ con parámetros lineales conocidos ($\vec{v}_A$, $\vec{a}_A$).
+                            </div>
+                            <div class="w-0.5 h-4 bg-blue-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-blue-600 block mb-0.5">Rotación Relativa</span>
+                                Movimiento angular del resto de las partículas pivotando alrededor del eje instantáneo fijado en $A$.
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div class="bg-emerald-600 text-white p-2 rounded-md font-bold text-center text-xs w-full shadow-xs uppercase">
+                                2. Campo de Velocidades
+                            </div>
+                            <div class="w-0.5 h-4 bg-emerald-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-emerald-600 block mb-0.5">Ecuación de Reducción</span>
+                                Expresión vectorial base: <br>
+                                <span class="font-mono text-xs block my-0.5 bg-slate-50 py-0.5 rounded">$\vec{v}_B = \vec{v}_A + \vec{v}_{B/A}$</span>
+                            </div>
+                            <div class="w-0.5 h-4 bg-emerald-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-emerald-600 block mb-0.5">Término Rotacional Relativo</span>
+                                Efecto de arrastre tangencial puro: <br>
+                                <span class="font-mono text-xs block my-0.5 bg-slate-50 py-0.5 rounded">$\vec{v}_{B/A} = \vec{\omega} \times \vec{r}_{B/A}$</span>
+                            </div>
+                            <div class="w-0.5 h-4 bg-emerald-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-emerald-600 block mb-0.5">Rapidez Tangencial</span>
+                                Magnitud escalar escalar dependiente del radio: <br>
+                                <span class="font-mono text-[10px] block mt-0.5 text-slate-600">$v_{B/A} = \omega \cdot r_{B/A}$</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div class="bg-amber-600 text-white p-2 rounded-md font-bold text-center text-xs w-full shadow-xs uppercase">
+                                3. Campo de Aceleraciones
+                            </div>
+                            <div class="w-0.5 h-4 bg-amber-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-amber-600 block mb-0.5">Principio de Superposición</span>
+                                Acoplamiento vectorial total: <br>
+                                <span class="font-mono text-[10.5px] block my-0.5 bg-slate-50 py-0.5 rounded">$\vec{a}_B = \vec{a}_A + \vec{a}_{B/A}$</span>
+                            </div>
+                            <div class="w-0.5 h-4 bg-amber-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-amber-600 block mb-0.5">Componente Tangencial $(\vec{a}_{B/A})_t$</span>
+                                Vinculada al cambio en la rapidez de giro: <br>
+                                <span class="font-mono text-xs block my-0.5 bg-slate-50 py-0.5 rounded">$\vec{\alpha} \times \vec{r}_{B/A}$</span>
+                            </div>
+                            <div class="w-0.5 h-4 bg-amber-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-amber-600 block mb-0.5">Componente Normal $(\vec{a}_{B/A})_n$</span>
+                                Dirección centrípeta hacia el centro base $A$: <br>
+                                <span class="font-mono text-xs block my-0.5 bg-slate-50 py-0.5 rounded">$-\omega^2 \vec{r}_{B/A}$</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div class="bg-purple-600 text-white p-2 rounded-md font-bold text-center text-xs w-full shadow-xs uppercase">
+                                4. Métodos y Práctica
+                            </div>
+                            <div class="w-0.5 h-4 bg-purple-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-purple-600 block mb-0.5">Movimiento Absoluto</span>
+                                Relaciones geométricas directas derivadas respecto a variables temporales matemáticas.
+                            </div>
+                            <div class="w-0.5 h-4 bg-purple-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-purple-600 block mb-0.5">Uso Estratégico del C.I.R.</span>
+                                Punto instantáneo del espacio donde $\vec{v} = 0$, facilitando cálculos rápidos radiales.
+                            </div>
+                            <div class="w-0.5 h-4 bg-purple-400"></div>
+                            <div class="bg-white border border-slate-200 rounded p-2 text-center text-[11px] text-slate-700 w-full shadow-xs">
+                                <span class="font-bold text-purple-600 block mb-0.5">Aplicaciones Industriales</span>
+                                Diseño cinemático de transmisiones por engranajes, bielas, cigüeñales y eslabonamientos complejos.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            function toggleMapaConceptual() {
+                const contenedor = document.getElementById('mapa-desplegable');
+                const boton = document.getElementById('btn-control-mapa');
+                
+                if (contenedor.classList.contains('hidden')) {
+                    contenedor.classList.remove('hidden');
+                    boton.innerHTML = `
+                        <span>Ocultar Mapa Conceptual Interactivo</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    `;
+                    // Desplazamiento suave al mapa
+                    setTimeout(() => {
+                        contenedor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 150);
+                } else {
+                    contenedor.classList.add('hidden');
+                    boton.innerHTML = `
+                        <span>Desplegar Mapa Conceptual Interactivo</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    `;
+                }
+                
+                // Forzar a MathJax a renderizar las ecuaciones matemáticas internas al abrir el panel
+                if (window.MathJax && !contenedor.classList.contains('hidden')) {
+                    MathJax.typesetPromise([contenedor]);
+                }
+            }
+        </script>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h2 class="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Recurso Audiovisual Complementario</h2>
+            <p class="mb-4 text-justify text-sm md:text-base text-slate-600">Puedes profundizar en el modelado de mecanismos dinámicos complejos y la resolución de ejercicios del movimiento plano general accediendo al siguiente recurso interactivo:</p>
+            <div class="p-6 border-2 border-dashed border-slate-200 bg-slate-50 text-center rounded-lg">
+                <a href="https://www.youtube.com/watch?v=CE2RZiPJxWg" target="_blank" class="inline-block px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-bold shadow-md transition duration-300 text-sm md:text-base">
+                    Ver Video Explicativo: Movimiento Plano General
+                </a>
+                <p class="text-xs text-slate-400 mt-3">Haz clic sobre el botón superior para visualizar la videoclase explicativa del tema.</p>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h2 class="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Conclusión</h2>
+            <p class="text-justify leading-relaxed text-sm md:text-base text-slate-700">
+                El desglose analítico del movimiento plano general demuestra ser una herramienta fundamental de modelado matemático e ingenieril para actuar y caracterizar de manera inequívoca el comportamiento cinemático de eslabonamientos y transmisiones industriales. A través de la complementariedad teórica entre el método absoluto y el método relativo, se hace viable cuantificar las velocidades y las aceleraciones que actúan sobre elementos críticos de una máquina. Una correcta asimilación y aplicación de los componentes relativos tangenciales y normales previene errores de diseño, optimizando de esta manera la integridad estructural y funcional de los desarrollos en la ingeniería mecánica moderna.
+            </p>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200 mb-8">
+            <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Referencias Bibliográficas</h2>
+            <p class="text-xs text-slate-500 mb-3 text-justify">A continuación se listan los textos y recursos consultados para la elaboración de este material. Donde es posible, se incluye un enlace directo para consultar o localizar el recurso en línea.</p>
+            <ul class="list-disc list-inside space-y-2 text-sm text-slate-500 text-justify">
+                <li>Hibbeler, R. C. (2010). <em>Ingeniería Mecánica: Dinámica</em> (12a Edición). Pearson Educación.</li>
+                <li>Beer, F. P., Johnston, E. R., & Cornwell, P. J. (2010). <em>Mecánica vectorial para ingenieros: Dinámica</em> (9a Edición). McGraw-Hill.</li>
+                <li>Notas académicas de clase y apuntes recopilados del cuaderno de Dinámica Universitaria.</li>
+                <li>Meriam, J. L., Kraige, L. G., & Bolton, J. N. (2018). <em>Engineering Mechanics: Dynamics</em> (8a Edición). John Wiley & Sons. <a href="https://books.google.com/books?q=Engineering+Mechanics+Dynamics+Meriam+Kraige" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline font-semibold whitespace-nowrap">[Ver libro]</a></li>
+                <li>Bedford, A., & Fowler, W. (2008). <em>Engineering Mechanics: Dynamics</em> (5a Edición). Pearson Prentice Hall. <a href="https://books.google.com/books?q=Engineering+Mechanics+Dynamics+Bedford+Fowler" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline font-semibold whitespace-nowrap">[Ver libro]</a></li>
+                <li>Norton, R. L. (2012). <em>Design of Machinery: An Introduction to the Synthesis and Analysis of Mechanisms and Machines</em> (5a Edición). McGraw-Hill. <a href="https://books.google.com/books?q=Design+of+Machinery+Norton" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline font-semibold whitespace-nowrap">[Ver libro]</a></li>
+                <li>Uicker, J. J., Pennock, G. R., & Shigley, J. E. (2017). <em>Theory of Machines and Mechanisms</em> (5a Edición). Oxford University Press. <a href="https://books.google.com/books?q=Theory+of+Machines+and+Mechanisms+Uicker+Pennock+Shigley" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline font-semibold whitespace-nowrap">[Ver libro]</a></li>
+                <li>Vandiver, J. K., & Gossard, D. (2011). <em>2.003SC Engineering Dynamics</em> (Material de curso en línea). MIT OpenCourseWare. <a href="https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline font-semibold whitespace-nowrap">[Ver curso]</a></li>
+            </ul>
+            <div class="mt-5 text-center">
+                <a href="https://books.google.com/books?q=ingenieria+mecanica+dinamica+movimiento+plano+general" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-2.5 text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg font-bold shadow-md transition duration-300 text-sm">
+                    Ver Libros y Referencias Adicionales
+                </a>
+                <p class="text-xs text-slate-400 mt-2">Accede a una búsqueda con los textos de dinámica y mecanismos citados en esta página.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 p-6 text-center text-sm border-t border-slate-800">
+        <p>&copy; 2026 Proyecto Académico Universitario - Cinemática de Cuerpos Rígidos.</p>
+    </footer>
+
+    <div id="mapModal" class="fixed inset-0 z-50 hidden bg-black/70 flex justify-center items-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-lg p-6 max-w-4xl w-full shadow-2xl relative border border-slate-200 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal()" class="absolute top-2 right-4 text-3xl font-bold text-slate-400 hover:text-slate-900 focus:outline-none">&times;</button>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 text-center">Estructura Jerárquica Completa</h3>
+            
+            <div class="bg-slate-50 p-6 border border-slate-200 rounded-lg space-y-6 text-slate-800">
+                <div class="bg-slate-900 text-white p-3 rounded text-center font-bold text-sm md:text-base shadow-sm max-w-xs mx-auto">
+                    MOVIMIENTO PLANO GENERAL
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-3 rounded border border-slate-200 text-xs shadow-xs text-center">
+                        <span class="font-bold text-slate-950 block mb-1">Traslación Pura</span>
+                        $\vec{v} = \vec{v}_A$ <br> $\vec{a} = \vec{a}_A$
+                    </div>
+                    <div class="bg-white p-3 rounded border border-slate-200 text-xs shadow-xs text-center">
+                        <span class="font-bold text-slate-950 block mb-1">Rotación Relativa</span>
+                        $\vec{v}_{B/A} = \vec{\omega} \times \vec{r}_{B/A}$ <br> $\vec{a}_{B/A} = \vec{\alpha} \times \vec{r}_{B/A} - \omega^2\vec{r}_{B/A}$
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-right">
+                <button onclick="closeModal()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded transition-colors duration-200 text-sm">
+                    Cerrar Ventana
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modalElement = document.getElementById('mapModal');
+
+        function openModal() {
+            modalElement.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modalElement.classList.add('hidden');
+        }
+
+        modalElement.addEventListener('click', function(event) {
+            if (event.target === modalElement) {
+                closeModal();
+            }
+        });
+
+        const clavesCorrectas = {
+            q1: { op: 'b', texto: 'El movimiento plano general combina de manera simultánea fenómenos vectoriales de traslación rectilínea o curvilínea junto con una rotación sobre un eje perpendicular.' },
+            q2: { op: 'a', texto: 'Representa formalmente el vector de velocidad tangencial rotacional instantáneo inducido al pivotar alrededor de un marco de referencia trasladante centrado en A.' },
+            q3: { op: 'c', texto: 'Por definición de campo geométrico planar de velocidades, el CIR representa el centro de rotación instantánea pura donde el módulo lineal de su velocidad absoluta es equivalente a cero.' },
+            q4: { op: 'a', texto: 'La componente de aceleración normal relativa se dirige centrípetamente de forma radial hacia el polo o centro base elegido, reduciendo algebraicamente a menos el producto escalar del cuadrado de la velocidad angular.' },
+            q5: { op: 'b', texto: 'Al no existir deslizamiento mecánico, el punto instantáneo de contacto físico posee velocidad lineal nula (actúa como el CIR), pero experimenta una aceleración normal no nula orientada al eje central simétrico del disco.' }
+        };
+
+        function evaluateTest(event) {
+            event.preventDefault();
+            
+            let aciertos = 0;
+            let listadoHTML = '<h3 class="text-xl font-bold mb-4 border-b border-slate-200 pb-2 text-slate-900">Retroalimentación del Examen:</h3><ul class="space-y-4">';
+            const formulario = document.getElementById('quizForm');
+
+            for (let k = 1; k <= 5; k++) {
+                let idPregunta = 'q' + k;
+                let seleccion = formulario.querySelector(`input[name="${idPregunta}"]:checked`);
+                
+                if (seleccion) {
+                    if (seleccion.value === clavesCorrectas[idPregunta].op) {
+                        aciertos++;
+                        listadoHTML += `
+                            <li class="bg-slate-50 border-l-4 border-indigo-600 p-3 rounded shadow-xs">
+                                <span class="font-bold text-slate-900">Pregunta ${k}: ¡Respuesta Correcta!</span>
+                                <p class="text-xs text-slate-600 mt-1">${clavesCorrectas[idPregunta].texto}</p>
+                            </li>`;
+                    } else {
+                        listadoHTML += `
+                            <li class="bg-slate-50 border-l-4 border-slate-900 p-3 rounded shadow-xs">
+                                <span class="font-bold text-slate-900">Pregunta ${k}: Respuesta Incorrecta.</span>
+                                <p class="text-sm text-slate-700 mt-1"><b>Opción elegida errónea. La respuesta correcta es la "${clavesCorrectas[idPregunta].op.toUpperCase()}":</b> ${clavesCorrectas[idPregunta].texto}</p>
+                            </li>`;
+                    }
+                } else {
+                    listadoHTML += `
+                        <li class="bg-slate-50 border-l-4 border-slate-400 p-3 rounded shadow-xs">
+                            <span class="font-bold text-slate-500">Pregunta ${k}: Pregunta Omitida (Sin responder).</span>
+                            <p class="text-sm text-slate-700 mt-1"><b>La respuesta esperada era la "${clavesCorrectas[idPregunta].op.toUpperCase()}":</b> ${clavesCorrectas[idPregunta].texto}</p>
+                        </li>`;
+                }
+            }
+            
+            listadoHTML += `</ul>
+                <div class="mt-5 p-4 rounded-lg shadow-xs text-center text-lg font-bold ${aciertos >= 3 ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-white'}">
+                    Calificación Final Evaluada: ${aciertos} / 5 aciertos de respuestas correctas.
+                </div>`;
+            
+            const contenedorResultados = document.getElementById('test-results');
+            contenedorResultados.innerHTML = listadoHTML;
+            contenedorResultados.classList.remove('hidden');
+            
+            if (window.MathJax) {
+                MathJax.typesetPromise([contenedorResultados]);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.3 · Cinética del Movimiento Plano: Fuerzas y Aceleraciones</title>
+
+<!-- Tailwind CSS vía CDN (permitido) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- MathJax vía CDN para ecuaciones LaTeX -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['$$', '$$']],
+      processEscapes: true
+    },
+    chtml: { displayAlign: 'center' },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+<style>
+  /* Evita que las ecuaciones inline rompan la línea y se vean como bloques */
+  mjx-container[display="false"], mjx-container:not([display="true"]) {
+    display: inline-block !important;
+    margin: 0 0.1em !important;
+    padding: 0 !important;
+    vertical-align: -0.15em;
+    line-height: normal !important;
+  }
+  mjx-container[display="true"] {
+    display: block !important;
+    margin: 1em 0 !important;
+    text-align: center;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  mjx-container[display="true"] mjx-math { display: inline-block; }
+</style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+<script src="../js/global-layout.js"></script>
+<!-- ================================================================== -->
+<!-- HERO / ENCABEZADO                                                   -->
+<!-- ================================================================== -->
+<header class="bg-slate-900 text-white">
+  <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-3xl md:text-5xl font-bold mb-5 leading-tight">
+      Cinética del Movimiento Plano:<br>Fuerzas y Aceleraciones
+    </h1>
+    <p class="text-slate-300 text-base md:text-lg max-w-3xl mb-8">
+      Relación entre las fuerzas externas que actúan sobre un cuerpo rígido y el
+      movimiento que producen: la aceleración de su centro de masa y su aceleración
+      angular, mediante las tres ecuaciones de movimiento.
+    </p>
+
+    <!-- Gráfica animada: disco que rueda por un plano inclinado -->
+    <div class="mb-8">
+      <svg viewBox="0 0 520 220" class="w-full max-w-lg h-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animación de un disco que rueda por un plano inclinado">
+        <!-- plano inclinado -->
+        <polygon points="30,190 490,190 490,70" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+        <line x1="30" y1="190" x2="490" y2="190" stroke="#475569" stroke-width="2"/>
+        <!-- ángulo -->
+        <path d="M 80 190 A 50 50 0 0 0 68 178" fill="none" stroke="#64748b" stroke-width="1.5"/>
+        <text x="92" y="184" font-size="12" fill="#94a3b8">30°</text>
+
+        <!-- disco que rueda (grupo animado a lo largo del plano) -->
+        <g>
+          <!-- translación a lo largo de la pendiente -->
+          <animateTransform attributeName="transform" attributeType="XML" type="translate"
+            from="0 0" to="330 -86" dur="3.2s" repeatCount="indefinite"
+            keyTimes="0;1" calcMode="spline" keySplines="0.4 0 1 1"/>
+          <!-- disco posicionado sobre el plano (cerca de la cima) -->
+          <g transform="translate(120,128)">
+            <!-- rotación del disco sobre su centro -->
+            <g>
+              <animateTransform attributeName="transform" attributeType="XML" type="rotate"
+                from="0 0 0" to="360 0 0" dur="1.1s" repeatCount="indefinite"/>
+              <circle cx="0" cy="0" r="26" fill="#2563eb" stroke="#60a5fa" stroke-width="2.5"/>
+              <!-- radios para ver el giro -->
+              <line x1="0" y1="0" x2="0" y2="-26" stroke="#dbeafe" stroke-width="2"/>
+              <line x1="0" y1="0" x2="22" y2="13" stroke="#bfdbfe" stroke-width="2"/>
+              <line x1="0" y1="0" x2="-22" y2="13" stroke="#bfdbfe" stroke-width="2"/>
+              <circle cx="0" cy="0" r="3" fill="#dbeafe"/>
+            </g>
+            <!-- vector aceleración (no rota) -->
+            <line x1="0" y1="0" x2="40" y2="23" stroke="#f87171" stroke-width="2.5" marker-end="url(#heroArrow)"/>
+            <text x="34" y="20" font-size="11" fill="#fca5a5">a</text>
+          </g>
+        </g>
+
+        <defs>
+          <marker id="heroArrow" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#f87171"/>
+          </marker>
+        </defs>
+      </svg>
+      <p class="text-slate-500 text-xs mt-2">Disco que rueda sin deslizar: traslación de \(G\) + rotación, simultáneas.</p>
+    </div>
+
+    <div class="border-t border-slate-700 pt-5 text-sm text-slate-400">
+      <p><span class="text-slate-200 font-semibold">Autores:</span> Rocío Adilene Chaj Hernández · Luis Alejandro Fuentes Coronado</p>
+      <p><span class="text-slate-200 font-semibold">Curso:</span> Mecánica Analítica 2 — CUNOC, Universidad de San Carlos de Guatemala</p>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-6 py-12 md:py-16 space-y-16">
+
+  <!-- ================================================================ -->
+  <!-- 1. INTRODUCCIÓN                                                   -->
+  <!-- ================================================================ -->
+  <section id="introduccion">
+    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6">1. Introducción</h2>
+    <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+      <p class="text-slate-700 leading-relaxed">
+        La cinética del movimiento plano estudia la relación entre las fuerzas que actúan sobre
+        un cuerpo rígido, su masa y el movimiento resultante. A diferencia de la cinética de una
+        partícula, aquí el cuerpo no solo se traslada: también gira. El sistema de fuerzas
+        externas equivale a una <strong>fuerza efectiva</strong> \(m\bar{a}\) en el centro de
+        masa \(G\) y a un <strong>par efectivo</strong> \(\bar{I}\alpha\). Para analizarlo se
+        trazan dos diagramas: el <strong>de cuerpo libre</strong>, con las fuerzas externas, y el
+        <strong>cinético</strong>, con el efecto dinámico. Esta equivalencia, basada en la
+        segunda ley de Newton, es esencial en el diseño de ruedas, mecanismos y estructuras.
+      </p>
+    </div>
+
+    <!-- Preguntas frecuentes incorporadas -->
+    <h3 class="text-lg font-bold text-slate-900 mt-8 mb-4">Preguntas frecuentes</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <p class="font-semibold text-blue-700 mb-1 text-sm">¿Cuál es la diferencia entre masa y peso?</p>
+        <p class="text-sm text-slate-600">La masa es una propiedad absoluta de la materia que mide su resistencia a cambios de velocidad (inercia). El peso es una fuerza variable que depende de la atracción gravitatoria de la Tierra sobre esa masa.</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <p class="font-semibold text-blue-700 mb-1 text-sm">¿Qué es un marco de referencia inercial?</p>
+        <p class="text-sm text-slate-600">Es un sistema de coordenadas que no gira y que está en reposo o se traslada a velocidad constante. Las leyes de Newton solo son válidas dentro de este marco.</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <p class="font-semibold text-blue-700 mb-1 text-sm">¿Por qué la aceleración normal se asocia con la "fuerza centrípeta"?</p>
+        <p class="text-sm text-slate-600">Porque es provocada por la sumatoria de fuerzas en la dirección normal (\(\sum F_n\)), que siempre actúa hacia el centro de curvatura de la trayectoria.</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <p class="font-semibold text-blue-700 mb-1 text-sm">¿Qué son las "fuerzas efectivas"?</p>
+        <p class="text-sm text-slate-600">Son el resultado dinámico de las fuerzas externas. En una partícula, la fuerza efectiva es \(m\bar{a}\); en un cuerpo rígido incluye el vector \(m\bar{a}\) en el centro de masa y el par de inercia \(\bar{I}\alpha\).</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 md:col-span-2">
+        <p class="font-semibold text-blue-700 mb-1 text-sm">¿Cómo se determina la fricción en problemas de cinética?</p>
+        <p class="text-sm text-slate-600">Si el cuerpo se desliza, se usa la fricción cinética \(F_f = \mu_k N\) opuesta al movimiento. Si es un disco que rueda sin deslizar, la fricción es una incógnita independiente que no debe exceder \(\mu_s N\).</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- 2. CONCEPTOS CLAVE / METODOLOGÍA COMPARADA                        -->
+  <!-- ================================================================ -->
+  <section id="conceptos">
+    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6">2. Conceptos clave y tipos de movimiento</h2>
+
+    <!-- Ecuaciones fundamentales -->
+    <div class="bg-slate-900 text-white shadow-md rounded-lg p-6 mb-6">
+      <h3 class="text-lg font-bold text-blue-400 mb-3">Las tres ecuaciones de movimiento</h3>
+      <p class="text-slate-300 text-sm mb-4">La segunda ley de Newton aplicada al movimiento plano se descompone en tres ecuaciones escalares:</p>
+      <div class="bg-slate-800 rounded-lg p-5 flex flex-col md:flex-row md:justify-around md:items-center gap-3 md:gap-2 overflow-x-auto">
+        <div class="text-center">$$\sum F_x = m\,\bar{a}_x$$</div>
+        <div class="text-center">$$\sum F_y = m\,\bar{a}_y$$</div>
+        <div class="text-center">$$\sum M_G = \bar{I}\,\alpha$$</div>
+      </div>
+      <p class="text-slate-400 text-xs mt-4">
+        donde \(m\) es la masa, \(\bar{a}_x,\bar{a}_y\) las componentes de la aceleración del
+        centro de masa \(G\), \(\bar{I}\) el momento de inercia centroidal y \(\alpha\) la
+        aceleración angular.
+      </p>
+    </div>
+
+    <!-- Diagrama: equivalencia d'Alembert -->
+    <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 mb-6">
+      <h3 class="text-lg font-bold text-slate-900 mb-1">Principio de d'Alembert: DCL ≡ Diagrama cinético</h3>
+      <p class="text-slate-600 text-sm mb-4">El sistema de fuerzas externas es equivalente al sistema de fuerzas efectivas.</p>
+      <svg viewBox="0 0 640 240" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de equivalencia entre fuerzas externas y fuerzas efectivas">
+        <!-- DCL -->
+        <rect x="30" y="40" width="220" height="160" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+        <text x="140" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Fuerzas externas (DCL)</text>
+        <circle cx="140" cy="120" r="34" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="140" y="125" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">G</text>
+        <!-- peso -->
+        <line x1="140" y1="120" x2="140" y2="185" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrow)"/>
+        <text x="150" y="180" font-size="12" fill="#0f172a">W = mg</text>
+        <!-- fuerza aplicada -->
+        <line x1="140" y1="120" x2="205" y2="95" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrowR)"/>
+        <text x="180" y="85" font-size="12" fill="#dc2626">F</text>
+        <!-- normal -->
+        <line x1="90" y1="120" x2="55" y2="120" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrowG)"/>
+        <text x="45" y="112" font-size="12" fill="#16a34a">N</text>
+
+        <!-- símbolo equivalencia -->
+        <text x="320" y="128" text-anchor="middle" font-size="30" font-weight="bold" fill="#2563eb">≡</text>
+        <text x="320" y="150" text-anchor="middle" font-size="9" fill="#64748b">d'Alembert</text>
+
+        <!-- Diagrama cinético -->
+        <rect x="390" y="40" width="220" height="160" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+        <text x="500" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Fuerzas efectivas</text>
+        <circle cx="500" cy="120" r="34" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+        <text x="500" y="125" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">G</text>
+        <!-- vector m a -->
+        <line x1="500" y1="120" x2="575" y2="120" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowB)"/>
+        <text x="540" y="112" font-size="13" font-weight="bold" fill="#2563eb">m·a</text>
+        <!-- par I alfa -->
+        <path d="M 470 95 A 34 34 0 1 1 466 100" fill="none" stroke="#4f46e5" stroke-width="2.5" marker-end="url(#arrowI)"/>
+        <text x="500" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#4f46e5">I·α</text>
+
+        <defs>
+          <marker id="arrow" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0f172a"/></marker>
+          <marker id="arrowR" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#dc2626"/></marker>
+          <marker id="arrowG" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#16a34a"/></marker>
+          <marker id="arrowB" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2563eb"/></marker>
+          <marker id="arrowI" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/></marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- Tarjetas de tipos de movimiento (grid comparado) -->
+    <h3 class="text-lg font-bold text-slate-900 mb-4">Tipos de movimiento plano</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-blue-700 mb-2">Traslación</h4>
+        <p class="text-sm text-slate-600">Todas las partículas tienen la misma aceleración y \(\alpha = 0\). Las fuerzas efectivas se reducen al vector \(m\bar{a}\) aplicado en \(G\).</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-blue-700 mb-2">Rotación centroidal</h4>
+        <p class="text-sm text-slate-600">El eje pasa por \(G\), por lo que \(\bar{a}=0\) y las fuerzas externas equivalen únicamente al par \(\bar{I}\alpha\).</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-blue-700 mb-2">Rotación no centroidal</h4>
+        <p class="text-sm text-slate-600">El cuerpo gira sobre un eje fijo \(O\) que no pasa por \(G\). El centro de masa describe una trayectoria circular con \(a_t=\bar{r}\alpha\) y \(a_n=\bar{r}\omega^2\). Conviene usar \(\sum M_O = I_O\alpha\), con \(I_O = \bar{I}+md^2\).</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-blue-700 mb-2">Movimiento plano general</h4>
+        <p class="text-sm text-slate-600">Combinación simultánea de traslación y rotación. Se aplican las tres ecuaciones de movimiento a la vez. Si rueda sin deslizar: \(\bar{a}=r\alpha\).</p>
+      </div>
+
+    </div>
+
+    <!-- Tarjetas de conceptos -->
+    <h3 class="text-lg font-bold text-slate-900 mb-4">Magnitudes y conceptos fundamentales</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-slate-900 mb-1">Momento de inercia \((\bar{I})\)</h4>
+        <p class="text-sm text-slate-600">Resistencia del cuerpo a cambiar su rotación; depende de la distribución de masa respecto al eje. \(I = mk^2\), con \(k\) el radio de giro. Unidad SI: kg·m².</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-slate-900 mb-1">Centro de masa \((G)\)</h4>
+        <p class="text-sm text-slate-600">Punto donde se considera concentrada toda la masa del cuerpo y por donde actúa el peso total. Se mueve como si todas las fuerzas externas actuaran sobre él.</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-slate-900 mb-1">Velocidad y aceleración angular</h4>
+        <p class="text-sm text-slate-600">\(\omega\): razón de cambio de la posición angular (rad/s). \(\alpha\): razón de cambio de \(\omega\) respecto al tiempo (rad/s²).</p>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+        <h4 class="font-bold text-slate-900 mb-1">Teorema de los ejes paralelos</h4>
+        <p class="text-sm text-slate-600">El momento de inercia respecto a un eje paralelo al centroidal: \(I_O = \bar{I} + md^2\), donde \(d\) es la distancia entre ambos ejes.</p>
+      </div>
+
+    </div>
+
+    <!-- ============ MAPA MENTAL (estructura NotebookLM) ============ -->
+    <h3 class="text-lg font-bold text-slate-900 mt-10 mb-4">Mapa mental: conexiones del tema</h3>
+    <div class="bg-white shadow-md rounded-lg p-4 md:p-6 border border-slate-200 overflow-x-auto">
+      <svg viewBox="0 0 900 620" class="w-full h-auto min-w-[680px]" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa mental de la cinética del movimiento plano">
+        <!-- conexiones -->
+        <g stroke="#cbd5e1" stroke-width="2" fill="none">
+          <path d="M 450 70 C 250 70, 150 110, 150 140"/>
+          <path d="M 450 70 C 360 70, 330 110, 330 140"/>
+          <path d="M 450 70 L 450 140"/>
+          <path d="M 450 70 C 560 70, 590 110, 590 140"/>
+          <path d="M 450 70 C 680 70, 770 110, 770 140"/>
+        </g>
+
+        <!-- NODO RAÍZ -->
+        <rect x="305" y="28" width="290" height="46" rx="12" fill="#0f172a"/>
+        <text x="450" y="57" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Cinética del Movimiento Plano</text>
+
+        <!-- A. PRINCIPIOS BÁSICOS -->
+        <rect x="40" y="140" width="220" height="40" rx="9" fill="#2563eb"/>
+        <text x="150" y="165" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">A. Principios básicos</text>
+        <g font-size="11" fill="#334155">
+          <text x="50" y="205">• 2.ª Ley de Newton (ΣF = ma)</text>
+          <text x="50" y="225">• Marco de referencia inercial</text>
+          <text x="50" y="245">• Principio de D'Alembert</text>
+          <text x="62" y="263" fill="#64748b">(equilibrio dinámico)</text>
+        </g>
+
+        <!-- B. MODELOS DE ANÁLISIS -->
+        <rect x="225" y="300" width="210" height="40" rx="9" fill="#2563eb"/>
+        <text x="330" y="325" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">B. Modelos de análisis</text>
+        <g font-size="11" fill="#334155">
+          <text x="235" y="365">• Partícula (masa puntual)</text>
+          <text x="235" y="385">• Cuerpo rígido:</text>
+          <text x="247" y="403" fill="#475569">– Traslación</text>
+          <text x="247" y="421" fill="#475569">– Rotación (eje fijo / centroidal)</text>
+          <text x="247" y="439" fill="#475569">– Movimiento plano general</text>
+        </g>
+        <line x1="330" y1="180" x2="330" y2="300" stroke="#cbd5e1" stroke-width="2"/>
+
+        <!-- C. HERRAMIENTAS GRÁFICAS -->
+        <rect x="345" y="140" width="210" height="40" rx="9" fill="#4f46e5"/>
+        <text x="450" y="165" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">C. Herramientas gráficas</text>
+        <g font-size="11" fill="#334155">
+          <text x="450" y="205" text-anchor="middle">Ecuación de diagramas</text>
+          <text x="355" y="228">DCL (externas):</text>
+          <text x="367" y="246" fill="#475569">W, N, F, P</text>
+          <text x="355" y="268">Cinético (efectivas):</text>
+          <text x="367" y="286" fill="#475569">ma, Iα</text>
+        </g>
+
+        <!-- D. SISTEMAS DE COORDENADAS -->
+        <rect x="585" y="300" width="230" height="40" rx="9" fill="#2563eb"/>
+        <text x="700" y="325" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">D. Sistemas de coordenadas</text>
+        <g font-size="11" fill="#334155">
+          <text x="595" y="365">• Rectangulares: ΣFx=max ; ΣFy=may</text>
+          <text x="595" y="385">• Normal/Tangencial: ΣFt=mat ; ΣFn=man</text>
+          <text x="595" y="405">• Polares: ΣFr=mar ; ΣFθ=maθ</text>
+        </g>
+        <line x1="700" y1="180" x2="700" y2="300" stroke="#cbd5e1" stroke-width="2"/>
+
+        <!-- E. FACTORES ADICIONALES -->
+        <rect x="630" y="140" width="220" height="40" rx="9" fill="#4f46e5"/>
+        <text x="740" y="165" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">E. Factores adicionales</text>
+        <g font-size="11" fill="#334155">
+          <text x="640" y="205">• Fricción (estática vs. cinética)</text>
+          <text x="640" y="225">• Movimiento dependiente</text>
+          <text x="652" y="243" fill="#64748b">(poleas y cables)</text>
+          <text x="640" y="263">• Fuerzas centrales (gravitación)</text>
+        </g>
+
+        <!-- línea base decorativa -->
+        <line x1="40" y1="470" x2="860" y2="470" stroke="#e2e8f0" stroke-width="1.5"/>
+        <text x="450" y="500" text-anchor="middle" font-size="12" fill="#94a3b8">Las cinco ramas confluyen en las tres ecuaciones de movimiento: ΣFx = m·āx · ΣFy = m·āy · ΣM_G = Ī·α</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- 3. CONCLUSIONES                                                   -->
+  <!-- ================================================================ -->
+  <section id="conclusiones">
+    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6">3. Conclusiones</h2>
+    <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+      <ul class="space-y-3 text-slate-700 text-sm md:text-base">
+        <li class="flex gap-3"><span class="text-blue-600 font-bold flex-shrink-0">▸</span><span>Cualquier sistema de fuerzas externas sobre un cuerpo rígido es dinámicamente equivalente a una fuerza efectiva \(m\bar{a}\) en el centro de masa más un par efectivo \(\bar{I}\alpha\).</span></li>
+        <li class="flex gap-3"><span class="text-blue-600 font-bold flex-shrink-0">▸</span><span>Todo el análisis se condensa en tres ecuaciones escalares: \(\sum F_x = m\bar{a}_x\), \(\sum F_y = m\bar{a}_y\) y \(\sum M_G = \bar{I}\alpha\).</span></li>
+        <li class="flex gap-3"><span class="text-blue-600 font-bold flex-shrink-0">▸</span><span>El movimiento plano general se entiende como la superposición de traslación del centro de masa y rotación alrededor de él; traslación pura y rotación son casos particulares.</span></li>
+        <li class="flex gap-3"><span class="text-blue-600 font-bold flex-shrink-0">▸</span><span>En rodadura sin deslizamiento, la ligadura \(\bar{a}=r\alpha\) vincula traslación y rotación, y debe verificarse la condición de fricción \(F\le\mu_s N\).</span></li>
+        <li class="flex gap-3"><span class="text-blue-600 font-bold flex-shrink-0">▸</span><span>Dominar estos principios permite analizar ruedas, discos, bielas, poleas y mecanismos reales, anticipando aceleraciones, reacciones y esfuerzos.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- 4. EJERCICIO PRÁCTICO + PROCEDIMIENTO + TEST + MULTIMEDIA          -->
+  <!-- ================================================================ -->
+  <section id="ejercicio">
+    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6">4. Ejercicio práctico</h2>
+
+    <!-- Aviso + botón: Fundamento de las ecuaciones -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <p class="font-bold text-blue-800 text-sm mb-1">★ Importante — Fundamento de las ecuaciones</p>
+        <p class="text-sm text-blue-900/80">¿De dónde salen las tres ecuaciones de movimiento? Consulta la derivación desde la segunda ley de Newton antes de aplicar el procedimiento.</p>
+      </div>
+      <button onclick="abrirFundamento()" class="flex-shrink-0 bg-blue-600 hover:bg-blue-700 transition text-white px-5 py-3 rounded-lg font-semibold text-sm">
+        Ver fundamento
+      </button>
+    </div>
+
+    <!-- Procedimiento de solución general -->
+    <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 mb-6">
+      <h3 class="text-lg font-bold text-slate-900 mb-4">Procedimiento de solución general</h3>
+      <ol class="space-y-3 text-sm text-slate-700">
+        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">1</span><span><strong>Elegir el sistema:</strong> identificar si es un solo cuerpo o varios conectados. Si las incógnitas superan tres, desarmar el sistema y representar las fuerzas de interacción iguales y opuestas.</span></li>
+        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">2</span><span><strong>Clasificar el movimiento:</strong> traslación (\(\alpha=0\)), rotación centroidal (\(\bar{a}=0\)), rotación no centroidal o movimiento plano general.</span></li>
+        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">3</span><span><strong>Trazar DCL y diagrama cinético:</strong> el DCL con todas las fuerzas externas; el cinético con \(m\bar{a}\) en \(G\) y el par \(\bar{I}\alpha\).</span></li>
+        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">4</span><span><strong>Elegir el punto de momentos:</strong> \(\sum M_G=\bar{I}\alpha\) siempre es válido; en rotación no centroidal conviene \(\sum M_O=I_O\alpha\).</span></li>
+        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">5</span><span><strong>Aplicar ligaduras:</strong> si rueda sin deslizar, \(\bar{a}=r\alpha\); la fricción cumple \(F\le\mu_s N\).</span></li>
+        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">6</span><span><strong>Resolver y verificar:</strong> despejar las incógnitas y comprobar la coherencia física (signos, magnitudes y condición de fricción).</span></li>
+      </ol>
+    </div>
+
+    <!-- Problema aplicado -->
+    <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 mb-6">
+      <h3 class="text-lg font-bold text-slate-900 mb-1">Problema aplicado: disco que rueda en un plano inclinado</h3>
+      <p class="text-sm text-slate-600 mb-5">Un disco sólido homogéneo de masa \(m=10\text{ kg}\) y radio \(r=0.2\text{ m}\) se suelta desde el reposo en un plano inclinado a \(30^\circ\). Si rueda sin deslizar, determine la aceleración de su centro de masa \(a_G\) y la fuerza de fricción \(F\).</p>
+
+      <!-- Diagrama del plano inclinado -->
+      <div class="bg-slate-50 rounded-lg p-4 mb-5 border border-slate-200">
+        <svg viewBox="0 0 480 240" class="w-full h-auto max-w-md mx-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Disco sobre plano inclinado con sus fuerzas">
+          <!-- plano inclinado -->
+          <polygon points="40,200 440,200 440,90" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+          <!-- ángulo -->
+          <path d="M 90 200 A 50 50 0 0 0 78 188" fill="none" stroke="#475569" stroke-width="1.5"/>
+          <text x="100" y="193" font-size="13" fill="#475569">30°</text>
+          <!-- disco -->
+          <circle cx="300" cy="120" r="32" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+          <line x1="300" y1="120" x2="300" y2="88" stroke="#2563eb" stroke-width="1.5"/>
+          <text x="307" y="118" font-size="12" font-weight="bold" fill="#1e40af">G</text>
+          <text x="270" y="80" font-size="12" fill="#1e40af">r</text>
+          <!-- peso W -->
+          <line x1="300" y1="120" x2="300" y2="180" stroke="#0f172a" stroke-width="2.5" marker-end="url(#a1)"/>
+          <text x="306" y="175" font-size="12" fill="#0f172a">W = mg</text>
+          <!-- normal -->
+          <line x1="300" y1="120" x2="324" y2="84" stroke="#16a34a" stroke-width="2.5" marker-end="url(#a2)"/>
+          <text x="328" y="82" font-size="12" fill="#16a34a">N</text>
+          <!-- friccion -->
+          <line x1="300" y1="120" x2="252" y2="138" stroke="#dc2626" stroke-width="2.5" marker-end="url(#a3)"/>
+          <text x="225" y="138" font-size="12" fill="#dc2626">F</text>
+          <defs>
+            <marker id="a1" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0f172a"/></marker>
+            <marker id="a2" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#16a34a"/></marker>
+            <marker id="a3" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#dc2626"/></marker>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Desarrollo con LaTeX -->
+      <div class="space-y-4 text-sm text-slate-700">
+        <div>
+          <p class="font-semibold text-slate-900 mb-1">Datos</p>
+          <p>\(m=10\text{ kg}\), \(r=0.2\text{ m}\), \(\theta=30^\circ\), \(g=9.81\text{ m/s}^2\), \(I_G=\tfrac{1}{2}mr^2\) (disco sólido).</p>
+        </div>
+        <div>
+          <p class="font-semibold text-slate-900 mb-1">Ecuaciones de movimiento</p>
+          $$\sum F_x = m a_G:\quad mg\sin\theta - F = m a_G \tag{1}$$
+          $$\sum F_y = 0:\quad N - mg\cos\theta = 0 \tag{2}$$
+          $$\sum M_G = I_G\,\alpha:\quad F\,r = I_G\,\alpha \tag{3}$$
+        </div>
+        <div>
+          <p class="font-semibold text-slate-900 mb-1">Ligadura (rueda sin deslizar)</p>
+          $$a_G = r\,\alpha \;\Longrightarrow\; \alpha = \frac{a_G}{r} \tag{4}$$
+        </div>
+        <div>
+          <p class="font-semibold text-slate-900 mb-1">Desarrollo</p>
+          <p class="mb-1">Sustituyendo (4) en (3) con \(I_G=\tfrac{1}{2}mr^2\):</p>
+          $$F = \frac{I_G\,a_G}{r^2} = \tfrac{1}{2}m a_G$$
+          <p class="my-1">Reemplazando en (1):</p>
+          $$mg\sin\theta - \tfrac{1}{2}m a_G = m a_G \;\Longrightarrow\; a_G = \tfrac{2}{3}\,g\sin\theta$$
+        </div>
+        <div>
+          <p class="font-semibold text-slate-900 mb-1">Sustitución numérica</p>
+          $$a_G = \tfrac{2}{3}(9.81)\sin 30^\circ = 3.27\ \text{m/s}^2$$
+          $$F = \tfrac{1}{2}m a_G = \tfrac{1}{2}(10)(3.27) = 16.35\ \text{N}$$
+        </div>
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-1">Resultado e interpretación</p>
+          <p class="text-blue-900">\(a_G = 3.27\ \text{m/s}^2\) y \(F = 16.35\ \text{N}\). La aceleración es menor que la de deslizamiento sin fricción (\(g\sin30^\circ = 4.905\ \text{m/s}^2\)) porque parte de la energía se invierte en la rotación. La fricción es estática, posible solo si \(\mu_s\) cumple \(F\le\mu_s N\).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVALUACIÓN: 5 preguntas opción múltiple -->
+    <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 mb-6">
+      <h3 class="text-lg font-bold text-slate-900 mb-1">Evaluación · 5 preguntas de opción múltiple</h3>
+      <p class="text-sm text-slate-600 mb-5">Selecciona una respuesta para recibir retroalimentación inmediata.</p>
+      <div id="quiz" class="space-y-6"></div>
+      <div id="quiz-score" class="hidden mt-6 bg-slate-900 text-white rounded-lg p-5 text-center">
+        Puntaje: <span id="score-val" class="font-bold text-blue-400"></span> / 5
+      </div>
+    </div>
+
+    <!-- RECURSO MULTIMEDIA -->
+    <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+      <h3 class="text-lg font-bold text-slate-900 mb-1">Recurso multimedia</h3>
+      <p class="text-sm text-slate-600 mb-5">Video de apoyo sobre cinética del movimiento plano de cuerpos rígidos.</p>
+      <a href="https://youtu.be/qzju5MQbbU8" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-semibold">
+        ▶ Ver video en YouTube
+      </a>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- REFERENCIAS                                                       -->
+  <!-- ================================================================ -->
+  <section id="referencias">
+    <h2 class="text-xl font-bold text-slate-900 mb-4">Referencias</h2>
+    <div class="text-sm text-slate-500 space-y-2">
+      <p>Bedford, A., &amp; Fowler, W. (2008). <em>Mecánica para ingeniería: Dinámica</em> (5.ª ed.). Pearson Educación.</p>
+      <p>Beer, F. P., &amp; Johnston, E. R. (2010). <em>Mecánica vectorial para ingenieros: Dinámica</em> (9.ª ed.). McGraw-Hill.</p>
+      <p>Hibbeler, R. C. (2010). <em>Ingeniería mecánica: Dinámica</em> (12.ª ed.). Pearson Educación.</p>
+      <p>Hibbeler, R. C. (2004). <em>Mecánica vectorial para ingenieros: Dinámica</em> (10.ª ed.). Pearson Educación.</p>
+      <p>McLean, W. G., &amp; Nelson, E. W. (s. f.). <em>Mecánica para ingenieros: Estática y dinámica</em> (3.ª ed.). McGraw-Hill.</p>
+      <p>Meriam, J. L., &amp; Kraige, L. G. (s. f.). <em>Mecánica para ingenieros: Dinámica</em>. Reverté.</p>
+      <p>Pytel, A., &amp; Kiusalaas, J. (2012). <em>Ingeniería mecánica: Dinámica</em> (3.ª ed.). Cengage Learning.</p>
+      <p>Shames, I. H. (1999). <em>Ingeniería mecánica: Dinámica</em> (5.ª ed.). Prentice Hall.</p>
+    </div>
+
+    <h3 class="text-base font-bold text-slate-900 mt-6 mb-3">Recurso audiovisual</h3>
+    <div class="text-sm text-slate-500">
+      <p>dcahue-ingeniería. (2023, 23 de julio). <em>Fuerzas y aceleraciones en cuerpos rígidos | Cinética | Beer and Johnston ejercicio 16.16</em> [Video]. YouTube. https://youtu.be/qzju5MQbbU8</p>
+    </div>
+  </section>
+
+  <!-- BOTÓN VOLVER AL INICIO -->
+ 
+
+</main>
+
+<!-- ================================================================== -->
+<!-- MODAL: FUNDAMENTO DE LAS ECUACIONES                                 -->
+<!-- ================================================================== -->
+<div id="modal-fundamento" class="hidden fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto" style="background:rgba(15,23,42,.85);">
+  <div class="bg-white rounded-2xl max-w-3xl w-full my-8">
+    <div class="flex items-center justify-between p-5 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl">
+      <h3 class="text-lg md:text-xl font-bold text-slate-900">Fundamento de las ecuaciones de movimiento</h3>
+      <button onclick="cerrarFundamento()" class="text-slate-400 hover:text-slate-900 text-3xl leading-none">&times;</button>
+    </div>
+    <div class="p-6 space-y-6 text-sm text-slate-700">
+
+      <!-- Punto de partida -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">1. Punto de partida: la segunda ley de Newton</h4>
+        <p class="mb-3">Para una partícula, la segunda ley de Newton relaciona la fuerza resultante con la aceleración. Un cuerpo rígido es un conjunto de infinitas partículas; al sumar (integrar) la ley sobre todas ellas, las fuerzas internas se cancelan por pares (tercera ley de Newton) y solo sobreviven las fuerzas externas. El resultado para el centro de masa \(G\) es:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+          $$\sum \vec{F} = m\,\vec{\bar{a}}$$
+        </div>
+        <p class="mt-3">Es decir, el centro de masa se mueve como si toda la masa estuviera concentrada en él y todas las fuerzas externas actuaran sobre ese punto.</p>
+      </div>
+
+      <!-- Componentes -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">2. Separación en componentes \(x\) e \(y\)</h4>
+        <p class="mb-3">La ecuación vectorial anterior se cumple en cada dirección de forma independiente. Proyectándola sobre un sistema de ejes inercial se obtienen dos ecuaciones escalares:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 flex flex-col md:flex-row md:justify-around gap-2 overflow-x-auto">
+          <div class="text-center">$$\sum F_x = m\,\bar{a}_x$$</div>
+          <div class="text-center">$$\sum F_y = m\,\bar{a}_y$$</div>
+        </div>
+        <p class="mt-3">Esto es válido porque los vectores se descomponen en componentes ortogonales que no interfieren entre sí: la suma de fuerzas en \(x\) solo produce aceleración en \(x\), y lo mismo en \(y\).</p>
+      </div>
+
+      <!-- Momento -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">3. ¿Por qué el momento respecto a \(G\) produce \(\bar{I}\alpha\)?</h4>
+        <p class="mb-3">Las dos ecuaciones de fuerza describen cómo se traslada el cuerpo, pero no cómo gira. Para la rotación se analiza el <em>momento</em> de las fuerzas. Cada partícula de masa \(dm\), situada a una distancia \(\rho\) del centro de masa, posee una aceleración tangencial \(a_t = \rho\,\alpha\) debida al giro. La fuerza efectiva tangencial sobre ella es \(dm\cdot\rho\,\alpha\), y su momento respecto a \(G\) vale \(\rho\,(dm\cdot\rho\,\alpha) = \rho^2\,\alpha\,dm\).</p>
+        <p class="mb-3">Sumando (integrando) el momento de todas las partículas:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+          $$\sum M_G = \left(\int \rho^2\,dm\right)\alpha = \bar{I}\,\alpha$$
+        </div>
+        <p class="mt-3">La integral \(\int \rho^2\,dm\) es justamente la definición del <strong>momento de inercia centroidal</strong> \(\bar{I}\). Por eso el momento neto respecto a \(G\) es igual a \(\bar{I}\alpha\): \(\bar{I}\) mide cuánta "resistencia rotacional" ofrece la distribución de masa, igual que \(m\) mide la resistencia a la traslación.</p>
+      </div>
+
+      <!-- Las tres ecuaciones -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">4. Las tres ecuaciones de movimiento</h4>
+        <p class="mb-3">Reuniendo traslación y rotación, el movimiento plano de un cuerpo rígido queda completamente descrito por:</p>
+        <div class="bg-slate-900 text-white rounded-lg p-4 flex flex-col md:flex-row md:justify-around gap-2 overflow-x-auto">
+          <div class="text-center">$$\sum F_x = m\,\bar{a}_x$$</div>
+          <div class="text-center">$$\sum F_y = m\,\bar{a}_y$$</div>
+          <div class="text-center">$$\sum M_G = \bar{I}\,\alpha$$</div>
+        </div>
+      </div>
+
+      <!-- Derivación a = r alfa -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">5. Derivación de \(\bar{a}=r\alpha\) (rodadura sin deslizamiento)</h4>
+        <p class="mb-3">Cuando una rueda o disco de radio \(r\) rueda sin deslizar, el punto de contacto con el suelo tiene velocidad instantánea nula respecto a la superficie. Esto impone una relación entre cuánto avanza el centro y cuánto gira el cuerpo: en una vuelta completa, el centro recorre exactamente el perímetro \(2\pi r\). Por tanto, el desplazamiento del centro y el ángulo girado están ligados por \(s = r\theta\).</p>
+        <p class="mb-3">Derivando respecto al tiempo se obtiene la relación de velocidades y, derivando otra vez, la de aceleraciones:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+          $$s = r\theta \;\Rightarrow\; \bar{v} = r\omega \;\Rightarrow\; \bar{a} = r\alpha$$
+        </div>
+        <p class="mt-3">Esta <em>ecuación de ligadura</em> conecta el movimiento de traslación (\(\bar{a}\)) con el de rotación (\(\alpha\)), y es la que permite resolver el sistema cuando la fricción es una incógnita. Solo es válida mientras no haya deslizamiento, es decir, mientras \(F\le\mu_s N\).</p>
+      </div>
+
+    </div>
+    <div class="p-5 border-t border-slate-200 text-right">
+      <button onclick="cerrarFundamento()" class="bg-slate-900 hover:bg-slate-800 transition text-white px-6 py-2.5 rounded-lg font-semibold text-sm">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-slate-900 text-white">
+  <div class="max-w-5xl mx-auto px-6 py-8 text-sm">
+    <p class="font-semibold mb-1">3.3 · Cinética del Movimiento Plano: Fuerzas y Aceleraciones</p>
+    <p class="text-slate-400">Rocío Adilene Chaj Hernández (202330544) · Luis Alejandro Fuentes Coronado (201930992) — Mecánica Analítica 2, CUNOC-USAC</p>
+  </div>
+</footer>
+
+<!-- ================================================================== -->
+<!-- JAVASCRIPT EMBEBIDO (no externo)                                    -->
+<!-- ================================================================== -->
+<script>
+/* ===== Modal: Fundamento de las ecuaciones ===== */
+function abrirFundamento(){
+  document.getElementById('modal-fundamento').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([document.getElementById('modal-fundamento')]);
+  }
+}
+function cerrarFundamento(){
+  document.getElementById('modal-fundamento').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+document.getElementById('modal-fundamento').addEventListener('click', function(e){
+  if (e.target === this) cerrarFundamento();
+});
+
+/* ===== Recurso multimedia: el botón redirige a YouTube ===== */
+
+/* ===== Evaluación de opción múltiple ===== */
+const PREGUNTAS = [
+  {
+    q: "¿Cuáles son las tres ecuaciones escalares del movimiento plano de un cuerpo rígido?",
+    op: ["ΣFx = m·āx, ΣFy = m·āy, ΣM_G = Ī·α", "ΣFx = 0, ΣFy = 0, ΣM = 0", "F = m·a, v = ω·r, a = r·α", "ΣF = m·a, ΣM = 0, I = m·k²"],
+    correcta: 0,
+    exp: "El movimiento plano se resuelve con ΣFx = m·āx, ΣFy = m·āy y ΣM_G = Ī·α, derivadas de la segunda ley de Newton para traslación y rotación."
+  },
+  {
+    q: "En una traslación pura, ¿qué valor toma la aceleración angular α?",
+    op: ["α = g", "α = ā/r", "α = 0", "α = ω²"],
+    correcta: 2,
+    exp: "En la traslación todas las partículas tienen la misma aceleración y no hay giro, por lo que α = 0 y las fuerzas efectivas se reducen al vector m·ā en G."
+  },
+  {
+    q: "¿Qué establece el principio de d'Alembert?",
+    op: ["Que la energía siempre se conserva", "Que las fuerzas externas equivalen a las fuerzas efectivas (DCL ≡ diagrama cinético)", "Que todo cuerpo permanece en reposo", "Que el momento de inercia es constante"],
+    correcta: 1,
+    exp: "Establece la equivalencia entre el sistema de fuerzas externas y el de fuerzas efectivas, lo que permite tratar el problema como un equilibrio dinámico."
+  },
+  {
+    q: "Para un disco que rueda sin deslizar, la ligadura cinemática es:",
+    op: ["ā = r·α", "ā = ω·r", "ā = g·sinθ", "ā = I·α"],
+    correcta: 0,
+    exp: "La condición de rodadura sin deslizamiento impone ā = r·α, que vincula la traslación del centro de masa con la rotación del cuerpo."
+  },
+  {
+    q: "Según el teorema de los ejes paralelos, el momento de inercia respecto a un eje O paralelo al centroidal es:",
+    op: ["I_O = Ī − m·d²", "I_O = m·k²", "I_O = Ī + m·d²", "I_O = Ī / d²"],
+    correcta: 2,
+    exp: "El teorema de Steiner indica I_O = Ī + m·d², donde d es la distancia entre el eje centroidal y el eje O."
+  }
+];
+
+let aciertos = 0, respondidas = 0;
+const cont = document.getElementById('quiz');
+PREGUNTAS.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'border border-slate-200 rounded-lg p-4';
+  card.innerHTML = '<p class="font-semibold text-slate-900 mb-3 text-sm">'+(i+1)+'. '+p.q+'</p>';
+  const opts = document.createElement('div');
+  opts.className = 'space-y-2';
+  p.op.forEach((o, j) => {
+    const b = document.createElement('button');
+    b.className = 'w-full text-left text-sm border border-slate-300 rounded-lg px-3 py-2 hover:bg-slate-50 transition';
+    b.textContent = o;
+    b.onclick = () => responder(card, opts, b, p, j, i);
+    opts.appendChild(b);
+  });
+  card.appendChild(opts);
+  const fb = document.createElement('div');
+  fb.className = 'mt-3 text-sm hidden';
+  fb.id = 'fb-'+i;
+  card.appendChild(fb);
+  cont.appendChild(card);
+});
+
+function responder(card, opts, btn, p, elegida, idx) {
+  if (card.dataset.done) return;
+  card.dataset.done = "1";
+  respondidas++;
+  const fb = document.getElementById('fb-'+idx);
+  [...opts.children].forEach((b, j) => {
+    b.disabled = true;
+    if (j === p.correcta) b.className = 'w-full text-left text-sm border-2 border-green-500 bg-green-50 rounded-lg px-3 py-2';
+    else if (j === elegida) b.className = 'w-full text-left text-sm border-2 border-red-500 bg-red-50 rounded-lg px-3 py-2';
+    else b.className = 'w-full text-left text-sm border border-slate-200 text-slate-400 rounded-lg px-3 py-2';
+  });
+  if (elegida === p.correcta) { aciertos++; fb.innerHTML = '<span class="text-green-700 font-semibold">✓ Correcto.</span> '+p.exp; }
+  else { fb.innerHTML = '<span class="text-red-700 font-semibold">✗ Incorrecto.</span> '+p.exp; }
+  fb.classList.remove('hidden');
+  if (respondidas === PREGUNTAS.length) {
+    document.getElementById('quiz-score').classList.remove('hidden');
+    document.getElementById('score-val').textContent = aciertos;
+  }
+}
+</script>
+
+</body>
+</html>

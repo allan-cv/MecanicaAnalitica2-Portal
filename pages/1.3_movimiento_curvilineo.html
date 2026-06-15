@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimiento Curvilíneo de Partículas - CUNOC</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración personalizada de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        steel: {
+                            50: '#f4f6f8',
+                            100: '#e9edf1',
+                            200: '#cbd5e1',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        engBlue: {
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons para UI -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Configuración avanzada de MathJax para renderizado asíncrono y dinámico de LaTeX -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Desplazamiento de barra de navegación premium */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0ea5e9;
+        }
+        /* Bloques destacados de LaTeX */
+        .math-card {
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid #0ea5e9;
+        }
+        /* Efecto de escala en nodos */
+        .node-active {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.35);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Animaciones Gasket */
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1.5deg); }
+        }
+        .animate-float {
+            animation: float-gentle 4.5s ease-in-out infinite;
+        }
+        @keyframes eye-blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+        .animate-blink {
+            animation: eye-blink 6s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900 font-sans antialiased">
+<script src="../js/global-layout.js"></script>
+    <!-- MASCOTA INTERACTIVA ASISTENTE: GASKET EL MECABOT -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
+        
+        <!-- Chatbox / Diálogo dinámico de Gasket -->
+        <div id="gasket-chat" class="mb-3 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-4 shadow-2xl max-w-sm text-xs text-slate-200 transition-all duration-300 opacity-0 scale-90 translate-y-4 pointer-events-none select-none">
+            <div class="font-bold text-sky-400 mb-2 flex items-center justify-between border-b border-slate-800 pb-1.5 pointer-events-auto">
+                <div class="flex items-center space-x-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-ping"></span>
+                    <span>🤖 Asistente Gasket</span>
+                </div>
+                <button onclick="closeGasketChat()" class="text-slate-500 hover:text-white transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <div id="gasket-bubble-text" class="mb-3 leading-relaxed pointer-events-auto text-slate-300">
+                ¡Hola! Soy **Gasket**, tu tutor virtual de Ingeniería. He venido a guiarte en esta lección de Dinámica. Haz clic en las preguntas de abajo para responderte utilizando fórmulas completas en $\LaTeX$:
+            </div>
+
+            <!-- Menú de consultas rápidas para el alumno -->
+            <div class="grid grid-cols-1 gap-1.5 pt-2 border-t border-slate-800/80 pointer-events-auto">
+                <button onclick="askGasket('coriolis')" class="w-full text-left px-2.5 py-2 bg-slate-950 hover:bg-slate-800 rounded-lg text-slate-300 border border-slate-800 hover:border-sky-500/30 transition text-[10px]">
+                    ❓ Explicar la aceleración de Coriolis
+                </button>
+                <button onclick="askGasket('curvatura')" class="w-full text-left px-2.5 py-2 bg-slate-950 hover:bg-slate-800 rounded-lg text-slate-300 border border-slate-800 hover:border-emerald-500/30 transition text-[10px]">
+                    ❓ ¿Qué mide el radio de curvatura $\rho$?
+                </button>
+                <button onclick="askGasket('tangencial')" class="w-full text-left px-2.5 py-2 bg-slate-950 hover:bg-slate-800 rounded-lg text-slate-300 border border-slate-800 hover:border-indigo-500/30 transition text-[10px]">
+                    ❓ Diferencias entre $a_t$ y $a_n$
+                </button>
+                <button onclick="askGasket('examen')" class="w-full text-left px-2.5 py-2 bg-slate-950 hover:bg-slate-800 rounded-lg text-slate-300 border border-slate-800 hover:border-amber-500/30 transition text-[10px]">
+                    💡 Consejos clave para resolver problemas
+                </button>
+            </div>
+        </div>
+
+        <!-- Disparador flotante de la Mascota -->
+        <div id="gasket-bot" onclick="toggleGasketChat()" class="w-16 h-16 md:w-20 md:h-20 bg-slate-950/60 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer pointer-events-auto hover:scale-110 active:scale-95 transition-all duration-300 select-none animate-float shadow-2xl shadow-sky-500/10 border border-slate-800 relative">
+            <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5 z-50">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-sky-500"></span>
+            </span>
+            <svg class="w-12 h-12 md:w-16 md:h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 15,35 L 25,38 L 22,48 L 12,45 Z" fill="#475569" />
+                <path d="M 85,35 L 75,38 L 78,48 L 88,45 Z" fill="#475569" />
+                <line x1="50" y1="25" x2="50" y2="10" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" />
+                <circle cx="50" cy="8" r="4.5" fill="#38bdf8" class="animate-pulse" />
+                <rect x="25" y="25" width="50" height="50" rx="16" fill="#1e293b" stroke="#475569" stroke-width="3" />
+                <rect id="gasket-visor" x="31" y="35" width="38" height="24" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="2" class="transition-all duration-300" />
+                <ellipse cx="42" cy="47" rx="3.5" ry="5" fill="#38bdf8" class="animate-blink" style="transform-origin: 42px 47px;" id="gasket-eye-l" />
+                <ellipse cx="58" cy="47" rx="3.5" ry="5" fill="#38bdf8" class="animate-blink" style="transform-origin: 58px 47px;" id="gasket-eye-r" />
+                <path d="M 45,54 Q 50,57 55,54" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M 35,74 L 65,74 L 60,88 L 40,88 Z" fill="#334155" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN PRINCIPAL -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-steel-950/90 backdrop-blur-md border-b border-slate-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-gradient-to-br from-engBlue-600 to-steel-800 rounded-lg shadow-inner">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-wider text-white">CUNOC</span>
+                        <span class="hidden sm:inline text-xs text-slate-400 ml-2 border-l border-slate-700 pl-2">Ingeniería Mecánica</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-1 text-sm font-medium">
+                    <a href="#inicio" class="px-3 py-2 text-slate-300 hover:text-engBlue-500 rounded-md transition">Inicio</a>
+                    <a href="#conceptos" class="px-3 py-2 text-slate-300 hover:text-engBlue-500 rounded-md transition">Conceptos</a>
+                    <a href="#coordenadas" class="px-3 py-2 text-slate-300 hover:text-engBlue-500 rounded-md transition">Sistemas</a>
+                    <a href="#laboratorio" class="px-3 py-2 text-slate-300 hover:text-engBlue-500 rounded-md transition bg-engBlue-800/20 text-engBlue-400 border border-engBlue-800/50">Simulador</a>
+                    <a href="#ejercicios" class="px-3 py-2 text-slate-300 hover:text-engBlue-500 rounded-md transition">Ejercicios</a>
+                    <a href="#mapamental" class="px-3 py-2 text-slate-300 hover:text-engBlue-500 rounded-md transition">Mapa Mental</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-400 hover:text-white focus:outline-none p-2">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-steel-950 border-t border-slate-800 px-4 pt-2 pb-4 space-y-1">
+            <a href="#inicio" class="block px-3 py-2 text-base text-slate-300 hover:text-white hover:bg-slate-800 rounded-md">Inicio</a>
+            <a href="#conceptos" class="block px-3 py-2 text-base text-slate-300 hover:text-white hover:bg-slate-800 rounded-md">Conceptos</a>
+            <a href="#coordenadas" class="block px-3 py-2 text-base text-slate-300 hover:text-white hover:bg-slate-800 rounded-md">Sistemas de Coordenadas</a>
+            <a href="#laboratorio" class="block px-3 py-2 text-base text-engBlue-400 hover:bg-slate-800 rounded-md">Simulador Interactivo</a>
+            <a href="#ejercicios" class="block px-3 py-2 text-base text-slate-300 hover:text-white hover:bg-slate-800 rounded-md">Ejercicios Resueltos</a>
+            <a href="#mapamental" class="block px-3 py-2 text-base text-slate-300 hover:text-white hover:bg-slate-800 rounded-md">Mapa Mental</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="inicio" class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bg-gradient-to-b from-steel-900 via-steel-950 to-steel-950">
+        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#475569" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-engBlue-600 to-transparent rounded-full blur-[120px] opacity-30"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center">
+                <div class="inline-flex items-center space-x-2 px-3 py-1.5 bg-slate-800/80 border border-slate-700 rounded-full text-xs font-semibold tracking-wider text-engBlue-500 uppercase mb-6 shadow-sm">
+                    <i data-lucide="award" class="w-4 h-4"></i>
+                    <span>Área de Física & Cinemática de Partículas</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6">
+                    Movimiento Curvilíneo <br class="hidden sm:inline">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-engBlue-500 to-sky-400">
+                        de Partículas en el Plano
+                    </span>
+                </h1>
+                <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-300 mb-10 leading-relaxed">
+                    Un portal interactivo de aprendizaje diseñado para estudiantes de ingeniería. Explora a profundidad la cinemática de trayectorias complejas analizando posición, velocidad y aceleración en sistemas de coordenadas clave.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#laboratorio" class="px-8 py-4 bg-engBlue-600 hover:bg-engBlue-500 text-white font-bold rounded-xl transition duration-300 shadow-lg shadow-engBlue-600/20 flex items-center space-x-2 w-full sm:w-auto justify-center">
+                        <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                        <span>Iniciar Simulador</span>
+                    </a>
+                    <a href="#conceptos" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold rounded-xl transition duration-300 flex items-center space-x-2 w-full sm:w-auto justify-center">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                        <span>Estudiar Teoría</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION: CONCEPTOS FUNDAMENTALES -->
+    <section id="conceptos" class="py-20 border-t border-slate-850 bg-steel-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">Conceptos Fundamentales</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto">La base conceptual requerida para entender el cambio de dirección y magnitud en las variables cinemáticas de una partícula.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Tarjeta 1: Trayectoria -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:shadow-lg hover:shadow-sky-500/5 transition duration-300">
+                    <div class="p-3 bg-indigo-550/10 text-indigo-400 rounded-xl w-12 h-12 flex items-center justify-center mb-6 border border-indigo-500/20">
+                        <i data-lucide="git-commit" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Trayectoria y Posición</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Cuando una partícula se desplaza por una curva arbitraria, su posición en cualquier instante de tiempo $t$ se localiza mediante un vector de posición $\vec{r}(t)$ medido desde un origen de coordenadas fijo $O$. La curva espacial real trazada por la partícula es la trayectoria física.
+                    </p>
+                    <div class="math-card p-3 rounded-lg text-sm font-mono text-indigo-300">
+                        Vector de posición:
+                        $$\vec{r}(t) = [x(t), y(t), z(t)]$$
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Velocidad -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:shadow-lg hover:shadow-emerald-500/5 transition duration-300">
+                    <div class="p-3 bg-emerald-550/10 text-emerald-400 rounded-xl w-12 h-12 flex items-center justify-center mb-6 border border-emerald-500/20">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Velocidad</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        El vector velocidad instantánea $\vec{v}$ es la derivada temporal de la posición. Un principio fundamental de la mecánica es que <span class="text-emerald-400 font-semibold">el vector velocidad siempre es tangente a la trayectoria</span> en el punto de análisis.
+                    </p>
+                    <div class="math-card p-3 rounded-lg text-sm font-mono text-emerald-300">
+                        Velocidad de la partícula:
+                        $$\vec{v} = \frac{d\vec{r}}{dt} = \dot{\vec{r}} = v \hat{u}_t$$
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3: Aceleración -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:shadow-lg hover:shadow-rose-500/5 transition duration-300">
+                    <div class="p-3 bg-rose-550/10 text-rose-400 rounded-xl w-12 h-12 flex items-center justify-center mb-6 border border-rose-500/20">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Aceleración</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        La aceleración $\vec{a}$ es el cambio temporal de la velocidad. A diferencia de la velocidad, la aceleración no es tangente a la curva; apunta hacia el <span class="text-rose-400 font-semibold">lado cóncavo</span> de la trayectoria debido a que cambia tanto la rapidez como la dirección del movimiento.
+                    </p>
+                    <div class="math-card p-3 rounded-lg text-sm font-mono text-rose-300">
+                        Aceleración de la partícula:
+                        $$\vec{a} = \frac{d\vec{v}}{dt} = \ddot{\vec{r}}$$
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: SISTEMAS DE COORDENADAS -->
+    <section id="coordenadas" class="py-20 bg-slate-900 border-t border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-xs font-semibold text-engBlue-500 uppercase tracking-widest">Sistemas de Referencia</span>
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mt-2">La Matemática del Movimiento</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto">Dependiendo de la geometría del problema de ingeniería, se selecciona un sistema coordenado para simplificar significativamente el análisis matemático.</p>
+            </div>
+
+            <!-- Navegación de pestañas (Tabs) -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="switchTab('rectangular')" id="tab-btn-rectangular" class="tab-btn px-5 py-3 rounded-xl font-semibold transition flex items-center space-x-2 bg-engBlue-600 text-white border border-engBlue-500">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                    <span>Coordenadas Rectangulares</span>
+                </button>
+                <button onclick="switchTab('tangencial')" id="tab-btn-tangencial" class="tab-btn px-5 py-3 rounded-xl font-semibold transition flex items-center space-x-2 bg-slate-800 text-slate-400 border border-slate-700 hover:text-white">
+                    <i data-lucide="git-branch" class="w-4 h-4"></i>
+                    <span>Coordenadas Tangencial-Normal</span>
+                </button>
+                <button onclick="switchTab('polares')" id="tab-btn-polares" class="tab-btn px-5 py-3 rounded-xl font-semibold transition flex items-center space-x-2 bg-slate-800 text-slate-400 border border-slate-700 hover:text-white">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>Coordenadas Polares</span>
+                </button>
+            </div>
+
+            <!-- CONTENIDOS DE LAS PESTAÑAS CON IMÁGENES / DIAGRAMAS OVERLAY CON LATEX -->
+            <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 lg:p-10 shadow-2xl">
+                
+                <!-- COORDENADAS RECTANGULARES -->
+                <div id="tab-content-rectangular" class="tab-pane">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                        <div>
+                            <span class="px-3 py-1 bg-sky-950 text-sky-400 border border-sky-800/40 rounded-full text-xs font-semibold uppercase">Ejes fijos ($X, Y, Z$)</span>
+                            <h3 class="text-2xl font-bold text-white mt-4 mb-4">Análisis Cartesiano</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Es el sistema de referencia más intuitivo para descomponer el movimiento en tres direcciones ortogonales e independientes en el espacio. Ampliamente utilizado en tiro parabólico, lanzamientos de proyectiles y robótica lineal.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-engBlue-400 uppercase mb-2">Ecuación de Posición</h4>
+                                    <p class="text-sm">$$\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}$$</p>
+                                </div>
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-emerald-400 uppercase mb-2">Ecuaciones de Velocidad</h4>
+                                    <p class="text-sm">$$\vec{v} = v_x\hat{i} + v_y\hat{j} + v_z\hat{k} = \dot{x}\hat{i} + \dot{y}\hat{j} + \dot{z}\hat{k}$$</p>
+                                    <p class="text-xs text-slate-400 mt-1">Magnitud total: $$v = \sqrt{v_x^2 + v_y^2 + v_z^2}$$</p>
+                                </div>
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-rose-400 uppercase mb-2">Ecuaciones de Aceleración</h4>
+                                    <p class="text-sm">$$\vec{a} = a_x\hat{i} + a_y\hat{j} + a_z\hat{k} = \ddot{x}\hat{i} + \ddot{y}\hat{j} + \ddot{z}\hat{k}$$</p>
+                                    <p class="text-xs text-slate-400 mt-1">Magnitud total: $$a = \sqrt{a_x^2 + a_y^2 + a_z^2}$$</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contenedor relativo para posicionar LaTeX nativo encima de la imagen SVG -->
+                        <div class="relative flex flex-col items-center justify-center p-6 bg-slate-900 rounded-2xl border border-slate-800 min-h-[300px]">
+                            <span class="text-xs font-semibold text-slate-400 mb-4">Diagrama de Descomposición Cartesiana</span>
+                            
+                            <div class="relative w-full max-w-[300px] h-[220px]">
+                                <!-- SVG Base -->
+                                <svg class="w-full h-full text-slate-500" viewBox="0 0 200 200" fill="none">
+                                    <line x1="20" y1="180" x2="180" y2="180" stroke="#475569" stroke-width="2" />
+                                    <line x1="20" y1="180" x2="20" y2="20" stroke="#475569" stroke-width="2" />
+                                    <path d="M 20 120 Q 80 40 160 110" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="2" />
+                                    <circle cx="100" cy="75" r="6" fill="#0ea5e9" />
+                                    <!-- Flecha del vector de posición r -->
+                                    <line x1="20" y1="180" x2="98" y2="78" stroke="#f43f5e" stroke-width="2" />
+                                    <polygon points="98,78 92,85 101,83" fill="#f43f5e" />
+                                    <!-- Líneas auxiliares de proyección -->
+                                    <line x1="100" y1="180" x2="100" y2="75" stroke="#475569" stroke-width="1.5" stroke-dasharray="3" />
+                                    <line x1="20" y1="75" x2="100" y2="75" stroke="#475569" stroke-width="1.5" stroke-dasharray="3" />
+                                </svg>
+                                
+                                <!-- Overlays de LaTeX Nativo procesados por MathJax -->
+                                <div class="absolute top-[10px] left-[10px] text-xs">$Y$</div>
+                                <div class="absolute bottom-[2px] right-[10px] text-xs">$X$</div>
+                                <div class="absolute top-[55px] left-[105px] text-xs">$P$</div>
+                                <div class="absolute top-[115px] left-[45px] text-xs text-rose-400">$\vec{r}$</div>
+                                <div class="absolute bottom-[2px] left-[95px] text-[10px] text-slate-400">$x$</div>
+                                <div class="absolute top-[70px] left-[5px] text-[10px] text-slate-400">$y$</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COORDENADAS TANGENCIAL-NORMAL -->
+                <div id="tab-content-tangencial" class="tab-pane hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                        <div>
+                            <span class="px-3 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800/40 rounded-full text-xs font-semibold uppercase">Ejes móviles intrínsecos</span>
+                            <h3 class="text-2xl font-bold text-white mt-4 mb-4">Análisis Tangencial y Normal</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Este sistema define sus vectores unitarios respecto a la geometría local de la curva. El eje <span class="text-emerald-400 font-semibold">tangente ($\hat{u}_t$)</span> es colineal con la velocidad instantánea, mientras que el eje <span class="text-sky-400 font-semibold">normal ($\hat{u}_n$)</span> apunta hacia el centro de curvatura. Es vital para el diseño de curvas en carreteras, vías ferroviarias y montañas rusas.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-emerald-400 uppercase mb-2">Velocidad (Únicamente Tangencial)</h4>
+                                    <p class="text-sm">$$\vec{v} = v\hat{u}_t$$</p>
+                                </div>
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-rose-400 uppercase mb-2">Aceleración Descompuesta</h4>
+                                    <p class="text-sm">$$\vec{a} = a_t\hat{u}_t + a_n\hat{u}_n = \dot{v}\hat{u}_t + \frac{v^2}{\rho}\hat{u}_n$$</p>
+                                    <div class="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-slate-800/60 text-xs">
+                                        <div><span class="text-amber-400 font-semibold">Acel. Tangencial ($a_t$):</span> Cambia la rapidez. $$a_t = \dot{v} = \ddot{s}$$</div>
+                                        <div><span class="text-cyan-400 font-semibold">Acel. Normal ($a_n$):</span> Cambia la dirección. $$a_n = \frac{v^2}{\rho}$$</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contenedor relativo para posicionar LaTeX nativo encima de la imagen SVG -->
+                        <div class="relative flex flex-col items-center justify-center p-6 bg-slate-900 rounded-2xl border border-slate-800 min-h-[300px]">
+                            <span class="text-xs font-semibold text-slate-400 mb-4">Diagrama de Componentes Intrínsecas</span>
+                            
+                            <div class="relative w-full max-w-[300px] h-[220px]">
+                                <!-- SVG Base -->
+                                <svg class="w-full h-full text-slate-500" viewBox="0 0 200 200" fill="none">
+                                    <path d="M 20 150 Q 110 30 180 120" fill="none" stroke="#e2e8f0" stroke-width="2" />
+                                    <circle cx="106" cy="74" r="6" fill="#10b981" />
+                                    <circle cx="120" cy="140" r="3" fill="#ef4444" />
+                                    <!-- Radio vector rho -->
+                                    <line x1="106" y1="74" x2="120" y2="140" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3" />
+                                    <!-- Vector Unitario Tangencial ut -->
+                                    <line x1="106" y1="74" x2="148" y2="60" stroke="#10b981" stroke-width="2.5" />
+                                    <polygon points="148,60 141,65 145,57" fill="#10b981" />
+                                    <!-- Vector Unitario Normal un -->
+                                    <line x1="106" y1="74" x2="111" y2="105" stroke="#0ea5e9" stroke-width="2.5" />
+                                    <polygon points="111,105 107,98 115,100" fill="#0ea5e9" />
+                                </svg>
+                                
+                                <!-- Overlays de LaTeX Nativo -->
+                                <div class="absolute top-[145px] left-[130px] text-[10px] text-rose-450">$O'$</div>
+                                <div class="absolute top-[90px] left-[118px] text-xs text-amber-500">$\rho$</div>
+                                <div class="absolute top-[40px] right-[130px] text-xs text-emerald-400">$\hat{u}_t$</div>
+                                <div class="absolute bottom-[90px] left-[110px] text-xs text-sky-400">$\hat{u}_n$</div>
+                                <div class="absolute top-[55px] left-[85px] text-xs">$P$</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COORDENADAS POLARES -->
+                <div id="tab-content-polares" class="tab-pane hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                        <div>
+                            <span class="px-3 py-1 bg-purple-950 text-purple-400 border border-purple-800/40 rounded-full text-xs font-semibold uppercase">Ubicación angular y radial</span>
+                            <h3 class="text-2xl font-bold text-white mt-4 mb-4">Análisis en Coordenadas Polares ($r, \theta$)</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Es el sistema idóneo cuando la trayectoria de la partícula se mide mediante una distancia radial $r$ desde un polo (origen fijo) y un barrido angular $\theta$. Muy utilizado para el análisis de levas, seguidores, satélites, órbitas elípticas y brazos robóticos articulados.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-purple-400 uppercase mb-2">Vectores Unitarios</h4>
+                                    <p class="text-xs text-slate-300">
+                                        $\hat{u}_r$ apunta en dirección radial saliente, mientras que $\hat{u}_\theta$ es perpendicular a este en sentido antihorario (transversal).
+                                    </p>
+                                </div>
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-emerald-400 uppercase mb-2">Ecuaciones de Velocidad</h4>
+                                    <p class="text-sm">$$\vec{v} = v_r\hat{u}_r + v_\theta\hat{u}_\theta = \dot{r}\hat{u}_r + r\dot{\theta}\hat{u}_\theta$$</p>
+                                </div>
+                                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-850">
+                                    <h4 class="text-xs font-bold text-rose-400 uppercase mb-2">Ecuaciones de Aceleración</h4>
+                                    <p class="text-sm">$$\vec{a} = a_r\hat{u}_r + a_\theta\hat{u}_\theta = (\ddot{r} - r\dot{\theta}^2)\hat{u}_r + (r\ddot{\theta} + 2\dot{r}\dot{\theta})\hat{u}_\theta$$</p>
+                                    <p class="text-xs text-amber-400 mt-1 font-semibold">Término de Coriolis: $$a_{\text{coriolis}} = 2\dot{r}\dot{\theta}$$</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contenedor relativo para posicionar LaTeX nativo encima de la imagen SVG -->
+                        <div class="relative flex flex-col items-center justify-center p-6 bg-slate-900 rounded-2xl border border-slate-800 min-h-[300px]">
+                            <span class="text-xs font-semibold text-slate-400 mb-4">Diagrama Radial y Transversal</span>
+                            
+                            <div class="relative w-full max-w-[300px] h-[220px]">
+                                <!-- SVG Base -->
+                                <svg class="w-full h-full text-slate-500" viewBox="0 0 200 200" fill="none">
+                                    <line x1="30" y1="160" x2="170" y2="160" stroke="#475569" stroke-width="1.5" stroke-dasharray="2" />
+                                    <circle cx="30" cy="160" r="4" fill="#64748b" />
+                                    <!-- Eje radial r -->
+                                    <line x1="30" y1="160" x2="110" y2="80" stroke="#a855f7" stroke-width="1.5" />
+                                    <!-- Arco del ángulo theta -->
+                                    <path d="M 60 160 A 30 30 0 0 0 51 139" fill="none" stroke="#a855f7" stroke-width="1.5" />
+                                    <circle cx="110" cy="80" r="6" fill="#a855f7" />
+                                    <!-- Vector ur -->
+                                    <line x1="110" y1="80" x2="140" y2="50" stroke="#a855f7" stroke-width="2.5" />
+                                    <polygon points="140,50 133,55 137,47" fill="#a855f7" />
+                                    <!-- Vector utheta -->
+                                    <line x1="110" y1="80" x2="80" y2="50" stroke="#e9d5ff" stroke-width="2.5" />
+                                    <polygon points="80,50 83,57 87,49" fill="#e9d5ff" />
+                                </svg>
+                                
+                                <!-- Overlays de LaTeX Nativo -->
+                                <div class="absolute bottom-[20px] left-[15px] text-xs">$O$</div>
+                                <div class="absolute top-[110px] left-[60px] text-xs text-purple-400">$r$</div>
+                                <div class="absolute bottom-[30px] left-[55px] text-xs text-purple-400">$\theta$</div>
+                                <div class="absolute top-[35px] right-[135px] text-xs text-purple-400">$\hat{u}_r$</div>
+                                <div class="absolute top-[35px] left-[65px] text-xs text-purple-300">$\hat{u}_\theta$</div>
+                                <div class="absolute top-[75px] left-[120px] text-xs">$P$</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SIMULADOR INTERACTIVO (LABORATORIO DE CINEMÁTICA EN VIVO) -->
+    <section id="laboratorio" class="py-20 bg-steel-950 border-b border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="px-3 py-1 bg-engBlue-800/30 text-engBlue-400 border border-engBlue-500/20 rounded-full text-xs font-bold uppercase">Laboratorio Práctico</span>
+                <h2 class="text-3xl font-extrabold text-white mt-4">Simulador de Cinemática Curvilínea</h2>
+                <p class="mt-3 text-slate-400 max-w-2xl mx-auto">Visualiza los vectores de posición, velocidad y aceleración en tiempo real. Configura la trayectoria y el sistema de coordenadas para analizar su dinámica.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- PANEL DE CONTROLES -->
+                <div class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-4 pb-2 border-b border-slate-800">Parámetros</h3>
+                        
+                        <!-- Selección de trayectoria -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-2">Trayectoria física</label>
+                            <select id="sim-path-select" onchange="updateSimPath()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-engBlue-500">
+                                <option value="projectile">1. Tiro Parabólico</option>
+                                <option value="circular">2. Movimiento Circular (MCUA)</option>
+                                <option value="spiral">3. Espiral de Arquímedes</option>
+                            </select>
+                        </div>
+
+                        <!-- Selección de coordenadas -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-2">Sistemas de Referencia</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2 text-sm text-slate-300 cursor-pointer">
+                                    <input type="radio" name="sim-coords" value="rectangular" checked onchange="updateSimCoords()" class="text-engBlue-500 focus:ring-0">
+                                    <span>Cartesianas ($X, Y$)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-sm text-slate-300 cursor-pointer">
+                                    <input type="radio" name="sim-coords" value="tangential" onchange="updateSimCoords()" class="text-engBlue-500 focus:ring-0">
+                                    <span>Tangencial - Normal</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-sm text-slate-300 cursor-pointer">
+                                    <input type="radio" name="sim-coords" value="polar" onchange="updateSimCoords()" class="text-engBlue-500 focus:ring-0">
+                                    <span>Polares ($R, \theta$)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Visualización de vectores -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-2">Filtro de Vectores</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+                                    <input type="checkbox" id="show-vel-vec" checked class="rounded bg-slate-950 border-slate-700 text-engBlue-500">
+                                    <span class="text-emerald-400 font-bold">Velocidad ($\vec{v}$)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+                                    <input type="checkbox" id="show-acc-vec" checked class="rounded bg-slate-950 border-slate-700 text-engBlue-500">
+                                    <span class="text-rose-400 font-bold">Aceleración ($\vec{a}$)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+                                    <input type="checkbox" id="show-trajectory" checked class="rounded bg-slate-950 border-slate-700 text-engBlue-500">
+                                    <span>Mostrar Estela / Rastro</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controles de animación -->
+                    <div>
+                        <button id="sim-play-btn" onclick="toggleSimPlay()" class="w-full py-3 bg-engBlue-600 hover:bg-engBlue-500 text-white font-bold rounded-xl flex items-center justify-center space-x-2 transition mb-2">
+                            <i data-lucide="pause" id="play-icon" class="w-4 h-4"></i>
+                            <span id="play-text">Pausar Simulación</span>
+                        </button>
+                        <button onclick="resetSim()" class="w-full py-2 bg-slate-950 hover:bg-slate-800 text-slate-400 text-xs font-semibold rounded-xl border border-slate-800 transition">
+                            Reiniciar Cinemática
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ÁREA DE CANVAS -->
+                <div class="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-3xl p-4 flex flex-col justify-between">
+                    <div class="relative w-full h-[360px] bg-slate-950 rounded-2xl overflow-hidden border border-slate-850">
+                        <canvas id="kinematics-canvas" class="w-full h-full block"></canvas>
+                        
+                        <!-- Overlay de lecturas numéricas con LaTeX nativo -->
+                        <div class="absolute top-4 left-4 bg-slate-900/90 backdrop-blur-sm border border-slate-850 rounded-xl p-3 text-[11px] space-y-1 shadow-lg pointer-events-none">
+                            <h4 class="font-bold text-white border-b border-slate-800 pb-1 mb-1 text-center">Lecturas en Vivo</h4>
+                            <div>Posición: <span id="val-pos" class="font-mono text-cyan-400">Calculando...</span></div>
+                            <div>Velocidad: <span id="val-vel" class="font-mono text-emerald-400">Calculando...</span></div>
+                            <div>Aceleración: <span id="val-acc" class="font-mono text-rose-400">Calculando...</span></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-slate-950/60 rounded-xl border border-slate-850 text-xs leading-relaxed text-slate-300">
+                        <span class="font-bold text-white mr-1">Observación teórica:</span>
+                        <span id="sim-dynamic-desc">En el tiro parabólico, la velocidad horizontal ($v_x$) se mantiene constante en todo momento, mientras que la aceleración actúa puramente en dirección vertical descendente debido a la gravedad ($a_y = -g$).</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GEOMETRÍA DE CURVATURA Y CALCULADORA -->
+    <section class="py-20 bg-slate-900 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-xs font-bold text-amber-500 uppercase tracking-widest">Análisis Geométrico</span>
+                    <h2 class="text-3xl font-extrabold text-white mt-2 mb-4">Radio de Curvatura ($\rho$)</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                        El radio de curvatura indica el grado de desviación de la trayectoria real con respecto a una recta tangente. Físicamente, representa el radio del círculo osculador que describe mejor la curvatura instantánea de la trayectoria.
+                    </p>
+                    <div class="math-card p-4 rounded-xl mb-6">
+                        <h4 class="text-xs font-bold text-amber-400 uppercase mb-2">Fórmula General (Coordenadas Rectangulares)</h4>
+                        $$\rho = \frac{\left[1 + \left(\frac{dy}{dx}\right)^2\right]^{3/2}}{\left|\frac{d^2y}{dx^2}\right|}$$
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Este parámetro geométrico es crucial para determinar la aceleración normal ($a_n = v^2/\rho$). Si el camino es una línea recta, el radio de curvatura tiende al infinito ($\rho \to \infty$) y, por consiguiente, la aceleración normal se anula instantáneamente ($a_n = 0$).
+                    </p>
+                </div>
+
+                <!-- Calculadora de Radio de Curvatura -->
+                <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+                        <i data-lucide="calculator" class="w-5 h-5 text-amber-500"></i>
+                        <span>Calculadora Mecánica de $\rho$</span>
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-6">Evalúa una curva parabólica de forma $y = A x^2 + B x$ en una posición $x_0$ determinada para derivar de forma analítica el radio de curvatura y la aceleración normal.</p>
+
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Coeficiente $A$ ($x^2$)</label>
+                            <input type="number" id="calc-coeff-a" value="0.05" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm focus:outline-none focus:border-engBlue-500 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Coeficiente $B$ ($x$)</label>
+                            <input type="number" id="calc-coeff-b" value="0.5" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm focus:outline-none focus:border-engBlue-500 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Posición $x_0$</label>
+                            <input type="number" id="calc-val-x" value="2.0" step="0.5" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm focus:outline-none focus:border-engBlue-500 text-white">
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Rapidez tangencial ($v$ en m/s)</label>
+                        <input type="number" id="calc-val-v" value="12" step="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-engBlue-500 text-white">
+                    </div>
+
+                    <button onclick="calculateCurvature()" class="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white text-xs uppercase font-bold tracking-wider rounded-xl transition shadow-lg shadow-amber-600/10">
+                        Resolver Parámetros de Curvatura
+                    </button>
+
+                    <!-- Resultados de cálculo -->
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 grid grid-cols-2 gap-4 text-xs">
+                        <div class="p-3 bg-slate-900/50 rounded-lg border border-slate-850">
+                            <span class="text-slate-400 block mb-1">Radio de Curvatura ($\rho$):</span>
+                            <span id="res-rho" class="font-mono text-sm text-amber-400 font-bold">-- m</span>
+                        </div>
+                        <div class="p-3 bg-slate-900/50 rounded-lg border border-slate-850">
+                            <span class="text-slate-400 block mb-1">Aceleración Normal ($a_n$):</span>
+                            <span id="res-an" class="font-mono text-sm text-rose-400 font-bold">-- m/s²</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EJERCICIOS RESUELTOS PASO A PASO -->
+    <section id="ejercicios" class="py-20 bg-steel-950 border-b border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="px-3 py-1 bg-engBlue-800/30 text-engBlue-400 border border-engBlue-500/20 rounded-full text-xs font-bold uppercase">Casos Prácticos de Ingeniería</span>
+                <h2 class="text-3xl font-extrabold text-white mt-4">Problemas de Ingeniería Resueltos</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto">Análisis y resolución de problemas prácticos con estricto desarrollo matemático y cinemático paso a paso.</p>
+            </div>
+
+            <!-- METODOLOGÍA RECOMENDADA -->
+            <div class="max-w-4xl mx-auto mb-16 bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
+                <h3 class="text-center font-bold text-white mb-8 text-sm uppercase tracking-wider text-engBlue-500">Metodología de Resolución Sistemática</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+                    <!-- Paso 1 -->
+                    <div class="text-center relative">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center mx-auto border border-slate-700 mb-3 relative z-10">1</div>
+                        <h4 class="font-bold text-xs text-white mb-1">Análisis Geométrico</h4>
+                        <p class="text-[10px] text-slate-400">Identifica la trayectoria y selecciona las coordenadas idóneas.</p>
+                    </div>
+                    <!-- Paso 2 -->
+                    <div class="text-center relative">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center mx-auto border border-slate-700 mb-3 relative z-10">2</div>
+                        <h4 class="font-bold text-xs text-white mb-1">Derivación Temporal</h4>
+                        <p class="text-[10px] text-slate-400">Deriva las funciones con respecto al tiempo de primer y segundo orden.</p>
+                    </div>
+                    <!-- Paso 3 -->
+                    <div class="text-center relative">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center mx-auto border border-slate-700 mb-3 relative z-10">3</div>
+                        <h4 class="font-bold text-xs text-white mb-1">Cálculo Vectorial</h4>
+                        <p class="text-[10px] text-slate-400">Evalúa las componentes cinemáticas en el instante solicitado.</p>
+                    </div>
+                    <!-- Paso 4 -->
+                    <div class="text-center relative">
+                        <div class="w-10 h-10 rounded-full bg-engBlue-600 text-white font-bold flex items-center justify-center mx-auto border border-engBlue-500 mb-3 relative z-10">4</div>
+                        <h4 class="font-bold text-xs text-white mb-1">Magnitud y Dirección</h4>
+                        <p class="text-[10px] text-slate-400">Obtén la velocidad, la aceleración resultante y su dirección.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACORDEÓN DE EJERCICIOS -->
+            <div class="max-w-4xl mx-auto space-y-6">
+                <!-- Ejercicio 1 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition duration-300">
+                    <button onclick="toggleAccordion('exercise-1')" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none hover:bg-slate-850/50">
+                        <div>
+                            <span class="text-xs font-semibold text-emerald-400 uppercase">Problema Resuelto 1 - Coordenadas Tangencial-Normal</span>
+                            <h3 class="font-bold text-lg text-white mt-1">Análisis de Curvatura de un Auto en Pista de Pruebas</h3>
+                        </div>
+                        <i data-lucide="chevron-down" id="chevron-exercise-1" class="w-5 h-5 text-slate-400 transform transition-transform duration-300"></i>
+                    </button>
+                    
+                    <div id="content-exercise-1" class="hidden px-6 pb-6 border-t border-slate-850 pt-4 text-sm text-slate-300 space-y-4">
+                        <div class="p-3 bg-slate-950 border-l-2 border-emerald-500 rounded-r-lg text-xs leading-relaxed">
+                            <strong>Enunciado:</strong> Un auto de pruebas recorre una pista parabólica descrita por la función $y = 0.005x^2$ (en metros). Al pasar por el punto $x = 100\text{ m}$, su velocidad tangencial instantánea es de $30\text{ m/s}$ y esta aumenta a razón de $4\text{ m/s}^2$. Determine la velocidad y la magnitud de la aceleración del vehículo en dicho instante.
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-white text-xs uppercase mb-2">Paso 1: Encontrar el radio de curvatura en $x = 100\text{ m}$</h4>
+                            <p class="mb-2">Calculamos las derivadas de primer y segundo orden respecto a la variable espacial $x$:</p>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono mb-2">
+                                $$y = 0.005x^2 \implies \frac{dy}{dx} = 0.01x \implies \frac{d^2y}{dx^2} = 0.01$$
+                            </p>
+                            <p class="mb-2">Evaluando en la posición $x = 100\text{ m}$:</p>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono mb-2">
+                                $$\frac{dy}{dx}\Big|_{x=100} = 0.01(100) = 1.0$$
+                            </p>
+                            <p class="mb-2">Sustituimos en la ecuación analítica del radio de curvatura ($\rho$):</p>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono">
+                                $$\rho = \frac{[1 + (1.0)^2]^{3/2}}{|0.01|} = \frac{[2]^{1.5}}{0.01} = \frac{2.8284}{0.01} = 282.84\text{ m}$$
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-white text-xs uppercase mb-2">Paso 2: Calcular componentes intrínsecas de la aceleración</h4>
+                            <p class="mb-2">La rapidez del auto cambia a un ritmo que es equivalente a su aceleración tangencial:</p>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono mb-2">
+                                $$a_t = \dot{v} = 4\text{ m/s}^2$$
+                            </p>
+                            <p class="mb-2">La componente normal de la aceleración se debe al cambio en la dirección de la trayectoria:</p>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono">
+                                $$a_n = \frac{v^2}{\rho} = \frac{30^2}{282.84} = \frac{900}{282.84} = 3.182\text{ m/s}^2$$
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-white text-xs uppercase mb-2">Paso 3: Obtener la aceleración total resultante</h4>
+                            <p class="mb-2">Se realiza la suma vectorial de las componentes ortogonales para hallar la magnitud:</p>
+                            <p class="bg-slate-950 p-3 rounded text-xs font-mono text-emerald-400 font-bold">
+                                $$a = \sqrt{a_t^2 + a_n^2} = \sqrt{4^2 + (3.182)^2} = \sqrt{16 + 10.125} = \sqrt{26.125} = 5.11\text{ m/s}^2$$
+                            </p>
+                            <p class="text-xs mt-2 text-slate-400"><strong>Resultado:</strong> El auto experimenta una aceleración neta de $5.11\text{ m/s}^2$ dirigida hacia el centro cóncavo de la pista.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejercicio 2 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition duration-300">
+                    <button onclick="toggleAccordion('exercise-2')" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none hover:bg-slate-850/50">
+                        <div>
+                            <span class="text-xs font-semibold text-purple-400 uppercase">Problema Resuelto 2 - Coordenadas Polares</span>
+                            <h3 class="font-bold text-lg text-white mt-1">Análisis Cinemático de un Brazo de Rastreo Parabólico</h3>
+                        </div>
+                        <i data-lucide="chevron-down" id="chevron-exercise-2" class="w-5 h-5 text-slate-400 transform transition-transform duration-300"></i>
+                    </button>
+                    
+                    <div id="content-exercise-2" class="hidden px-6 pb-6 border-t border-slate-850 pt-4 text-sm text-slate-300 space-y-4">
+                        <div class="p-3 bg-slate-950 border-l-2 border-purple-500 rounded-r-lg text-xs leading-relaxed">
+                            <strong>Enunciado:</strong> Una antena parabólica rota sobre su eje vertical. Un collarín deslizable acoplado se mueve sobre el brazo de rastreo con una distancia radial descrita por $r = 0.5\theta^2\text{ m}$. Si el brazo rota de acuerdo a $\theta = 0.4t^2\text{ rad}$, evalúe las componentes de velocidad y aceleración polares del collarín cuando $t = 1.5\text{ s}$.
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-white text-xs uppercase mb-2">Paso 1: Evaluar el ángulo $\theta$ y sus derivadas respecto al tiempo para $t = 1.5\text{ s}$</h4>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono mb-2">
+                                $$\theta = 0.4t^2 \implies \dot{\theta} = 0.8t \implies \ddot{\theta} = 0.8$$
+                            </p>
+                            <p class="mb-2">Sustituyendo el tiempo $t = 1.5\text{ s}$:</p>
+                            <p class="bg-slate-950 p-3 rounded text-xs font-mono">
+                                $$\theta = 0.4(1.5)^2 = 0.9\text{ rad}$$
+                                $$\dot{\theta} = 0.8(1.5) = 1.2\text{ rad/s}$$
+                                $$\ddot{\theta} = 0.8\text{ rad/s}^2$$
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-white text-xs uppercase mb-2">Paso 2: Calcular el radio $r$ y sus derivadas respecto al tiempo</h4>
+                            <p class="mb-2">Aplicando regla de la cadena para obtener $\dot{r}$ y $\ddot{r}$ a partir de $\theta$:</p>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono mb-2">
+                                $$r = 0.5\theta^2 \implies \dot{r} = \frac{dr}{d\theta}\dot{\theta} = (\theta)\dot{\theta}$$
+                                $$\ddot{r} = \frac{d}{dt}\left(\theta\dot{\theta}\right) = \dot{\theta}^2 + \theta\ddot{\theta}$$
+                            </p>
+                            <p class="mb-2">Sustituyendo los valores evaluados:</p>
+                            <p class="bg-slate-950 p-3 rounded text-xs font-mono">
+                                $$r = 0.5(0.9)^2 = 0.405\text{ m}$$
+                                $$\dot{r} = (0.9)(1.2) = 1.08\text{ m/s}$$
+                                $$\ddot{r} = (1.2)^2 + 0.9(0.8) = 1.44 + 0.72 = 2.16\text{ m/s}^2$$
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-white text-xs uppercase mb-2">Paso 3: Calcular vectores polares de velocidad y aceleración totales</h4>
+                            <p class="mb-2"><strong>Velocidad:</strong> Componentes radial y transversal</p>
+                            <p class="bg-slate-950 p-2 rounded text-xs font-mono mb-4">
+                                $$v_r = \dot{r} = 1.08\text{ m/s}$$
+                                $$v_\theta = r\dot{\theta} = 0.405(1.2) = 0.486\text{ m/s}$$
+                                $$v_{\text{total}} = \sqrt{(1.08)^2 + (0.486)^2} = 1.184\text{ m/s}$$
+                            </p>
+                            <p class="mb-2"><strong>Aceleración:</strong> Incorporando el término inercial centrífugo y Coriolis</p>
+                            <p class="bg-slate-950 p-3 rounded text-xs font-mono text-purple-400 font-bold">
+                                $$a_r = \ddot{r} - r\dot{\theta}^2 = 2.16 - 0.405(1.2)^2 = 1.577\text{ m/s}^2$$
+                                $$a_\theta = r\ddot{\theta} + 2\dot{r}\dot{\theta} = 0.405(0.8) + 2(1.08)(1.2) = 2.916\text{ m/s}^2$$
+                                $$a_{\text{total}} = \sqrt{(1.577)^2 + (2.916)^2} = 3.316\text{ m/s}^2$$
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: APLICACIONES EN INGENIERÍA MECÁNICA -->
+    <section id="aplicaciones" class="py-20 bg-slate-900 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold text-engBlue-500 uppercase tracking-widest">Ingeniería en Acción</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">Aplicación Tecnológica Real</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto">¿Cómo implementan los ingenieros mecánicos estos modelos matemáticos para diseñar sistemas que mueven el mundo?</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- App 1 -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-xl flex items-center justify-center mb-4 border border-sky-500/20">
+                        <i data-lucide="settings" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Diseño Mecánico de Levas</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Las levas planas gobiernan la apertura y cierre de las válvulas de admisión en motores de combustión. Su contorno geométrico se diseña en coordenadas polares ($r, \theta$) con el fin de modelar y mitigar el impacto destructivo de la aceleración normal e inercial.
+                    </p>
+                </div>
+                <!-- App 2 -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-xl flex items-center justify-center mb-4 border border-purple-500/20">
+                        <i data-lucide="orbit" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Cinemática Aeroespacial</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        El modelado y guiado de satélites artificiales utiliza coordenadas polares con el polo situado en el centro de masa del planeta. La aceleración de Coriolis resulta clave para sincronizar y compensar los efectos giroscópicos y de rotación.
+                    </p>
+                </div>
+                <!-- App 3 -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 bg-rose-500/10 text-rose-400 rounded-xl flex items-center justify-center mb-4 border border-rose-500/20">
+                        <i data-lucide="gauge" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Vías de Transporte y Peraltes</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        En el diseño de autopistas de alta velocidad y vías de ferrocarril, las coordenadas tangencial y normal definen el perfil de inclinación o peralte de las curvas, contrarrestando la fuerza centrífuga de los vagones y resguardando la integridad de los pasajeros.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVALUACIÓN INTERACTIVA (QUIZ) -->
+    <section class="py-20 bg-steel-950">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-engBlue-600/10 rounded-full blur-2xl"></div>
+                
+                <h3 class="text-2xl font-extrabold text-white mb-2 text-center">Autoevaluación de Cinemática</h3>
+                <p class="text-slate-400 text-xs text-center mb-8">Ponte a prueba resolviendo estas preguntas fundamentales del movimiento curvilíneo.</p>
+                
+                <!-- Pregunta 1 -->
+                <div class="space-y-6">
+                    <div class="p-5 bg-slate-950 rounded-2xl border border-slate-850">
+                        <span class="text-xs font-bold text-engBlue-500 uppercase tracking-widest block mb-2">Pregunta 1</span>
+                        <p class="text-sm font-semibold text-white mb-4">¿Cuál es la orientación geométrica del vector velocidad instantánea $\vec{v}$ de una partícula en movimiento curvilíneo?</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-3 p-2 bg-slate-900 hover:bg-slate-850 rounded-lg cursor-pointer transition text-xs">
+                                <input type="radio" name="q1" value="a" class="text-engBlue-500">
+                                <span>Apunta siempre hacia el centro instantáneo de curvatura de la trayectoria.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2 bg-slate-900 hover:bg-slate-850 rounded-lg cursor-pointer transition text-xs">
+                                <input type="radio" name="q1" value="b" class="text-engBlue-500">
+                                <span>Es de carácter colineal y tangente a la trayectoria geométrica real ($\vec{v} = v\hat{u}_t$).</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2 bg-slate-900 hover:bg-slate-850 rounded-lg cursor-pointer transition text-xs">
+                                <input type="radio" name="q1" value="c" class="text-engBlue-500">
+                                <span>Es paralela al vector de aceleración resultante en todo instante.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="p-5 bg-slate-950 rounded-2xl border border-slate-850">
+                        <span class="text-xs font-bold text-engBlue-500 uppercase tracking-widest block mb-2">Pregunta 2</span>
+                        <p class="text-sm font-semibold text-white mb-4">¿Qué componente intrínseca de la aceleración se encarga de modificar la dirección del vector velocidad?</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-3 p-2 bg-slate-900 hover:bg-slate-850 rounded-lg cursor-pointer transition text-xs">
+                                <input type="radio" name="q2" value="a" class="text-engBlue-500">
+                                <span>La aceleración tangencial ($a_t = \dot{v}$).</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2 bg-slate-900 hover:bg-slate-850 rounded-lg cursor-pointer transition text-xs">
+                                <input type="radio" name="q2" value="b" class="text-engBlue-500">
+                                <span>La aceleración de Coriolis ($2\dot{r}\dot{\theta}$).</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2 bg-slate-900 hover:bg-slate-850 rounded-lg cursor-pointer transition text-xs">
+                                <input type="radio" name="q2" value="c" class="text-engBlue-500">
+                                <span>La aceleración normal ($a_n = \frac{v^2}{\rho}$).</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="gradeQuiz()" class="w-full py-3 bg-engBlue-600 hover:bg-engBlue-500 text-white font-bold rounded-xl transition text-xs tracking-wider uppercase">
+                        Evaluar Respuestas
+                    </button>
+                    
+                    <div id="quiz-feedback" class="hidden p-4 rounded-xl text-center text-xs font-bold"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: MAPA MENTAL RADIAL INTERACTIVO (Con LaTeX Nativo de Referencia) -->
+    <section id="mapamental" class="py-20 bg-slate-900/60 border-t border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="px-3 py-1 bg-gradient-to-r from-engBlue-600 to-indigo-900 text-white rounded-full text-xs font-bold uppercase tracking-wider">Estructura Curricular</span>
+                <h2 class="text-3xl font-extrabold text-white mt-4">Mapa Mental del Movimiento Curvilíneo</h2>
+                <p class="mt-3 text-slate-400 max-w-2xl mx-auto">Una estructura ramificada radial real de las ecuaciones de movimiento. Haz clic en las ramas principales para encender sus trayectos vectoriales (SVG) y ver el desglose en el panel dinámico de la derecha.</p>
+            </div>
+
+            <!-- ESTRUCTURA DEL MAPA RADIAL INTERACTIVO CON DETALLES LaTeX -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+                <!-- CANVAS DEL MAPA CON RAMAS SVG -->
+                <div class="lg:col-span-8 bg-slate-950 border border-slate-850 rounded-3xl p-6 relative min-h-[500px] flex flex-col justify-center items-center overflow-hidden">
+                    <!-- Capa de Conexiones SVG -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                        <defs>
+                            <filter id="glow-rect" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="6" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+                        <!-- Ramas curvas SVG que conectan desde el núcleo central (400, 250) -->
+                        <path id="branch-intro" d="M 400,250 C 300,250 250,150 180,120" fill="none" stroke="#334155" stroke-width="4.5" class="transition-all duration-300" />
+                        <path id="branch-rectangular" d="M 400,250 C 500,250 550,150 620,120" fill="none" stroke="#334155" stroke-width="4.5" class="transition-all duration-300" />
+                        <path id="branch-tangencial" d="M 400,250 C 300,250 250,350 180,380" fill="none" stroke="#334155" stroke-width="4.5" class="transition-all duration-300" />
+                        <path id="branch-polares" d="M 400,250 C 500,250 550,350 620,380" fill="none" stroke="#334155" stroke-width="4.5" class="transition-all duration-300" />
+                    </svg>
+
+                    <!-- Nodos HTML sobrepuestos -->
+                    <div class="relative w-full h-[500px] z-10 hidden md:block">
+                        
+                        <!-- NÚCLEO CENTRAL -->
+                        <div class="absolute top-[210px] left-[310px] w-[180px] h-[80px] text-center">
+                            <div class="w-full h-full bg-gradient-to-br from-engBlue-600 to-indigo-950 border-2 border-white rounded-2xl flex flex-col justify-center items-center shadow-2xl p-2 select-none">
+                                <span class="text-xs font-black uppercase tracking-wider text-white">MOVIMIENTO</span>
+                                <span class="text-[10px] font-bold text-sky-400">Curvilíneo Plano</span>
+                            </div>
+                        </div>
+
+                        <!-- RAMA 1: CONCEPTOS GENERALES (TOP IZQUIERDA) -->
+                        <div class="absolute top-[60px] left-[40px] w-[200px]">
+                            <button onclick="activateMapBranch('intro')" id="node-intro" class="w-full p-4 rounded-xl bg-slate-900 border-2 border-slate-800 text-left hover:bg-slate-850 transition-all shadow-lg group">
+                                <div class="flex items-center space-x-2 text-sky-400 font-bold text-xs uppercase mb-1">
+                                    <i data-lucide="git-commit" class="w-4 h-4"></i>
+                                    <span>Conceptos Básicos</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 group-hover:text-slate-200">Vector posición $\vec{r}(t)$ y vector velocidad $\vec{v}$.</p>
+                            </button>
+                        </div>
+
+                        <!-- RAMA 2: COORDENADAS RECTANGULARES (TOP DERECHA) -->
+                        <div class="absolute top-[60px] right-[40px] w-[200px]">
+                            <button onclick="activateMapBranch('rectangular')" id="node-rectangular" class="w-full p-4 rounded-xl bg-slate-900 border-2 border-slate-800 text-left hover:bg-slate-850 transition-all shadow-lg group">
+                                <div class="flex items-center space-x-2 text-indigo-400 font-bold text-xs uppercase mb-1">
+                                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                                    <span>Rectangulares</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 group-hover:text-slate-200">Ejes fijos independientes en el plano ($X, Y$).</p>
+                            </button>
+                        </div>
+
+                        <!-- RAMA 3: COORDENADAS TANGENCIAL-NORMAL (BOTTOM IZQUIERDA) -->
+                        <div class="absolute bottom-[60px] left-[40px] w-[200px]">
+                            <button onclick="activateMapBranch('tangencial')" id="node-tangencial" class="w-full p-4 rounded-xl bg-slate-900 border-2 border-slate-800 text-left hover:bg-slate-850 transition-all shadow-lg group">
+                                <div class="flex items-center space-x-2 text-emerald-400 font-bold text-xs uppercase mb-1">
+                                    <i data-lucide="git-branch" class="w-4 h-4"></i>
+                                    <span>Tangencial - Normal</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 group-hover:text-slate-200">Ejes móviles basados en la rapidez $v$ y el giro $\rho$.</p>
+                            </button>
+                        </div>
+
+                        <!-- RAMA 4: COORDENADAS POLARES (BOTTOM DERECHA) -->
+                        <div class="absolute bottom-[60px] right-[40px] w-[200px]">
+                            <button onclick="activateMapBranch('polares')" id="node-polares" class="w-full p-4 rounded-xl bg-slate-900 border-2 border-slate-800 text-left hover:bg-slate-850 transition-all shadow-lg group">
+                                <div class="flex items-center space-x-2 text-purple-400 font-bold text-xs uppercase mb-1">
+                                    <i data-lucide="compass" class="w-4 h-4"></i>
+                                    <span>Polares</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 group-hover:text-slate-200">Radio vector $r$ y ángulo transversal $\theta$.</p>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- ESTRUCTURA MÓVIL RE-APILADA -->
+                    <div class="w-full space-y-4 md:hidden z-10">
+                        <div class="p-4 bg-gradient-to-r from-engBlue-600 to-indigo-950 border border-slate-800 rounded-xl text-center font-bold text-sm text-white">
+                            MOVIMIENTO CURVILÍNEO PLANO
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="activateMapBranch('intro')" class="p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-sky-400 uppercase text-center">Conceptos</button>
+                            <button onclick="activateMapBranch('rectangular')" class="p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-indigo-400 uppercase text-center">Rectangulares</button>
+                            <button onclick="activateMapBranch('tangencial')" class="p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-emerald-400 uppercase text-center">Tang - Normal</button>
+                            <button onclick="activateMapBranch('polares')" class="p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-purple-400 uppercase text-center">Polares</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- PANEL DETALLE EXPLICATIVO (COLUMNA DERECHA) -->
+                <div class="lg:col-span-4 flex flex-col justify-between">
+                    <div id="mindmap-detail-panel" class="bg-slate-950 border border-slate-800 rounded-3xl p-6 flex-1 flex flex-col justify-between shadow-2xl transition-all duration-300 relative border-l-4">
+                        <div class="absolute top-4 right-4 text-[9px] font-mono text-slate-500 uppercase tracking-widest">Desglose Técnico</div>
+
+                        <div class="space-y-6">
+                            <!-- Cabecera del panel -->
+                            <div class="flex items-center space-x-3 pb-4 border-b border-slate-800">
+                                <div class="p-2.5 rounded-xl text-white shadow-inner" id="panel-icon-bg">
+                                    <i data-lucide="git-commit" class="w-6 h-6" id="panel-icon"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-white leading-tight" id="panel-title">Conceptos Básicos</h3>
+                                    <span class="text-[10px] uppercase font-bold tracking-widest text-slate-400" id="panel-subtitle">Área Cinemática Inicial</span>
+                                </div>
+                            </div>
+
+                            <!-- Explicación -->
+                            <p class="text-slate-300 text-xs leading-relaxed" id="panel-desc">
+                                El movimiento curvilíneo plano describe el recorrido continuo de una partícula a lo largo de una trayectoria curva en dos dimensiones. Su posición analítica se define con el vector $\vec{r}(t)$.
+                            </p>
+
+                            <!-- Ecuaciones -->
+                            <div class="p-4 bg-slate-900 rounded-2xl border border-slate-850">
+                                <h4 class="text-[10px] font-bold text-engBlue-500 uppercase tracking-widest mb-2" id="panel-eq-title">Ecuación Fundamental</h4>
+                                <div class="text-center font-mono py-2 text-white text-xs" id="panel-equations">
+                                    $$\vec{r}(t) = x(t)\hat{i} + y(t)\hat{j}$$
+                                    $$\vec{v} = \dot{\vec{r}} = v \hat{u}_t$$
+                                </div>
+                            </div>
+
+                            <!-- Ejemplo real -->
+                            <div>
+                                <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Uso en Ingeniería</h4>
+                                <p class="text-xs text-slate-300" id="panel-example">
+                                    Mapeo espacial tridimensional de la punta de corte de una fresadora CNC en piezas de álabes curvos de turbinas.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Consejo de la mascota Gasket insertado en el panel del mapa mental -->
+                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-start space-x-3 bg-slate-900/40 p-3 rounded-2xl border border-slate-850/60" id="gasket-map-advice">
+                            <div class="w-8 h-8 rounded-full bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="bot" class="w-4 h-4"></i>
+                            </div>
+                            <div class="text-[10px] text-slate-300 leading-tight">
+                                <strong class="text-white block mb-0.5">Consejo didáctico de Gasket:</strong>
+                                <span id="panel-tip-text">El vector de velocidad instantánea es colineal con la recta de tangencia a la trayectoria.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECURSO AUDIOVISUAL DE YOUTUBE (Justo después del mapa mental) -->
+    <section class="py-16 bg-slate-900/60 border-t border-b border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-2xl font-extrabold text-white mb-4 text-center">Recurso Audiovisual Recomendado</h3>
+            <p class="text-slate-400 text-xs text-center mb-10 max-w-xl mx-auto">
+                Complementa tu estudio de los conceptos mecánicos visualizando esta clase magistral dedicada al movimiento curvilíneo de partículas.
+            </p>
+            
+            <!-- YouTube Embed -->
+            <div class="bg-slate-950 border border-slate-800 rounded-3xl p-4 md:p-6 shadow-2xl">
+                <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-inner border border-slate-850">
+                    <iframe class="absolute inset-0 w-full h-full" 
+                            src="https://www.youtube.com/embed/UZvmZ77ryEQ" 
+                            title="Recurso Audiovisual de Cinemática" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="mt-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 px-2">
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Clase Magistral: Cinemática de Partículas</h4>
+                        <p class="text-slate-400 text-[11px] mt-1">Desarrollo teórico integral sobre vectores de posición, velocidad y aceleración en coordenadas curvilíneas.</p>
+                    </div>
+                    <a href="https://youtu.be/UZvmZ77ryEQ?si=mIIIChnwPt4fvX8u" target="_blank" class="px-4 py-2 bg-red-650 hover:bg-red-600 bg-red-600 text-white text-xs font-bold rounded-xl transition flex items-center space-x-2">
+                        <i data-lucide="youtube" class="w-4 h-4"></i>
+                        <span>Ver en YouTube</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCLUSIONES Y RECOMENDACIONES -->
+    <section class="py-20 bg-steel-950 border-t border-slate-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <h3 class="text-2xl font-bold text-white mb-6 text-center">Conclusiones & Recomendaciones</h3>
+            <div class="space-y-4">
+                <div class="p-5 bg-slate-900 rounded-2xl border border-slate-850 flex items-start space-x-4">
+                    <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg shrink-0">
+                        <i data-lucide="check-circle2" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm mb-1">Criterio de Selección de Coordenadas</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">Se recomienda emplear coordenadas Tangencial-Normal cuando la geometría intrínseca de la trayectoria física ya es conocida analíticamente, y utilizar Coordenadas Polares cuando se analiza movimiento impulsado por brazos rotativos alrededor de pivotes fijos.</p>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-900 rounded-2xl border border-slate-850 flex items-start space-x-4">
+                    <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg shrink-0">
+                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm mb-1">Vigilancia del Término de Coriolis</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">En problemas mecánicos rotativos que involucren deslizamiento, jamás omita el término de Coriolis $2\dot{r}\dot{\theta}$. Su descuido en el diseño de maquinaria rotatoria (como grúas telescópicas o centrífugas) conduce habitualmente a fallos catastróficos por fatiga estructural.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INFORMACIÓN DE AUTORES E INVESTIGADORES -->
+    <section class="py-16 bg-slate-900 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+                <div class="absolute inset-0 opacity-5 pointer-events-none">
+                    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="0" x2="100%" y2="100%" stroke="white" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="text-center mb-8">
+                    <span class="text-xs font-semibold text-engBlue-500 uppercase tracking-widest">Información de Autores</span>
+                    <h3 class="text-xl font-bold text-white mt-1">Investigadores & Desarrolladores</h3>
+                    <p class="text-[11px] text-slate-400 mt-1">División de Ciencias de la Ingeniería - CUNOC</p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Integrante 1 -->
+                    <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 flex items-center space-x-4 hover:border-engBlue-500/30 transition duration-300">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-engBlue-600 to-steel-800 flex items-center justify-center text-white font-extrabold shadow">
+                            JT
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">José Luis Tipaz Talé</h4>
+                            <p class="text-xs text-slate-400">Registro Académico: <span class="font-mono text-slate-300">202230589</span></p>
+                            <span class="inline-block mt-1 px-2.5 py-0.5 bg-engBlue-800/20 text-engBlue-400 rounded-full text-[9px] font-bold">Ingeniería Mecánica</span>
+                        </div>
+                    </div>
+                    <!-- Integrante 2 -->
+                    <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 flex items-center space-x-4 hover:border-engBlue-500/30 transition duration-300">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-white font-extrabold shadow">
+                            ET
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Eduardo José Tum Joj</h4>
+                            <p class="text-xs text-slate-400">Registro Académico: <span class="font-mono text-slate-300">202230754</span></p>
+                            <span class="inline-block mt-1 px-2.5 py-0.5 bg-slate-800 text-slate-300 rounded-full text-[9px] font-bold">Ingeniería Mecánica</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE DOS COLUMNAS: UNIVERSIDAD Y BIBLIOGRAFÍA -->
+    <section class="py-12 bg-slate-950 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Cuadro 1: Universidad -->
+                <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 md:p-8 hover:border-engBlue-500/20 transition duration-300 shadow-xl flex flex-col justify-center">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2.5 bg-engBlue-500/10 text-engBlue-400 rounded-xl">
+                            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Institución Académica</h4>
+                    </div>
+                    <div class="space-y-2 text-xs text-slate-300">
+                        <p class="text-white font-extrabold tracking-wider uppercase text-sm">Universidad de San Carlos de Guatemala</p>
+                        <p class="font-semibold text-slate-400 text-xs">Centro Universitario de Occidente (CUNOC)</p>
+                        <div class="border-t border-slate-800 my-3"></div>
+                        <p class="flex items-center space-x-2 text-[11px] text-slate-400">
+                            <span class="w-1.5 h-1.5 bg-engBlue-500 rounded-full"></span>
+                            <span>División de Ciencias de la Ingeniería</span>
+                        </p>
+                        <p class="flex items-center space-x-2 text-[11px] text-slate-400">
+                            <span class="w-1.5 h-1.5 bg-engBlue-500 rounded-full"></span>
+                            <span>Carrera de Ingeniería Mecánica</span>
+                        </p>
+                        <p class="text-[10px] text-slate-500 mt-2">Quetzaltenango, Guatemala</p>
+                    </div>
+                </div>
+
+                <!-- Cuadro 2: Bibliografía -->
+                <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 md:p-8 hover:border-engBlue-500/20 transition duration-300 shadow-xl">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl">
+                            <i data-lucide="library" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Referencias Bibliográficas</h4>
+                    </div>
+                    <ul class="space-y-3 text-[11px] text-slate-300 leading-relaxed">
+                        <li class="flex items-start space-x-2">
+                            <span class="text-amber-500 font-bold mt-0.5">•</span>
+                            <span><strong class="text-white">Beer, F. P., & Johnston, E. R.</strong> – <em>Mecánica Vectorial para Ingenieros: Dinámica</em> (11ª Edición), McGraw-Hill.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-amber-500 font-bold mt-0.5">•</span>
+                            <span><strong class="text-white">Hibbeler, R. C.</strong> – <em>Ingeniería Mecánica: Dinámica</em> (14ª Edición), Prentice Hall.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-amber-500 font-bold mt-0.5">•</span>
+                            <span><strong class="text-white">Shames, I. H.</strong> – <em>Mecánica para Ingenieros: Dinámica</em> (4ª Edición), Prentice Hall.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-amber-500 font-bold mt-0.5">•</span>
+                            <span><strong class="text-white">Riley, W. F., & Sturges, L. D.</strong> – <em>Ingeniería Mecánica: Dinámica</em>, Reverté.</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTIFICACIONES TOAST PERSONALIZADAS -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl border border-slate-800 shadow-xl flex items-center space-x-2 text-xs transition-opacity duration-300 opacity-0 pointer-events-none">
+        <i data-lucide="info" class="w-4 h-4 text-engBlue-500"></i>
+        <span id="toast-text">Notificación</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-steel-950 border-t border-slate-900 py-8 text-slate-500 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
+            <p>© 2026 Portal de Aprendizaje Académico. USAC - CUNOC Ingeniería Mecánica.</p>
+            <p class="text-[10px] text-slate-600">José Luis Tipaz Talé & Eduardo José Tum Joj. Fines Educativos.</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVIDAD Y SCRIPT DE FÍSICA -->
+    <script>
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+
+        // Control del menú móvil
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Control del sistema de pestañas
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.add('hidden');
+            });
+            document.getElementById(`tab-content-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-5 py-3 rounded-xl font-semibold transition flex items-center space-x-2 bg-slate-800 text-slate-400 border border-slate-700 hover:text-white";
+            });
+
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            activeBtn.className = "tab-btn px-5 py-3 rounded-xl font-semibold transition flex items-center space-x-2 bg-engBlue-600 text-white border border-engBlue-500";
+        }
+
+        // Control de acordeón para ejercicios
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const chevron = document.getElementById(`chevron-${id}`);
+            
+            content.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        // Control de mensajes informativos flotantes (toast)
+        function triggerToast(message) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            toastText.textContent = message;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 3000);
+        }
+
+        // ==========================================
+        //  LÓGICA INTERACTIVA DE GASKET (MASCOTA)
+        // ==========================================
+        const gasketVisor = document.getElementById('gasket-visor');
+        const gasketEyeL = document.getElementById('gasket-eye-l');
+        const gasketEyeR = document.getElementById('gasket-eye-r');
+        const gasketBubbleText = document.getElementById('gasket-bubble-text');
+        const gasketChat = document.getElementById('gasket-chat');
+
+        let isGasketActive = false; // Estado para rastrear si ya ha sido presionado por primera vez
+
+        // Respuestas didácticas de Gasket estructuradas en LaTeX completo
+        const gasketReplies = {
+            coriolis: {
+                text: "💡 **Aceleración de Coriolis:** Aparece en coordenadas polares mediante el término $2\\dot{r}\\dot{\\theta}$ cuando la distancia radial $r$ y la posición angular $\\theta$ cambian conjuntamente en el tiempo $t$. Representa la variación de dirección del vector unitario radial $\\hat{u}_r$ combinada con el deslizamiento de la partícula.",
+                color: "#c084fc", // Púrpura
+                eyes: "#e9d5ff"
+            },
+            curvatura: {
+                text: "🛠️ **Radio de Curvatura ($\\rho$):** Define analíticamente el radio local de la trayectoria en un punto dado. Relaciona las coordenadas de aceleración normal de modo que $a_n = \\frac{v^2}{\\rho}$. Si la trayectoria se aproxima a una recta, el radio de curvatura tiende a infinito ($\\rho \\to \\infty$), y por ende la aceleración normal se anula ($a_n = 0$).",
+                color: "#f59e0b", // Ámbar
+                eyes: "#fef3c7"
+            },
+            tangencial: {
+                text: "🚀 **Aceleración Tangencial ($a_t$) vs Normal ($a_n$):** La componente tangencial ($a_t = \\dot{v} = \\ddot{s}$) mide los cambios puramente relacionados al módulo de la velocidad. La componente normal ($a_n = \\frac{v^2}{\\rho}$) representa el cambio en la dirección espacial de la velocidad $\\vec{v}$ debido a la curvatura física.",
+                color: "#10b981", // Esmeralda
+                eyes: "#d1fae5"
+            },
+            examen: {
+                text: "🎓 **Consejo de Examen:** Antes de realizar cálculos mecánicos complejos, examina los grados de libertad geométricos del problema: si la partícula tiene restricciones rotacionales respecto a un punto, usa *Coordenadas Polares*; si viaja fija sobre una superficie o curva de forma explícitamente conocida, opta por *Coordenadas Tangencial-Normal*.",
+                color: "#38bdf8", // Sky Blue
+                eyes: "#e0f2fe"
+            }
+        };
+
+        function toggleGasketChat() {
+            if (!isGasketActive) {
+                // Bienvenida inicial de Gasket al primer clic
+                gasketBubbleText.innerHTML = "¡Hola! Soy **Gasket**, tu tutor virtual de Ingeniería Mecánica. He venido a guiarte en esta lección de Dinámica sobre **Movimiento Curvilíneo**. Haz clic en los botones de abajo para responderte utilizando fórmulas completas en $\\LaTeX$ :";
+                isGasketActive = true;
+            }
+            
+            // Alternar clases de animación y visibilidad para el chat de Gasket
+            if (gasketChat.classList.contains('opacity-0')) {
+                gasketChat.classList.remove('opacity-0', 'scale-90', 'translate-y-4', 'pointer-events-none');
+                gasketChat.classList.add('opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+                gasketVisor.setAttribute('stroke', '#0ea5e9');
+                gasketEyeL.setAttribute('fill', '#38bdf8');
+                gasketEyeR.setAttribute('fill', '#38bdf8');
+            } else {
+                closeGasketChat();
+            }
+
+            // Actualizar renderizado LaTeX de MathJax
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        function closeGasketChat() {
+            gasketChat.classList.add('opacity-0', 'scale-90', 'translate-y-4', 'pointer-events-none');
+            gasketChat.classList.remove('opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+        }
+
+        function askGasket(topicKey) {
+            const data = gasketReplies[topicKey];
+            if (!data) return;
+
+            // Cambiar visor y ojos de color según el tema académico
+            gasketVisor.setAttribute('stroke', data.color);
+            gasketEyeL.setAttribute('fill', data.eyes);
+            gasketEyeR.setAttribute('fill', data.eyes);
+
+            // Cambiar el texto del globo
+            gasketBubbleText.innerHTML = data.text;
+
+            // Mensaje informativo (Toast)
+            triggerToast("Gasket está explicando el concepto analítico...");
+
+            // Renderizar LaTeX de las fórmulas recién inyectadas
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+
+        // BASE DE DATOS DEL MAPA CONCEPTUAL RADIAL INTERACTIVO EN LATEX
+        const mindmapDatabase = {
+            intro: {
+                title: "Introducción y Posición",
+                subtitle: "Ubicación espacial de la partícula",
+                desc: "Describe la base del movimiento curvilíneo plano. El vector de posición $\\vec{r}(t)$ localiza a la partícula en cada instante. El rastro geométrico continuo de la posición define el camino o trayectoria real.",
+                equations: "$$\\vec{r}(t) = x(t)\\hat{i} + y(t)\\hat{j}$$$$\\vec{v} = \\dot{\\vec{r}} = v \\hat{u}_t$$",
+                example: "Modelado preliminar de la órbita de un componente mecánico en un carrusel centrífugo rotativo.",
+                icon: "git-commit",
+                color: "#38bdf8", // celeste
+                tip: "Gasket dice: ¡El vector de velocidad instantánea $\\vec{v}$ siempre es colineal con la recta de tangencia a la trayectoria, sin excepciones!"
+            },
+            rectangular: {
+                title: "Coordenadas Rectangulares",
+                subtitle: "Sistema Cartesiano ($X, Y$)",
+                desc: "Descompone el movimiento de la partícula a lo largo de los ejes independientes $X$ y $Y$. Es idóneo para trayectorias donde la gravedad o fuerzas constantes actúan en un eje determinado de referencia cartesiana.",
+                equations: "$$\\vec{v} = \\dot{x}\\hat{i} + \\dot{y}\\hat{j}$$$$\\vec{a} = \\ddot{x}\\hat{i} + \\ddot{y}\\hat{j}$$$$a = \\sqrt{a_x^2 + a_y^2}$$",
+                example: "Análisis balístico de proyectiles en caída libre y robótica cartesiana automatizada.",
+                icon: "layout-grid",
+                color: "#818cf8", // de color índigo
+                tip: "Gasket dice: Como los ejes de referencia son fijos, las derivadas temporales de los vectores unitarios cartesianos son nulas."
+            },
+            tangencial: {
+                title: "Coordenadas Tangencial-Normal",
+                subtitle: "Ejes Intrínsecos con Base Móvil",
+                desc: "Sistema de referencia solidario a la partícula que viaja a lo largo del camino físico. Define la aceleración tangencial ($a_t$) debido a los cambios de rapidez, y la aceleración normal ($a_n$) debido al cambio de dirección.",
+                equations: "$$\\vec{a} = a_t\\hat{u}_t + a_n\\hat{u}_n$$$$a_t = \\dot{v} = \\ddot{s}$$$$a_n = \\frac{v^2}{\\rho}$$",
+                example: "Cálculo estructural de fuerzas de peralte en vías de trenes de alta velocidad y autopistas.",
+                icon: "git-branch",
+                color: "#34d399", // esmeralda
+                tip: "Gasket dice: La aceleración normal ($a_n$) siempre apunta hacia el centro de curvatura y jamás puede ser negativa."
+            },
+            polares: {
+                title: "Coordenadas Polares",
+                subtitle: "Análisis Radial y Angular ($r, \\theta$)",
+                desc: "Describe el comportamiento cinemático empleando el radio vector $r$ y el barrido angular $\theta$. Es sumamente útil para cuerpos bajo restricciones de brazos giratorios u órbitas.",
+                equations: "$$\\vec{v} = \\dot{r}\\hat{u}_r + r\\dot{\\theta}\\hat{u}_theta$$$$\\vec{a} = (\\ddot{r} - r\\dot{\\theta}^2)\\hat{u}_r + (r\\ddot{\\theta} + 2\\dot{r}\\dot{\\theta})\\hat{u}_\\theta$$",
+                example: "Análisis y diseño de sistemas mecánicos de levas dinámicas, satélites y radares.",
+                icon: "compass",
+                color: "#c084fc", // púrpura
+                tip: "Gasket dice: Recuerda que el término de Coriolis $2\\dot{r}\\dot{\\theta}$ surge de derivar el vector unitario radial."
+            }
+        };
+
+        function activateMapBranch(branchId) {
+            const data = mindmapDatabase[branchId];
+            if (!data) return;
+
+            // Restablecer estilos en todas las ramas de SVG
+            const branches = ["intro", "rectangular", "tangencial", "polares"];
+            branches.forEach(b => {
+                const path = document.getElementById(`branch-${b}`);
+                const nodeBtn = document.getElementById(`node-${b}`);
+                if (path) {
+                    path.setAttribute("stroke", "#334155");
+                    path.removeAttribute("filter");
+                }
+                if (nodeBtn) {
+                    nodeBtn.classList.remove("node-active");
+                    nodeBtn.style.borderColor = "#1e293b";
+                }
+            });
+
+            // Resaltar la rama seleccionada
+            const selectedPath = document.getElementById(`branch-${branchId}`);
+            const selectedNode = document.getElementById(`node-${branchId}`);
+            if (selectedPath) {
+                selectedPath.setAttribute("stroke", data.color);
+                selectedPath.setAttribute("filter", "url(#glow-rect)");
+            }
+            if (selectedNode) {
+                selectedNode.classList.add("node-active");
+                selectedNode.style.borderColor = data.color;
+            }
+
+            // Actualizar Panel de Detalles
+            document.getElementById("panel-title").textContent = data.title;
+            document.getElementById("panel-subtitle").textContent = data.subtitle;
+            document.getElementById("panel-desc").innerHTML = data.desc;
+            document.getElementById("panel-equations").innerHTML = data.equations;
+            document.getElementById("panel-example").textContent = data.example;
+            document.getElementById("panel-tip-text").textContent = data.tip;
+
+            // Actualizar Icono
+            const pIcon = document.getElementById("panel-icon");
+            pIcon.setAttribute("data-lucide", data.icon);
+            pIcon.style.color = data.color;
+            document.getElementById("panel-icon-bg").style.backgroundColor = `${data.color}20`;
+
+            // Aplicar border glow al panel
+            const panel = document.getElementById("mindmap-detail-panel");
+            panel.style.borderColor = `${data.color}40`;
+
+            // Recrear iconos
+            lucide.createIcons();
+
+            // Refrescar MathJax
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+
+            triggerToast(`Detalle actualizado: ${data.title}`);
+        }
+
+        // Selección inicial por defecto del mapa mental al cargar
+        setTimeout(() => {
+            activateMapBranch('intro');
+        }, 150);
+
+        // Motor de cálculo de curvatura matemática
+        function calculateCurvature() {
+            const a = parseFloat(document.getElementById('calc-coeff-a').value);
+            const b = parseFloat(document.getElementById('calc-coeff-b').value);
+            const x0 = parseFloat(document.getElementById('calc-val-x').value);
+            const v = parseFloat(document.getElementById('calc-val-v').value);
+
+            if (isNaN(a) || isNaN(b) || isNaN(x0) || isNaN(v)) {
+                triggerToast('Por favor, introduce valores numéricos válidos.');
+                return;
+            }
+
+            const dy_dx = 2 * a * x0 + b;
+            const d2y_dx2 = 2 * a;
+
+            if (Math.abs(d2y_dx2) < 0.00001) {
+                document.getElementById('res-rho').textContent = "Infinito (Recta)";
+                document.getElementById('res-an').textContent = "0.00 m/s²";
+                triggerToast('Trayectoria resuelta: Línea rectilínea.');
+                return;
+            }
+
+            const rho = Math.pow(1 + Math.pow(dy_dx, 2), 1.5) / Math.abs(d2y_dx2);
+            const an = Math.pow(v, 2) / rho;
+
+            document.getElementById('res-rho').textContent = `${rho.toFixed(3)} m`;
+            document.getElementById('res-an').textContent = `${an.toFixed(3)} m/s²`;
+            triggerToast('¡Parámetros resueltos exitosamente!');
+        }
+
+        // Evaluar estado inicial de la calculadora
+        calculateCurvature();
+
+        // Evaluación de autoevaluación (Quiz)
+        function gradeQuiz() {
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if (!q1 || !q2) {
+                feedback.className = "p-4 rounded-xl text-center text-xs font-bold bg-rose-500/20 text-rose-400";
+                feedback.textContent = "Por favor, responde ambas preguntas.";
+                return;
+            }
+
+            let correct = 0;
+            if (q1.value === 'b') correct++;
+            if (q2.value === 'c') correct++;
+
+            if (correct === 2) {
+                feedback.className = "p-4 rounded-xl text-center text-xs font-bold bg-emerald-500/20 text-emerald-400";
+                feedback.textContent = "¡Excelente! 2/2 respuestas correctas. Tienes una comprensión sólida del movimiento curvilíneo.";
+                // Modificar visor Gasket a verde (Feliz)
+                gasketVisor.setAttribute('stroke', '#10b981');
+                gasketEyeL.setAttribute('fill', '#34d399');
+                gasketEyeR.setAttribute('fill', '#34d399');
+            } else {
+                feedback.className = "p-4 rounded-xl text-center text-xs font-bold bg-amber-500/20 text-amber-400";
+                feedback.textContent = `Puntuación: ${correct}/2. Repasa la teoría del movimiento y vuelve a intentarlo.`;
+                // Modificar visor Gasket a naranja (Sorprendido/Pensativo)
+                gasketVisor.setAttribute('stroke', '#f59e0b');
+                gasketEyeL.setAttribute('fill', '#fbbf24');
+                gasketEyeR.setAttribute('fill', '#fbbf24');
+            }
+        }
+
+        // ==========================================
+        //     MOTOR FÍSICO DEL SIMULADOR & CANVAS
+        // ==========================================
+        const canvas = document.getElementById('kinematics-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let simTime = 0;
+        let simPlaying = true;
+        let animationFrameId;
+
+        let simPath = 'projectile';
+        let simCoords = 'rectangular';
+
+        let tracePoints = [];
+
+        function resizeCanvas() {
+            const rect = canvas.parentNode.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            tracePoints = [];
+        });
+        resizeCanvas();
+
+        function updateSimPath() {
+            simPath = document.getElementById('sim-path-select').value;
+            tracePoints = [];
+            simTime = 0;
+
+            const desc = document.getElementById('sim-dynamic-desc');
+            if (simPath === 'projectile') {
+                desc.textContent = "En el tiro parabólico, la velocidad horizontal ($v_x$) se mantiene constante en todo momento, mientras que la aceleración actúa puramente en dirección vertical descendente debido a la gravedad ($a_y = -g$).";
+            } else if (simPath === 'circular') {
+                desc.textContent = "En el movimiento circular acelerado, la aceleración normal tira de forma constante hacia el centro de rotación, mientras que la tangencial modifica la velocidad periférica.";
+            } else if (simPath === 'spiral') {
+                desc.textContent = "La Espiral de Arquímedes ejemplifica perfectamente el uso de coordenadas polares, donde la distancia radial $r$ se incrementa de manera lineal al avance angular.";
+            }
+        }
+
+        function updateSimCoords() {
+            const checkedRadio = document.querySelector('input[name="sim-coords"]:checked');
+            if (checkedRadio) {
+                simCoords = checkedRadio.value;
+            }
+        }
+
+        function toggleSimPlay() {
+            const btnText = document.getElementById('play-text');
+            const btnIcon = document.getElementById('play-icon');
+            
+            if (simPlaying) {
+                simPlaying = false;
+                btnText.textContent = "Reanudar Simulación";
+                btnIcon.setAttribute('data-lucide', 'play');
+                triggerToast('Simulación pausada.');
+            } else {
+                simPlaying = true;
+                btnText.textContent = "Pausar Simulación";
+                btnIcon.setAttribute('data-lucide', 'pause');
+                triggerToast("Simulación en curso.");
+            }
+            lucide.createIcons();
+        }
+
+        function resetSim() {
+            simTime = 0;
+            tracePoints = [];
+            triggerToast('Simulación reiniciada.');
+        }
+
+        function drawVector(ctx, fromX, fromY, toX, toY, color, label) {
+            const headlen = 8;
+            const dx = toX - fromX;
+            const dy = toY - fromY;
+            const angle = Math.atan2(dy, dx);
+            
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+
+            if (label) {
+                ctx.fillStyle = '#f1f5f9';
+                ctx.font = '10px monospace';
+                ctx.fillText(label, toX + 5, toY - 5);
+            }
+        }
+
+        // Loop de renderizado y cálculo físico
+        function animate() {
+            if (simPlaying) {
+                simTime += 0.015;
+            }
+
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Rejilla de ingeniería de fondo
+            ctx.strokeStyle = 'rgba(71, 85, 105, 0.1)';
+            ctx.lineWidth = 1;
+            const gridSpacing = 30;
+            for (let x = 0; x < canvas.width; x += gridSpacing) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += gridSpacing) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            let pX = 0, pY = 0;
+            let rawVx = 0, rawVy = 0;
+            let rawAx = 0, rawAy = 0;
+
+            let livePosText = "";
+            let liveVelText = "";
+            let liveAccText = "";
+
+            const originX = canvas.width / 2;
+            const originY = canvas.height / 2;
+
+            if (simPath === 'projectile') {
+                const g = 15;
+                const v0 = 60;
+                const thetaRad = Math.PI / 3;
+                const t = (simTime % 4.5);
+
+                const x = v0 * Math.cos(thetaRad) * t;
+                const y = v0 * Math.sin(thetaRad) * t - 0.5 * g * t * t;
+
+                pX = 40 + x;
+                pY = canvas.height - 40 - y;
+
+                rawVx = v0 * Math.cos(thetaRad);
+                rawVy = -(v0 * Math.sin(thetaRad) - g * t);
+
+                rawAx = 0;
+                rawAy = g;
+
+                livePosText = `X: ${x.toFixed(1)}m, Y: ${y.toFixed(1)}m`;
+                liveVelText = `v_x: ${rawVx.toFixed(1)}m/s, v_y: ${(-rawVy).toFixed(1)}m/s`;
+                liveAccText = `a_x: 0m/s², a_y: -${g}m/s²`;
+
+            } else if (simPath === 'circular') {
+                const r = 90;
+                const alpha = 0.2;
+                const theta = 0.5 * alpha * simTime * simTime;
+                const omega = alpha * simTime;
+
+                pX = originX + r * Math.cos(theta);
+                pY = originY + r * Math.sin(theta);
+
+                const vMag = r * omega;
+                rawVx = -vMag * Math.sin(theta);
+                rawVy = vMag * Math.cos(theta);
+
+                const a_t = r * alpha;
+                const a_n = r * omega * omega;
+
+                rawAx = -a_t * Math.sin(theta) - a_n * Math.cos(theta);
+                rawAy = a_t * Math.cos(theta) - a_n * Math.sin(theta);
+
+                livePosText = `r: ${r.toFixed(0)}m, theta: ${(theta % (2*Math.PI)).toFixed(2)}rad`;
+                liveVelText = `v_t: ${vMag.toFixed(1)}m/s (Orbital)`;
+                liveAccText = `a_t: ${a_t.toFixed(1)}m/s², a_n: ${a_n.toFixed(1)}m/s²`;
+
+            } else if (simPath === 'spiral') {
+                const a = 5;
+                const omega = 0.8;
+                const theta = omega * simTime;
+                const r = a * theta;
+
+                pX = originX + r * Math.cos(theta);
+                pY = originY + r * Math.sin(theta);
+
+                const dr_dt = a * omega;
+                const r_dtheta_dt = r * omega;
+
+                rawVx = dr_dt * Math.cos(theta) - r_dtheta_dt * Math.sin(theta);
+                rawVy = dr_dt * Math.sin(theta) + r_dtheta_dt * Math.cos(theta);
+
+                const a_r = - r * omega * omega;
+                const a_theta = 2 * dr_dt * omega;
+
+                rawAx = a_r * Math.cos(theta) - a_theta * Math.sin(theta);
+                rawAy = a_r * Math.sin(theta) + a_theta * Math.cos(theta);
+
+                livePosText = `r: ${r.toFixed(1)}m, theta: ${theta.toFixed(2)}rad`;
+                liveVelText = `v_r: ${dr_dt.toFixed(1)}m/s, v_θ: ${r_dtheta_dt.toFixed(1)}m/s`;
+                liveAccText = `a_r: ${a_r.toFixed(1)}m/s², a_θ: ${a_theta.toFixed(1)}m/s²`;
+            }
+
+            if (document.getElementById('show-trajectory').checked && simPlaying) {
+                tracePoints.push({x: pX, y: pY});
+                if (tracePoints.length > 200) tracePoints.shift();
+            }
+
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(14, 165, 233, 0.4)';
+            ctx.lineWidth = 2.5;
+            for (let i = 0; i < tracePoints.length; i++) {
+                if (i === 0) ctx.moveTo(tracePoints[i].x, tracePoints[i].y);
+                else ctx.lineTo(tracePoints[i].x, tracePoints[i].y);
+            }
+            ctx.stroke();
+
+            if (simCoords === 'rectangular') {
+                ctx.strokeStyle = 'rgba(71, 85, 105, 0.3)';
+                ctx.setLineDash([5, 5]);
+                
+                ctx.beginPath();
+                ctx.moveTo(pX, canvas.height);
+                ctx.lineTo(pX, pY);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, pY);
+                ctx.lineTo(pX, pY);
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+            } else if (simCoords === 'polar') {
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.moveTo(originX, originY);
+                ctx.lineTo(pX, pY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            const showVel = document.getElementById('show-vel-vec').checked;
+            const showAcc = document.getElementById('show-acc-vec').checked;
+
+            if (showVel) {
+                if (simCoords === 'rectangular') {
+                    drawVector(ctx, pX, pY, pX + rawVx, pY, 'rgba(16, 185, 129, 0.5)', 'vx');
+                    drawVector(ctx, pX, pY, pX, pY + rawVy, 'rgba(16, 185, 129, 0.5)', 'vy');
+                }
+                drawVector(ctx, pX, pY, pX + rawVx, pY + rawVy, '#10b981', 'V');
+            }
+
+            if (showAcc) {
+                if (simCoords === 'tangential') {
+                    const vAngle = Math.atan2(rawVy, rawVx);
+                    const tX = Math.cos(vAngle);
+                    const tY = Math.sin(vAngle);
+                    const nX = -Math.sin(vAngle);
+                    const nY = Math.cos(vAngle);
+
+                    const dot_at = (rawAx * tX + rawAy * tY);
+                    const dot_an = (rawAx * nX + rawAy * nY);
+
+                    drawVector(ctx, pX, pY, pX + tX * dot_at * 1.5, pY + tY * dot_at * 1.5, 'rgba(244, 63, 94, 0.5)', 'at');
+                    drawVector(ctx, pX, pY, pX + nX * dot_an * 1.5, pY + nY * dot_an * 1.5, 'rgba(14, 165, 233, 0.5)', 'an');
+                }
+                drawVector(ctx, pX, pY, pX + rawAx * 1.5, pY + rawAy * 1.5, '#f43f5e', 'a');
+            }
+
+            ctx.beginPath();
+            ctx.arc(pX, pY, 7, 0, 2 * Math.PI);
+            ctx.fillStyle = '#0ea5e9';
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            if (simPath !== 'projectile') {
+                ctx.beginPath();
+                ctx.arc(originX, originY, 4, 0, 2 * Math.PI);
+                ctx.fillStyle = '#f59e0b';
+                ctx.fill();
+            }
+
+            document.getElementById('val-pos').textContent = livePosText;
+            document.getElementById('val-vel').textContent = liveVelText;
+            document.getElementById('val-acc').textContent = liveAccText;
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        animate();
+
+    </script>
+</body>
+</html>

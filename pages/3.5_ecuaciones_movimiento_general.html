@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecuaciones de movimiento: movimiento en el plano General</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        .tree * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+        }
+        
+        .tree {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            padding-top: 10px;
+            width: 100%;
+        }
+        
+        .tree ul {
+            padding-top: 20px;
+            position: relative;
+            display: flex;
+            margin: 0 auto; 
+            min-width: max-content;
+            transition: all 0.5s;
+        }
+        
+        .tree li {
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 10px 0 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s;
+        }
+        
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute; top: 0; right: 50%;
+            border-top: 2px solid #6b7280;
+            width: 50%; height: 20px;
+        }
+        .tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid #6b7280;
+        }
+        
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child { padding-top: 0;}
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:first-child::after{
+            border-radius: 5px 0 0 0;
+        }
+        .tree li:last-child::before{
+            border-right: 2px solid #6b7280;
+            border-radius: 0 5px 0 0;
+        }
+        
+        .tree ul ul::before{
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            border-left: 2px solid #6b7280;
+            width: 0; height: 20px;
+            transform: translateX(-50%);
+        }
+        
+        .tree li a {
+            border: 2px solid #2563eb;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: #0f172a;
+            font-family: sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .tree li a:hover {
+            background: #2563eb;
+            color: white; 
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .tree > ul > li > a {
+            font-size: 16px;
+            background-color: #f8fafc;
+            border-width: 3px;
+            border-color: #0f172a;
+        }
+        
+        .tree > ul > li > ul > li:nth-child(1) > a { border-color: #10b981; } 
+        .tree > ul > li > ul > li:nth-child(1) > a:hover { background-color: #10b981; color: white; }
+        
+        .tree > ul > li > ul > li:nth-child(2) > a { border-color: #ef4444; } 
+        .tree > ul > li > ul > li:nth-child(2) > a:hover { background-color: #ef4444; color: white; }
+        
+        .tree > ul > li > ul > li:nth-child(3) > a { border-color: #f59e0b; } 
+        .tree > ul > li > ul > li:nth-child(3) > a:hover { background-color: #f59e0b; color: white; }
+        
+        .tree > ul > li > ul > li:nth-child(4) > a { border-color: #6366f1; } 
+        .tree > ul > li > ul > li:nth-child(4) > a:hover { background-color: #6366f1; color: white; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900">
+<script src="../js/global-layout.js"></script>
+    <header class="bg-slate-900 text-white pt-28 pb-12 px-6 md:pt-36 md:pb-20 md:px-12 relative overflow-hidden border-b-4 border-blue-600">
+ 
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight">Ecuaciones de movimiento: movimiento en el plano General</h1>
+                <p class="text-slate-300 mt-2 max-w-2xl text-sm">
+                    Estudio avanzado de la dinámica de cuerpos rígidos que experimentan traslación y rotación simultánea. 
+                </p>
+                <p class="text-xs font-semibold text-indigo-400 mt-2">Autor: Elías Aron Monzón Orozco</p>
+            </div>
+           
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 space-y-8">
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Introducción</h2>
+            <p class="text-justify text-slate-700 leading-relaxed">
+                La dinámica de cuerpos rígidos es clave en la ingeniería mecánica para analizar objetos de dimensiones finitas. El movimiento plano general ocurre cuando las partículas de un cuerpo se desplazan en trayectorias equidistantes a un plano fijo. A diferencia de la traslación o rotación puras, este movimiento exige un análisis complejo, ya que el cuerpo se traslada respecto a un marco de referencia mientras gira simultáneamente. Esta investigación detalla cómo la cinemática y la cinética se fusionan para predecir el comportamiento de sistemas mecánicos, ofreciendo una metodología estructurada para resolver problemas técnicos.
+            </p>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Desarrollo </h3>
+            
+            <h4 class="text-lg font-bold mt-4 text-slate-900">Resumen</h4>
+            <p class="mb-4 text-slate-700">
+                Esta investigación analiza el movimiento plano general de un cuerpo rígido, definido como una combinación simultánea de traslación y rotación. El estudio integra la cinemática, que describe la geometría del movimiento (posición, velocidad y aceleración), y la cinética, que relaciona las fuerzas y momentos con el movimiento resultante. Se establecen las ecuaciones fundamentales como $v_B = v_A + v_{B/A}$ para la cinemática y $\Sigma F = m a_G$, $\Sigma M_G = I_G \alpha$ para la cinética. La comprensión de este tema es vital para el diseño de mecanismos, engranes y sistemas robóticos en la ingeniería moderna.
+            </p>
+
+            <h4 class="text-lg font-bold mt-6 text-slate-900">Cinemática y Cinética en el Movimiento Plano General</h4>
+            <p class="mb-3 text-slate-700"><strong>1. Ecuaciones del Movimiento: Cinemática.</strong> La cinemática se centra en la geometría del movimiento. En el movimiento plano general, las ecuaciones relacionan los movimientos de dos puntos (A y B) dentro del mismo cuerpo rígido:</p>
+            <ul class="list-disc pl-6 mb-4 space-y-1 text-slate-700">
+                <li><strong>Velocidad Relativa:</strong> $v_B = v_A + \omega \times r_{B/A}$. Aquí, $v_B$ es la velocidad absoluta del punto B, $v_A$ es la del punto base A, $\omega$ es la velocidad angular del cuerpo y $r_{B/A}$ es el vector de posición de B respecto a A.</li>
+                <li><strong>Aceleración Relativa:</strong> $a_B = a_A + \alpha \times r_{B/A} - \omega^2 r_{B/A}$. Donde $\alpha$ es la aceleración angular. Esta ecuación incluye componentes tangenciales ($\alpha \times r_{B/A}$) y normales ($-\omega^2 r_{B/A}$) del movimiento rotatorio relativo.</li>
+            </ul>
+
+            <p class="mb-3 text-slate-700"><strong>2. Ecuaciones del Movimiento: Cinética.</strong> La cinética analiza las fuerzas que causan el movimiento. Se basa en la segunda ley de Newton y la ecuación de momento angular:</p>
+            <ul class="list-disc pl-6 mb-4 space-y-1 text-slate-700">
+                <li><strong>Traslación del Centro de Masa:</strong> $\Sigma F_x = m(a_G)_x$ y $\Sigma F_y = m(a_G)_y$.</li>
+                <li><strong>Rotación respecto a G:</strong> $\Sigma M_G = I_G \alpha$.</li>
+                <li><strong>Ecuación General respecto a un punto P:</strong> $\Sigma M_P = \Sigma(M_k)_P$, donde el lado derecho representa la suma de los momentos de los vectores cinéticos ($m a_G$ e $I_G \alpha$) respecto a P.</li>
+            </ul>
+
+            <p class="mb-3 text-slate-700"><strong>3. Interacción en el Movimiento Plano General.</strong> Las ecuaciones cinemáticas y cinéticas se afectan mutuamente para definir el movimiento:</p>
+            <ul class="list-disc pl-6 mb-4 space-y-1 text-slate-700">
+                <li>La cinética determina la aceleración angular ($\alpha$) y la aceleración del centro de masa ($a_G$) basándose en las fuerzas aplicadas.</li>
+                <li>La cinemática actúa como un marco de restricciones; por ejemplo, en un disco que rueda sin deslizar, impone la condición $a_G = \alpha r$.</li>
+                <li>Esta relación cinemática permite reducir el número de incógnitas en las ecuaciones cinéticas, haciendo posible la solución del sistema.</li>
+            </ul>
+
+            <button onclick="abrirModal()" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 shadow">
+                Ver Nota Informativa sobre Interacción
+            </button>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Conceptos Claves</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <strong class="text-blue-600 block mb-1">Cuerpo Rígido:</strong> 
+                    <span class="text-slate-700 text-sm">Un systema de partículas donde la distancia entre ellas permanece constante, sin sufrir deformaciones bajo la acción de fuerzas externas.</span>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <strong class="text-blue-600 block mb-1">Movimiento Plano General:</strong> 
+                    <span class="text-slate-700 text-sm">Movimiento que no constituye una traslación pura ni una rotación pura sobre un eje fijo, sino una manifestación simultánea de ambas.</span>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <strong class="text-blue-600 block mb-1">Centro de Masa (G):</strong> 
+                    <span class="text-slate-700 text-sm">Punto geométrico que se desplaza como si toda la masa del cuerpo rígido estuviera concentrada en él y todas las fuerzas externas se aplicaran directamente allí.</span>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <strong class="text-blue-600 block mb-1">Momento de Inercia (I):</strong> 
+                    <span class="text-slate-700 text-sm">Propiedad escalar que mide de forma cuantitativa la resistencia de un cuerpo rígido a experimentar una aceleración angular.</span>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border border-slate-100 md:col-span-2">
+                    <strong class="text-blue-600 block mb-1">Centro Instantáneo de Rotación (CI):</strong> 
+                    <span class="text-slate-700 text-sm">Punto del espacio o del cuerpo que, en un instante específico de tiempo, posee velocidad lineal cero y alrededor del cual el cuerpo parece girar de manera pura.</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Metodología para la Resolución de Problemas</h3>
+            <p class="mb-6 text-slate-700">Para resolver con éxito ejercicios complejos de movimiento plano general, sigue esta guía estructurada que conecta rigurosamente la cinemática de restricciones con la cinética Newton-Euler:</p>
+            
+            <div class="space-y-6">
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg">Diagnóstico Cinemático y Restricciones de Enlace</h4>
+                        <p class="text-slate-700 text-sm mt-1">Identifica de inmediato los puntos fijos, las superficies de contacto y las restricciones de movimiento (ej. condiciones de rodadura pura sin deslizamiento). Plantea la ecuación de aceleración relativa $a_B = a_A + a_{B/A}$ (derivada del vector posicional $r_B = r_A + r_{B/A}$). Esto te permitirá establecer relaciones matemáticas esenciales como $a_G = \alpha r$ para reducir las variables desconocidas antes de operar las fuerzas.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">2</div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg">Desacoplamiento Dinámico: DCL y DC en Paralelo</h4>
+                        <p class="text-slate-700 text-sm mt-1">Dibuja de forma estrictamente independiente dos diagramas bajo un mismo sistema coordenado de referencia: el <strong>Diagrama de Cuerpo Libre (DCL)</strong> que contendrá exclusivamente las acciones externas del entorno (fuerzas gravitatorias, normales, fuerzas de fricción y momentos de par aplicados) y el <strong>Diagrama Cinético (DC)</strong> donde graficarás los efectos de inercia del sistema ($m a_G$ e $I_G \alpha$) ubicados en el centro de masa.</p>
+                    </div>
+                </div>
+
+
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">3</div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg">Selección Estratégica del Centro de Momentos</h4>
+                        <p class="text-slate-700 text-sm mt-1">Aplica las ecuaciones de equilibrio de traslación ($\Sigma F_x = m(a_G)_x$, $\Sigma F_y = m(a_G)_y$). Para la rotación, evalúa el punto más eficiente para sumar momentos. Si eliges el centro de masa $G$, se reduce a $\Sigma M_G = I_G \alpha$ (demostrada a partir de la derivada del momento cinético $\dot{H}_G = I_G \dot{\omega}$). Si utilizas un punto arbitrario o el CI, aplica la versión extendida del teorema de momentos cinéticos $\Sigma M_P = \Sigma(M_k)_P$ para eliminar incógnitas complejas de fuerzas reactivas.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">4</div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg">Sincronización de Signos y Cierre Algebraico</h4>
+                        <p class="text-slate-700 text-sm mt-1">Asegura rígidamente la consistencia direccional: los sentidos declarados positivos para la aceleración lineal $a_G$ y la aceleración angular $\alpha$ en tu diagrama cinético **deben mandar** los signos positivos de tus sumatorias de fuerzas y momentos dinámicos. Concluye resolviendo el sistema de ecuaciones algebraicas resultante.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200 overflow-x-auto">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Solución de un Ejercicio</h3>
+            <p class="text-slate-700 font-medium bg-slate-50 p-4 rounded-lg border border-slate-100 mb-4">
+                <strong>Problema:</strong> Una rueda de 50 lb con radio de giro $k_G = 0.70$ pies se somete a un par de 35 lb·pie. El radio es de 1.25 pies. Determine la aceleración de su centro de masa G si rueda sin deslizar.
+            </p>
+            <div class="space-y-3 text-slate-700 text-sm">
+<div class="my-6 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 320" class="mx-auto w-full max-w-md bg-slate-50 rounded-lg border border-slate-200 p-4 shadow-inner">
+              <defs>
+                <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e3a8a"/>
+                </marker>
+                <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#dc2626"/>
+                </marker>
+                <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#16a34a"/>
+                </marker>
+                <marker id="arrow-dark" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f172a"/>
+                </marker>
+              </defs>
+
+              <line x1="30" y1="240" x2="420" y2="240" stroke="#475569" stroke-width="4" />
+              <path d="M 50 240 L 40 250 M 90 240 L 80 250 M 130 240 L 120 250 M 170 240 L 160 250 M 210 240 L 200 250 M 250 240 L 240 250 M 290 240 L 280 250 M 330 240 L 320 250 M 370 240 L 360 250 M 410 240 L 400 250" stroke="#94a3b8" stroke-width="1.5"/>
+
+              <circle cx="220" cy="150" r="90" fill="#ffffff" stroke="#0f172a" stroke-width="3" />
+              
+              <line x1="220" y1="150" x2="130" y2="150" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4" />
+              <text x="145" y="142" font-family="sans-serif" font-size="11" fill="#475569" font-weight="bold">r = 1.25 ft</text>
+
+              <circle cx="220" cy="150" r="5" fill="#1e3a8a" />
+              <text x="232" y="146" font-family="sans-serif" font-size="14" fill="#1e3a8a" font-weight="bold">G</text>
+
+              <circle cx="220" cy="240" r="4" fill="#0f172a" />
+              <text x="232" y="256" font-family="sans-serif" font-size="13" fill="#0f172a" font-weight="bold">A</text>
+
+              <line x1="220" y1="150" x2="220" y2="210" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-red)" />
+              <text x="228" y="200" font-family="sans-serif" font-size="11" fill="#dc2626" font-weight="bold">W = 50 lb</text>
+
+              <line x1="220" y1="295" x2="220" y2="248" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow-green)" />
+              <text x="228" y="285" font-family="sans-serif" font-size="11" fill="#16a34a" font-weight="bold">N_A</text>
+
+              <line x1="220" y1="240" x2="280" y2="240" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow-green)" />
+              <text x="255" y="232" font-family="sans-serif" font-size="11" fill="#16a34a" font-weight="bold">F_A</text>
+
+              <path d="M 185 125 A 45 45 0 0 1 255 125" fill="none" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arrow-blue)" />
+              <text x="175" y="95" font-family="sans-serif" font-size="12" fill="#1e3a8a" font-weight="bold">M = 35 lb·ft</text>
+
+              <line x1="220" y1="35" x2="285" y2="35" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow-dark)" />
+              <text x="242" y="27" font-family="sans-serif" font-size="12" fill="#0f172a" font-weight="bold">a_G</text>
+
+              <path d="M 330 85 A 105 105 0 0 1 348 135" fill="none" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow-dark)" />
+              <text x="350" y="100" font-family="sans-serif" font-size="14" fill="#0f172a" font-weight="bold">&alpha;</text>
+            </svg>
+        </div>
+                <p><strong>Datos iniciales:</strong> $W = 50 \text{ lb}$; $M = 35 \text{ lb}\cdot\text{pie}$; $r = 1.25 \text{ pies}$; $k_G = 0.70 \text{ pies}$.</p>
+                <p><strong>Cálculo del Momento de Inercia de Masa:</strong> $$I_G = m k_G^2 = \left(\frac{50}{32.2}\right) \cdot (0.70)^2 = 0.761 \text{ slug}\cdot\text{pie}^2$$</p>
+                <p><strong>Ecuaciones de la Cinética (Traslación):</strong> $$\Sigma F_x = m a_G \Rightarrow F_A = \left(\frac{50}{32.2}\right) a_G \quad \text{(Fuerza de fricción en el punto de contacto A)}$$</p>
+                <p><strong>Ecuaciones de la Cinética (Rotación sobre G):</strong> $$\Sigma M_G = I_G \alpha \Rightarrow M - F_A(r) = I_G \alpha \Rightarrow 35 - F_A(1.25) = 0.761 \alpha$$</p>
+                <p><strong>Acoplamiento Cinemático (Restricción de No Deslizamiento):</strong> $$a_G = \alpha r = 1.25 \alpha$$</p>
+                <p><strong>Sustitución y Resolución Algebraica Simultánea:</strong> $$35 - \left[\left(\frac{50}{32.2}\right)(1.25 \alpha)\right](1.25) = 0.761 \alpha$$</p>
+                <p>$$35 - 2.422 \alpha = 0.761 \alpha \Rightarrow 35 = 3.183 \alpha$$</p>
+                <p class="text-base text-slate-900 font-semibold bg-blue-50 p-2 rounded inline-block">$$\alpha = 11.0 \text{ rad/s}^2 \quad \longrightarrow \quad a_G = 1.25(11.0) = 13.75 \text{ pies/s}^2$$</p>
+            </div>
+        </section>
+
+<section class="bg-white shadow-md rounded-lg p-6 border border-slate-200 text-center">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Simulación del Ejercicio</h3>
+            <p class="mb-4 text-slate-700 text-sm">Observa el Movimiento Plano General en acción. La rueda acelera su traslación ($a_G$) mientras incrementa su rotación ($\alpha$) simultáneamente, cumpliendo la condición de rodadura sin deslizamiento.</p>
+
+            <div class="relative w-full max-w-2xl mx-auto border border-slate-300 rounded-lg overflow-hidden bg-slate-50 mb-4 shadow-inner">
+                <canvas id="simCanvas" width="600" height="200" class="w-full bg-white"></canvas>
+            </div>
+
+            <button type="button" onclick="iniciarSimulacion()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow transition duration-300">
+                Reproducir / Reiniciar Movimiento
+            </button>
+        </section>
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200 text-center">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Mapa Conceptual Expandido</h3>
+            <p class="mb-4 text-slate-600 text-sm">Accede a una vista jerárquica de todos los conceptos y flujos de la metodología estructurada.</p>
+            
+            <button onclick="toggleMapa()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow transition duration-300 mb-4">
+                Ver / Ocultar Mapa Conceptual
+            </button>
+
+               <div id="mapa-container" class="hidden border-t border-slate-200 pt-4">
+                <div class="tree">
+                    <ul>
+                        <li>
+                            <a href="#">Movimiento Plano General</a>
+                            <ul>
+                                <li>
+                                    <a href="#">Cinemática (Geometría)</a>
+                                    <ul>
+                                        <li><a href="#">Velocidad Relativa (v<sub>B</sub> = v<sub>A</sub> + &omega; &times; r<sub>B/A</sub>)</a></li>
+                                        <li><a href="#">Aceleración Relativa (a<sub>B</sub> = a<sub>A</sub> + &alpha; &times; r<sub>B/A</sub> - &omega;<sup>2</sup>r<sub>B/A</sub>)</a></li>
+                                        <li><a href="#">Centro Instantáneo (CI) (v = &omega;r)</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Cinética (Causas)</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Traslación</a>
+                                            <ul>
+                                                <li><a href="#">&Sigma;F<sub>x</sub> = m(a<sub>G</sub>)<sub>x</sub></a></li>
+                                                <li><a href="#">&Sigma;F<sub>y</sub> = m(a<sub>G</sub>)<sub>y</sub></a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">Rotación</a>
+                                            <ul>
+                                                <li><a href="#">&Sigma;M<sub>G</sub> = I<sub>G</sub>&alpha;</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Conceptos Claves</a>
+                                    <ul>
+                                        <li><a href="#">Cuerpo Rígido</a></li>
+                                        <li><a href="#">Centro de Masa (G)</a></li>
+                                        <li><a href="#">Momento de Inercia (I) (I<sub>G</sub> = mk<sub>G</sub><sup>2</sup>)</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Metodología</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">1. Cinemática</a>
+                                            <ul>
+                                                <li><a href="#">Restricciones (a<sub>G</sub> = &alpha;r)</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">2. Diagramas</a>
+                                            <ul>
+                                                <li><a href="#">DCL (Fuerzas)</a></li>
+                                                <li><a href="#">Cinético (Inercia)</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">3. Ecuaciones</a>
+                                            <ul>
+                                                <li><a href="#">Signos Dinámicos</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+<section class="bg-white shadow-md rounded-lg p-6 border border-slate-200 text-center">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Recurso Audiovisual</h3>
+            <p class="mb-6 text-slate-700 text-sm">Complementa tu aprendizaje visualizando el contenido interactivo sobre movimiento en el plano general. Haz clic en el botón inferior para abrir la videoclase de forma segura.</p>
+            
+            <a href="https://youtu.be/CE2RZiPJxWg" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 transform hover:-translate-y-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+                </svg>
+                Ver Video Explicativo en YouTube
+            </a>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Test de Evaluación</h3>
+            <form id="quiz-form" class="space-y-6 text-slate-700">
+                <div class="q-block">
+                    <p class="font-semibold text-slate-900">1. ¿Qué define al movimiento plano general?</p>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q1" value="a" class="mr-2"> a) Solo rotación sobre un eje fijo.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q1" value="b" class="mr-2"> b) Solo traslación curvilínea.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q1" value="c" class="mr-2"> c) Una combinación simultánea de traslación y rotación.</label>
+                    <p class="text-sm mt-2 font-bold hidden" id="res-q1"></p>
+                </div>
+
+                <div class="q-block">
+                    <p class="font-semibold text-slate-900">2. En el análisis cinético, ¿dónde se deben representar de forma única los vectores de inercia $m a_G$ e $I_G \alpha$?</p>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q2" value="a" class="mr-2"> a) En el diagrama de cuerpo libre (DCL).</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q2" value="b" class="mr-2"> b) En el diagrama cinético (DC).</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q2" value="c" class="mr-2"> c) Directamente en los apoyos cinemáticos del suelo.</label>
+                    <p class="text-sm mt-2 font-bold hidden" id="res-q2"></p>
+                </div>
+
+                <div class="q-block">
+                    <p class="font-semibold text-slate-900">3. ¿Cuál es la restricción cinemática de enlace lineal-angular para un disco de radio $r$ que rueda perfectamente sin deslizar?</p>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q3" value="a" class="mr-2"> a) $a_G = \alpha / r$.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q3" value="b" class="mr-2"> b) $a_G = \alpha r$.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q3" value="c" class="mr-2"> c) $v_G = \alpha^2 r$.</label>
+                    <p class="text-sm mt-2 font-bold hidden" id="res-q3"></p>
+                </div>
+
+                <div class="q-block">
+                    <p class="font-semibold text-slate-900">4. La ecuación $\Sigma M_G = I_G \alpha$ es válida para:</p>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q4" value="a" class="mr-2"> a) Momentos sumados respecto al centro de masa.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q4" value="b" class="mr-2"> b) Momentos sumados respecto a cualquier punto fijo.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q4" value="c" class="mr-2"> c) Solo traslación pura.</label>
+                    <p class="text-sm mt-2 font-bold hidden" id="res-q4"></p>
+                </div>
+
+                <div class="q-block">
+                    <p class="font-semibold text-slate-900">5. ¿Qué describe la cinemática de un cuerpo rígido?</p>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q5" value="a" class="mr-2"> a) Las fuerzas que causan el movimiento.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q5" value="b" class="mr-2"> b) La energía potencial del sistema.</label>
+                    <label class="block mt-1 cursor-pointer"><input type="radio" name="q5" value="c" class="mr-2"> c) Los aspectos geométricos del movimiento.</label>
+                    <p class="text-sm mt-2 font-bold hidden" id="res-q5"></p>
+                </div>
+
+                <button type="button" onclick="evaluarTest()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition duration-300">
+                    Evaluar Test
+                </button>
+            </form>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Calculadora de Movimiento Plano General (Rueda sin deslizar)</h3>
+            <p class="text-sm text-slate-600 mb-4">Ingresa las propiedades físicas del sistema de rueda para calcular automáticamente el comportamiento dinámico con base en nuestra metodología de 4 pasos.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Peso (W) en lb:</label>
+                    <input type="number" id="calc-w" value="50" class="border border-slate-300 rounded w-full py-2 px-3 text-slate-800 focus:outline-none focus:border-blue-600 bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Par (M) en lb·pie:</label>
+                    <input type="number" id="calc-m" value="35" class="border border-slate-300 rounded w-full py-2 px-3 text-slate-800 focus:outline-none focus:border-blue-600 bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Radio (r) en pies:</label>
+                    <input type="number" id="calc-r" value="1.25" step="0.01" class="border border-slate-300 rounded w-full py-2 px-3 text-slate-800 focus:outline-none focus:border-blue-600 bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Radio de giro ($k_G$) en pies:</label>
+                    <input type="number" id="calc-kg" value="0.70" step="0.01" class="border border-slate-300 rounded w-full py-2 px-3 text-slate-800 focus:outline-none focus:border-blue-600 bg-slate-50">
+                </div>
+            </div>
+            
+            <button onclick="calcularMovimiento()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition duration-300 mb-4">
+                Calcular Resultados
+            </button>
+
+            <div id="calc-results" class="hidden bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2">
+                <p class="text-sm text-slate-700"><strong>Inercia de masa ($I_G$):</strong> <span id="res-ig" class="font-mono font-bold text-slate-900"></span> slug·pie²</p>
+                <p class="text-sm text-slate-700"><strong>Aceleración Angular ($\alpha$):</strong> <span id="res-alpha" class="font-mono font-bold text-blue-600"></span> rad/s²</p>
+                <p class="text-sm text-slate-700"><strong>Aceleración del Centro de Masa ($a_G$):</strong> <span id="res-ag" class="font-mono font-bold text-emerald-600"></span> pies/s²</p>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b pb-2">Conclusión</h3>
+            <p class="text-justify text-slate-700 leading-relaxed">
+                La investigación demuestra que el análisis del movimiento plano general requiere una integración indivisible de la cinemática y la cinética. Mientras que la cinemática provee las ecuaciones de enlace necesarias para entender cómo los puntos de un cuerpo se mueven entre sí, la cinética utiliza las leyes de Newton-Euler para quantify el efecto dinámico final provocado por las fuerzas y momentos. El dominio absoluto de estas ecuaciones coordinadas de movimiento dota a los ingenieros de la capacidad para predecir con precisión matemática el comportamiento de sistemas dinámicos complejos, asegurando la eficiencia, optimización y estabilidad operativa en el diseño de maquinaria industrial moderna.
+            </p>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4 border-b pb-2">Referencias Bibliográficas</h3>
+            <ul class="list-decimal pl-6 space-y-2 text-sm text-slate-500">
+                <li>Hibbeler, R. C. (2010). Ingeniería Mecánica: Dinámica (12ma Edición). Pearson Educación.</li>
+                <li>Beer, F. P., & Johnston, E. R. (2010). Mecánica Vectorial para Ingenieros: Dinámica (9na Edición). McGraw-Hill.</li>
+                <li>Bedford, A., & Fowler, W. (2008). Mecánica para Ingeniería: Dinámica (5ta Edición). Pearson.</li>
+                <li>Meriam, J. L., & Kraige, L. G. (1998). Mecánica para Ingenieros: Dinámica (3ra Edición). Reverté.</li>
+		<li>McLean, W. G., & Nelson, E. W. (1992). Mecánica para ingenieros - Estática y Dinámica. Tercera edición (Segunda edición en español). México: McGraw-Hill.</li>
+<li>Zacarías Santiago, A., Ramírez Flores, M. A., Santos Caballero, M. G., Granados Manzo, A., Vera Medina, G., Mota Lugo, A., & Jiménez Castillo, C. (2015). Dinámica: Mecánica para ingenieros. Primera edición ebook. México: Grupo Editorial Patria</li>
+<li>Hibbeler, R. C. (2004). Mecánica vectorial para ingenieros - Dinámica. Décima edición. México: Pearson Educación (Prentice Hall)</li>
+<li>Shames, I. H. (1969). Ingeniería mecánica - Dinámica. Primera edición en español (Traducida de la segunda edición en inglés). México: Herrero Hermanos, Sucs., S. A.</li>
+
+
+            </ul>
+
+            <div class="mt-6 p-4 bg-slate-50 border-l-4 border-blue-600 rounded-r-lg">
+                <p class="mb-1 font-bold text-slate-900 text-sm">Evidencia y Material de Consulta Digital:</p>
+                <p class="text-xs text-slate-500 mb-3">Puedes realizar consultas directas sobre las ediciones y documentos originales indexados en el siguiente repositorio en la nube:</p>
+                <a href="https://drive.google.com/drive/folders/1PpcpXGqIAvKe4vtfME7qKdhfTEnLQ387?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-blue-600 hover:text-blue-800 text-xs font-bold transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                    </svg>
+                    Ver libros de referencia en Google Drive
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modal-info" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50 p-4">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Información sobre Interacción Mecánica</h3>
+            <p class="text-slate-700 text-sm mb-4 text-justify leading-relaxed">
+                Recuerda que la relación cinemática $a_G = \alpha r$ es clave para resolver los sistemas de ecuaciones en problemas donde un cuerpo rueda sin deslizar. Sin esta restricción geométrica (cinemática), el análisis dinámico (cinética) tendría más incógnitas que ecuaciones disponibles, imposibilitando su resolución algebraica directa.
+            </p>
+            <button onclick="cerrarModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded w-full transition duration-300 shadow">
+                Cerrar Ventana
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 text-center p-6 mt-12 border-t border-slate-800">
+        <p class="text-xs">&copy;</p>
+        <p class="text-xs font-semibold text-slate-300 mt-1">Elías Aron Monzón Orozco-202331002</p>
+    </footer>
+
+    <script>
+        function toggleMapa() {
+            const mapaContainer = document.getElementById('mapa-container');
+            mapaContainer.classList.toggle('hidden');
+        }
+
+        function abrirModal() {
+            document.getElementById('modal-info').classList.remove('hidden');
+            document.getElementById('modal-info').classList.add('flex');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-info').classList.add('hidden');
+            document.getElementById('modal-info').classList.remove('flex');
+        }
+
+        function evaluarTest() {
+            const respuestasCorrectas = { q1: 'c', q2: 'b', q3: 'b', q4: 'a', q5: 'c' };
+            for (let i = 1; i <= 5; i++) {
+                let questionName = 'q' + i;
+                let radios = document.getElementsByName(questionName);
+                let resText = document.getElementById('res-' + questionName);
+                let respondido = false;
+                for (let radio of radios) {
+                    if (radio.checked) {
+                        respondido = true;
+                        if (radio.value === respuestasCorrectas[questionName]) {
+                            resText.innerHTML = "&#10004; ¡Correcto!";
+                            resText.className = "text-sm mt-2 font-bold text-green-600 block";
+                        } else {
+                            resText.innerHTML = "&#10008; Incorrecto. La opción correcta es la " + respuestasCorrectas[questionName] + ".";
+                            resText.className = "text-sm mt-2 font-bold text-red-600 block";
+                        }
+                    }
+                }
+                if (!respondido) {
+                    resText.innerHTML = "Por favor, selecciona una opción para evaluar.";
+                    resText.className = "text-sm mt-2 font-bold text-amber-600 block";
+                }
+            }
+        }
+
+        function calcularMovimiento() {
+            let w = parseFloat(document.getElementById('calc-w').value);
+            let m = parseFloat(document.getElementById('calc-m').value);
+            let r = parseFloat(document.getElementById('calc-r').value);
+            let kg = parseFloat(document.getElementById('calc-kg').value);
+            
+            if(isNaN(w) || isNaN(m) || isNaN(r) || isNaN(kg) || r <= 0 || kg <= 0 || w <= 0) {
+                alert("Por favor ingrese valores numéricos válidos y mayores a cero.");
+                return;
+            }
+
+            let g = 32.2;
+            let masa = w / g;
+            let ig = masa * Math.pow(kg, 2);
+            let inerciaTotalEq = ig + masa * Math.pow(r, 2);
+            let alpha = m / inerciaTotalEq;
+            let aG = alpha * r;
+            
+            document.getElementById('res-ig').innerText = ig.toFixed(3);
+            document.getElementById('res-alpha').innerText = alpha.toFixed(2);
+            document.getElementById('res-ag').innerText = aG.toFixed(2);
+            document.getElementById('calc-results').classList.remove('hidden');
+        }
+// ==========================================
+        // SIMULACIÓN DE MOVIMIENTO PLANO GENERAL
+        // ==========================================
+        let animId;
+        let startTime = null;
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        const R = 40; // Radio visual de la rueda en píxeles
+
+        // Función para dibujar la rueda en una posición (x) y ángulo específicos
+        function dibujarRueda(x, angulo) {
+            // Limpiar el lienzo en cada fotograma
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Dibujar la pista/suelo
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height - 30);
+            ctx.lineTo(canvas.width, canvas.height - 30);
+            ctx.strokeStyle = '#475569'; // Color slate-600
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Posición vertical del centro de masa (G)
+            const y = canvas.height - 30 - R;
+
+            // 2. Dibujar la Rueda
+            ctx.save();
+            ctx.translate(x, y); // Traslación
+            ctx.rotate(angulo);  // Rotación
+
+            // Círculo principal
+            ctx.beginPath();
+            ctx.arc(0, 0, R, 0, Math.PI * 2);
+            ctx.strokeStyle = '#0f172a'; // Borde slate-900
+            ctx.lineWidth = 4;
+            ctx.fillStyle = '#f8fafc'; // Fondo slate-50
+            ctx.fill();
+            ctx.stroke();
+
+            // Línea indicadora roja para hacer visible la rotación
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(R, 0);
+            ctx.strokeStyle = '#dc2626'; // Rojo vibrante
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Punto del Centro de Masa (G)
+            ctx.beginPath();
+            ctx.arc(0, 0, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#2563eb'; // Azul blue-600
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // Bucle de animación
+        function animarRueda(timestamp) {
+            if (!startTime) startTime = timestamp;
+            let t = (timestamp - startTime) / 1000; // Tiempo en segundos
+
+            // Aceleración visual a escala (a = 150 px/s^2)
+            let a_visual = 150; 
+            // Vínculo cinemático: aG = alpha * r => alpha = aG / r
+            let alpha_visual = a_visual / R; 
+
+            // Ecuaciones de movimiento uniformemente acelerado: x = 0.5 * a * t^2
+            let x = 50 + (0.5 * a_visual * Math.pow(t, 2));
+            let angulo = 0.5 * alpha_visual * Math.pow(t, 2);
+
+            dibujarRueda(x, angulo);
+
+            // Detener la animación antes de que la rueda salga de la pantalla
+            if (x < canvas.width - R - 10) {
+                animId = requestAnimationFrame(animarRueda);
+            } else {
+                startTime = null; // Reiniciar contador para la próxima vez
+            }
+        }
+
+        // Función enlazada al botón
+        function iniciarSimulacion() {
+            cancelAnimationFrame(animId);
+            startTime = null;
+            animId = requestAnimationFrame(animarRueda);
+        }
+
+        // Dibujar el estado inicial cuando la página carga
+        window.onload = function() {
+            dibujarRueda(50, 0);
+        };
+    </script>
+</body>
+</html>
