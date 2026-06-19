@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinemática de la Partícula - Portal Interactivo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax para Renderizar LaTeX de forma impecable -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 flex flex-col min-h-screen">
+
+    <!-- Encabezado / Header (limpio, solo título e introducción) -->
+    <header class="bg-blue-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-tight">Cinemática de la Partícula</h1>
+                <p class="text-xs text-white">Estudio y Modelado Matemático del Movimiento</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="container mx-auto px-4 py-8 flex-grow max-w-6xl">
+
+        <!-- INTRODUCCIÓN -->
+        <section id="introduccion" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200 transition-all hover:shadow-lg">
+            <div class="flex items-center space-x-3 mb-4">
+                <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Introducción a la Cinemática</h2>
+            </div>
+            <p class="text-base md:text-lg text-gray-700 leading-relaxed mb-6">
+                La <strong>cinemática de la partícula</strong> es la rama de la física que describe matemáticamente el movimiento de los cuerpos sin preocuparse por las causas (fuerzas) que lo producen <span class="text-xs bg-blue-100 text-blue-900 font-semibold px-2 py-0.5 rounded ml-1 select-none">Ref: Serway & Jewett, Cap. 2 & 4</span>. Al simplificar un cuerpo como una "partícula", omitimos su tamaño físico para concentrar su masa en un solo punto matemático, permitiéndonos modelar desde el vuelo de un electrón hasta la trayectoria de naves espaciales con asombrosa precisión a través de sistemas de referencia de coordenadas.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 flex items-start space-x-3">
+                    <span class="text-blue-900 mt-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-sm">Posición (\(\vec{r}\))</h4>
+                        <p class="text-xs text-gray-600">Localización espacial de la partícula en función del tiempo \(t\).</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 flex items-start space-x-3">
+                    <span class="text-blue-900 mt-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-sm">Velocidad (\(\vec{v}\))</h4>
+                        <p class="text-xs text-gray-600">Tasa de cambio temporal del vector de posición.</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 flex items-start space-x-3">
+                    <span class="text-blue-900 mt-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-sm">Aceleración (\(\vec{a}\))</h4>
+                        <p class="text-xs text-gray-600">Ritmo al cual la velocidad varía su magnitud o dirección.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUNTOS CLAVE -->
+        <section id="puntos-clave" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.381-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                    </svg>
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Puntos Clave del Movimiento</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="p-4 border-l-4 border-blue-900 bg-gray-50 rounded-r-xl">
+                        <h3 class="font-bold text-lg text-blue-900 mb-1">1. Elección de Sistemas de Coordenadas</h3>
+                        <p class="text-sm text-gray-700">
+                            La descripción geométrica depende enteramente del sistema elegido por el observador (Cartesianas, Cilíndricas, Esféricas o Intrínsecas) <span class="text-xs bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded font-mono">Ref: Apuntes Unidad 2</span>.
+                        </p>
+                    </div>
+                    <div class="p-4 border-l-4 border-blue-900 bg-gray-50 rounded-r-xl">
+                        <h3 class="font-bold text-lg text-blue-900 mb-1">2. Interpretación por Integración y Derivación</h3>
+                        <p class="text-sm text-gray-700">
+                            La velocidad es la derivada de la posición con respecto al tiempo: \(\vec{v} = \frac{d\vec{r}}{dt}\). Por lo tanto, la posición final se obtiene integrando la función de velocidad en un intervalo dado: \(\vec{r} = \int \vec{v}\,dt\).
+                        </p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-4 border-l-4 border-blue-900 bg-gray-50 rounded-r-xl">
+                        <h3 class="font-bold text-lg text-blue-900 mb-1">3. Componentes Intrínsecas de la Aceleración</h3>
+                        <p class="text-sm text-gray-700">
+                            En trayectorias curvilíneas, la aceleración se divide en:
+                            <span class="block mt-1 font-semibold text-xs text-blue-900">
+                                • Aceleración Tangencial (\(a_t\)): Modifica el módulo de la velocidad.
+                            </span>
+                            <span class="block font-semibold text-xs text-blue-900">
+                                • Aceleración Normal (\(a_n\)): Modifica la dirección de la velocidad.
+                            </span>
+                        </p>
+                    </div>
+                    <div class="p-4 border-l-4 border-blue-900 bg-gray-50 rounded-r-xl">
+                        <h3 class="font-bold text-lg text-blue-900 mb-1">4. Condiciones de Frontera / Iniciales</h3>
+                        <p class="text-sm text-gray-700">
+                            Al integrar expresiones de movimiento, es crucial evaluar las constantes usando los valores iniciales provistos (p. ej., partir del reposo en \(t = 0\)).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESOLUCIÓN DE PROBLEMAS PASO A PASO Y EJEMPLO CLARO -->
+        <section id="paso-a-paso" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Metodología de Resolución Paso a Paso</h2>
+            </div>
+
+            <!-- Metodología -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="p-5 bg-blue-50 rounded-xl relative border border-blue-100">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 bg-blue-900 text-white rounded-full flex items-center justify-center font-bold shadow-md">1</div>
+                    <h3 class="font-bold text-lg text-blue-900 mb-2 mt-1">Identificar Datos e Incógnitas</h3>
+                    <p class="text-sm text-gray-700">
+                        Clasifica las funciones matemáticas dadas (aceleración, velocidad o posición) y define los intervalos de tiempo clave así como las condiciones iniciales exactas.
+                    </p>
+                </div>
+                <div class="p-5 bg-blue-50 rounded-xl relative border border-blue-100">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 bg-blue-900 text-white rounded-full flex items-center justify-center font-bold shadow-md">2</div>
+                    <h3 class="font-bold text-lg text-blue-900 mb-2 mt-1">Seleccionar Operación</h3>
+                    <p class="text-sm text-gray-700">
+                        Si vas hacia abajo en la jerarquía (Posición \(\rightarrow\) Velocidad \(\rightarrow\) Aceleración), debes <strong>Derivar</strong>. Si vas en sentido inverso, debes <strong>Integrar</strong>.
+                    </p>
+                </div>
+                <div class="p-5 bg-blue-50 rounded-xl relative border border-blue-100">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 bg-blue-900 text-white rounded-full flex items-center justify-center font-bold shadow-md">3</div>
+                    <h3 class="font-bold text-lg text-blue-900 mb-2 mt-1">Evaluar Constantes</h3>
+                    <p class="text-sm text-gray-700">
+                        Aplica los límites correspondientes en las integrales definidas o calcula rigurosamente la constante de integración \(C\) utilizando las condiciones iniciales.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ejemplo de Integración Claro -->
+            <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                <div class="flex items-center space-x-2 mb-4">
+                    <span class="text-blue-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </span>
+                    <h3 class="text-xl font-bold text-gray-900">Ejemplo Práctico Explicado</h3>
+                </div>
+                <p class="text-sm text-gray-700 mb-4 font-semibold italic">
+                    "Una partícula parte del reposo y se mueve en línea recta con aceleración dada por \(a(t) = 2t - 6\text{ m/s}^2\). Halle su velocidad en \(t = 6\text{ s}\) y su posición en \(t = 11\text{ s}\)." <span class="text-xs bg-blue-100 text-blue-900 px-1.5 py-0.5 rounded">Ref: Posición y Velocidad por Integración - Salvador FI</span>
+                </p>
+
+                <!-- Acordeón Desplegable del Ejemplo -->
+                <div class="space-y-4">
+                    <!-- Paso A -->
+                    <div class="border border-gray-200 rounded-lg bg-white overflow-hidden">
+                        <button onclick="toggleAccordion('step1')" class="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 transition font-bold text-blue-900 text-sm">
+                            <span>Paso 1: Cálculo de la ecuación de Velocidad por Integración</span>
+                            <svg id="step1-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="step1-content" class="hidden p-4 text-sm text-gray-700 leading-relaxed border-t border-gray-200">
+                            La relación básica entre aceleración y velocidad es:
+                            $$a = \frac{dv}{dt} \implies dv = a\,dt$$
+                            Planteamos la integral con condiciones iniciales desde el reposo (\(v=0\) en \(t=0\)):
+                            $$\int_{0}^{v} dv = \int_{0}^{t} (2\tau - 6) d\tau$$
+                            $$v(t) = \left[ \tau^2 - 6\tau \right]_{0}^{t} = t^2 - 6t\text{ m/s}$$
+                        </div>
+                    </div>
+
+                    <!-- Paso B -->
+                    <div class="border border-gray-200 rounded-lg bg-white overflow-hidden">
+                        <button onclick="toggleAccordion('step2')" class="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 transition font-bold text-blue-900 text-sm">
+                            <span>Paso 2: Evaluación de la Velocidad en \(t = 6\text{ s}\)</span>
+                            <svg id="step2-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="step2-content" class="hidden p-4 text-sm text-gray-700 leading-relaxed border-t border-gray-200">
+                            Sustituimos el valor de \(t = 6\) segundos en nuestra ecuación horaria de velocidad obtenida:
+                            $$v(6) = (6)^2 - 6(6) = 36 - 36 = 0\text{ m/s}$$
+                            <span class="block mt-2 font-semibold text-green-700 text-xs">Resultado: La partícula se detiene momentáneamente a los 6 segundos.</span>
+                        </div>
+                    </div>
+
+                    <!-- Paso C -->
+                    <div class="border border-gray-200 rounded-lg bg-white overflow-hidden">
+                        <button onclick="toggleAccordion('step3')" class="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 transition font-bold text-blue-900 text-sm">
+                            <span>Paso 3: Obtención de la Ecuación de Posición e Integración Final</span>
+                            <svg id="step3-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="step3-content" class="hidden p-4 text-sm text-gray-700 leading-relaxed border-t border-gray-200">
+                            Sabemos que la velocidad es la derivada de la posición:
+                            $$v = \frac{ds}{dt} \implies ds = v\,dt$$
+                            Integramos considerando que la partícula inicia en el origen del marco referencial (\(s=0\) en \(t=0\)):
+                            $$\int_{0}^{s} ds = \int_{0}^{t} (\tau^2 - 6\tau) d\tau$$
+                            $$s(t) = \frac{t^3}{3} - 3t^2\text{ m}$$
+                            Evaluamos para \(t = 11\text{ s}\):
+                            $$s(11) = \frac{11^3}{3} - 3(11)^2 = \frac{1331}{3} - 3(121)$$
+                            $$s(11) = 443.67 - 363 = 80.67\text{ m}$$
+                            <span class="block mt-2 font-semibold text-green-700 text-xs">Resultado: La posición final alcanzada es de aproximadamente 80.67 metros.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCLUSIONES -->
+        <section id="conclusiones" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200">
+            <div class="flex items-center space-x-3 mb-4">
+                <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Conclusiones Clave</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700 leading-relaxed">
+                <div class="p-4 bg-gray-50 rounded-xl border border-gray-150">
+                    <h3 class="font-bold text-blue-900 mb-2">Abstracción del Movimiento</h3>
+                    <p>La modelación matemática mediante el concepto de 'partícula' permite abstraer sistemas mecánicos de gran volumen (como vehículos o aeronaves) simplificándolos a un solo punto de coordenadas espaciales, sin comprometer la precisión cinemática del trayecto.</p>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-xl border border-gray-150">
+                    <h3 class="font-bold text-blue-900 mb-2">Interdependencia Analítica</h3>
+                    <p>La posición, la velocidad y la aceleración se encuentran íntimamente interconectadas mediante operaciones diferenciales e integrales con respecto al tiempo. Comprender y aplicar de forma adecuada las condiciones iniciales define la resolución exacta de ecuaciones de movimiento.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA CONCEPTUAL INTERACTIVO -->
+        <section id="mapa" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Mapa Conceptual Interactivo</h2>
+                        <p class="text-xs text-gray-500 mt-0.5">Basado en la estructura curricular de Cinemática y NotebookLM</p>
+                    </div>
+                </div>
+                <div class="text-xs text-blue-900 bg-blue-100 font-bold px-3 py-1.5 rounded-full flex items-center gap-1 self-start">
+                    <svg class="w-4 h-4 animate-pulse text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                    Haz clic en las ramas para expandir los conceptos
+                </div>
+            </div>
+
+            <!-- Contenedor Visual del Mapa Conceptual -->
+            <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200 overflow-x-auto">
+                <div class="min-w-[800px] py-6 flex flex-col items-center">
+                    
+                    <!-- Nodo Raíz -->
+                    <div class="bg-blue-900 text-white font-extrabold px-6 py-4 rounded-xl shadow-md text-center max-w-xs transition-transform hover:scale-105 duration-200 border-2 border-blue-500 z-10">
+                        <span class="text-xs uppercase tracking-widest text-blue-300 block mb-1">Módulo Central</span>
+                        CINEMÁTICA DE LA PARTÍCULA
+                    </div>
+                    
+                    <!-- Conectores Verticales -->
+                    <div class="w-1 h-8 bg-blue-900 my-0"></div>
+
+                    <!-- Línea Horizontal de Derivación -->
+                    <div class="w-4/5 h-1 bg-blue-900 rounded"></div>
+
+                    <!-- Ramas Principales -->
+                    <div class="grid grid-cols-4 gap-4 w-full mt-0 pt-4">
+                        
+                        <!-- Rama 1: Magnitudes Fundamentales -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-1 h-4 bg-blue-900"></div>
+                            <button onclick="showConcept('concept-mags')" class="w-full bg-white hover:bg-blue-100 border-2 border-blue-900 text-blue-900 font-bold p-3 rounded-lg text-center shadow-sm text-xs transition duration-200">
+                                MAGNITUDES<br>FUNDAMENTALES
+                            </button>
+                        </div>
+
+                        <!-- Rama 2: Tipos de Movimiento -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-1 h-4 bg-blue-900"></div>
+                            <button onclick="showConcept('concept-tipos')" class="w-full bg-white hover:bg-blue-100 border-2 border-blue-900 text-blue-900 font-bold p-3 rounded-lg text-center shadow-sm text-xs transition duration-200">
+                                TIPOS DE<br>MOVIMIENTO
+                            </button>
+                        </div>
+
+                        <!-- Rama 3: Sistemas de Coordenadas -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-1 h-4 bg-blue-900"></div>
+                            <button onclick="showConcept('concept-coord')" class="w-full bg-white hover:bg-blue-100 border-2 border-blue-900 text-blue-900 font-bold p-3 rounded-lg text-center shadow-sm text-xs transition duration-200">
+                                SISTEMAS DE<br>COORDENADAS
+                            </button>
+                        </div>
+
+                        <!-- Rama 4: Componentes Intrínsecas -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-1 h-4 bg-blue-900"></div>
+                            <button onclick="showConcept('concept-intr')" class="w-full bg-white hover:bg-blue-100 border-2 border-blue-900 text-blue-900 font-bold p-3 rounded-lg text-center shadow-sm text-xs transition duration-200">
+                                COMPONENTES<br>INTRÍNSECAS
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Visualizador de Detalles de Conceptos del Mapa -->
+                    <div class="mt-8 w-full max-w-3xl bg-white rounded-xl border border-blue-100 p-5 shadow-inner">
+                        <div id="concept-placeholder" class="text-center py-6 text-gray-500 italic text-sm">
+                            Selecciona una rama del mapa para visualizar sus relaciones conceptuales, definiciones teóricas y modelado matemático.
+                        </div>
+
+                        <!-- Detalle 1 -->
+                        <div id="concept-mags" class="hidden space-y-3">
+                            <h4 class="text-lg font-bold text-blue-900 border-b pb-1">Magnitudes Fundamentales</h4>
+                            <p class="text-sm text-gray-700">Define los vectores geométricos del movimiento lineal o curvilíneo en función del parámetro tiempo \(t\):</p>
+                            <ul class="text-xs text-gray-600 space-y-2 pl-4 list-disc">
+                                <li><strong>Posición (\(\vec{r}\)):</strong> Vector espacial trazado desde el origen al punto coordenado actual de la partícula.</li>
+                                <li><strong>Velocidad Instantánea (\(\vec{v}\)):</strong> Rapidez angular y traslacional tangente a la curva: \(\vec{v} = \frac{d\vec{r}}{dt}\).</li>
+                                <li><strong>Aceleración (\(\vec{a}\)):</strong> Cambio dinámico del vector velocidad: \(\vec{a} = \frac{d\vec{v}}{dt} = \frac{d^2\vec{r}}{dt^2}\).</li>
+                            </ul>
+                        </div>
+
+                        <!-- Detalle 2 -->
+                        <div id="concept-tipos" class="hidden space-y-3">
+                            <h4 class="text-lg font-bold text-blue-900 border-b pb-1">Clasificación por Trayectoria</h4>
+                            <p class="text-sm text-gray-700">El movimiento puede segmentarse geométricamente en base a la línea que describe su trayectoria:</p>
+                            <ul class="text-xs text-gray-600 space-y-2 pl-4 list-disc">
+                                <li><strong>Rectilíneo Uniforme (MRU):</strong> Desplazamiento lineal a velocidad constante, aceleración nula \(a = 0\).</li>
+                                <li><strong>Rectilíneo Uniformemente Variado (MRUA):</strong> Variación lineal acelerada de forma constante \(a = \text{cte}\).</li>
+                                <li><strong>Curvilíneo General:</strong> Trayectorias parabólicas, elípticas, circulares o tridimensionales libres de restricciones lineales.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Detalle 3 -->
+                        <div id="concept-coord" class="hidden space-y-3">
+                            <h4 class="text-lg font-bold text-blue-900 border-b pb-1">Sistemas de Referencia Comunes</h4>
+                            <p class="text-sm text-gray-700">Marcos de referencia para la proyección matemática:</p>
+                            <ul class="text-xs text-gray-600 space-y-2 pl-4 list-disc">
+                                <li><strong>Coordenadas Cartesianas:</strong> Proyección ortogonal simple en base de vectores fijos \(\{\hat{i}, \hat{j}, \hat{k}\}\).</li>
+                                <li><strong>Coordenadas Cilíndricas:</strong> Modelo de base móvil polar más eje vertical, ideal para sistemas con simetría rotacional \(\{\hat{e}_\rho, \hat{e}_\theta, \hat{e}_z\}\).</li>
+                                <li><strong>Coordenadas Esféricas:</strong> Orientado a trayectorias espaciales radiales \(\{\hat{e}_r, \hat{e}_\theta, \hat{e}_\phi\}\).</li>
+                            </ul>
+                        </div>
+
+                        <!-- Detalle 4 -->
+                        <div id="concept-intr" class="hidden space-y-3">
+                            <h4 class="text-lg font-bold text-blue-900 border-b pb-1">Coordenadas Intrínsecas o Locales</h4>
+                            <p class="text-sm text-gray-700">Modelo móvil que viaja directamente junto a la partícula siguiendo su curva:</p>
+                            <ul class="text-xs text-gray-600 space-y-2 pl-4 list-disc">
+                                <li><strong>Aceleración Tangencial (\(a_t\)):</strong> Tangente a la trayectoria. Mide la variación del módulo de velocidad: \(a_t = \frac{dv}{dt}\).</li>
+                                <li><strong>Aceleración Normal (\(a_n\)):</strong> Perpendicular y apuntando al centro de curvatura. Mide la variación en dirección: \(a_n = \frac{v^2}{\rho}\).</li>
+                                <li><strong>Fórmula de Aceleración Total:</strong> \(\vec{a} = a_t \hat{u}_t + a_n \hat{u}_n\).</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CUESTIONARIO INTERACTIVO DE 5 PREGUNTAS -->
+        <section id="cuestionario" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </span>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Autoevaluación Interactiva</h2>
+                    <p class="text-xs text-gray-500 mt-0.5">Demuestra tus conocimientos teóricos y de cálculo cinemático</p>
+                </div>
+            </div>
+
+            <!-- Interfaz del Cuestionario -->
+            <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                <div id="quiz-intro" class="text-center py-6">
+                    <p class="text-sm text-gray-700 mb-4">El cuestionario consta de 5 preguntas de opción múltiple basadas en los temas de tu cuaderno.</p>
+                    <button onclick="startQuiz()" class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow transition duration-200 inline-flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Iniciar Cuestionario
+                    </button>
+                </div>
+
+                <!-- Bloques de Preguntas (Inicialmente Ocultos) -->
+                <div id="quiz-container" class="hidden space-y-6">
+                    <!-- Barra de Progreso -->
+                    <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+                        <div id="quiz-progress" class="bg-blue-900 h-full transition-all duration-300" style="width: 20%"></div>
+                    </div>
+                    <div class="flex justify-between items-center text-xs text-blue-900 font-bold">
+                        <span id="quiz-question-number">Pregunta 1 de 5</span>
+                        <span id="quiz-score-indicator">Puntuación: 0/5</span>
+                    </div>
+
+                    <!-- Contenido de la Pregunta Actual -->
+                    <div id="question-card" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+                        <h3 id="question-text" class="font-bold text-gray-900 mb-4 text-base">Cargando pregunta...</h3>
+                        <div id="options-container" class="space-y-3">
+                            <!-- Opciones inyectadas dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Retroalimentación -->
+                    <div id="feedback-panel" class="hidden p-4 rounded-xl text-sm font-semibold flex items-start space-x-3">
+                        <span id="feedback-icon" class="text-lg mt-0.5"></span>
+                        <p id="feedback-text"></p>
+                    </div>
+
+                    <!-- Botón de Siguiente -->
+                    <div class="flex justify-end">
+                        <button id="next-btn" onclick="nextQuestion()" class="hidden bg-blue-900 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-lg transition shadow flex items-center">
+                            Siguiente 
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Panel de Resultados Finales -->
+                <div id="results-panel" class="hidden text-center py-8 space-y-4">
+                    <div class="inline-block p-4 bg-blue-100 text-blue-900 rounded-full text-4xl shadow-md">
+                        <svg class="w-12 h-12 text-blue-900 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-blue-900">¡Cuestionario Completado!</h3>
+                    <p class="text-sm text-gray-700">Tu puntuación final es:</p>
+                    <div class="text-5xl font-extrabold text-blue-900 py-2">
+                        <span id="final-score">0</span> / 5
+                    </div>
+                    <p id="results-comment" class="text-xs text-gray-600 italic px-6 max-w-md mx-auto"></p>
+                    <button onclick="startQuiz()" class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow transition mt-2 inline-flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"></path></svg>
+                        Intentar de Nuevo
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- EJERCICIO A RESOLVER (PROPUESTO) -->
+        <section id="ejercicio-propuesto" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                    </svg>
+                </span>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Ejercicio a Resolver</h2>
+                    <p class="text-xs text-gray-500 mt-0.5">Pon a prueba tu razonamiento aplicando los conceptos teóricos analizados</p>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <span class="text-xs uppercase bg-blue-900 text-white font-bold px-2.5 py-1 rounded">Nivel: Intermedio</span>
+                    <span class="text-xs text-blue-900 font-semibold">Fuente: Dinámica Beer & Johnston, Problema 11.12</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3 leading-snug">
+                    Determinación de constante física y ecuaciones generales de movimiento
+                </h3>
+                <div class="text-sm text-gray-700 space-y-3 leading-relaxed">
+                    <p>
+                        La aceleración de una partícula está definida por la relación \(a(t) = k \cdot t^2\) \(\text{pies/s}^2\), donde \(k\) es una constante física de proporcionalidad.
+                    </p>
+                    <p>
+                        Sabiendo que la velocidad de la partícula es \(v = -32\text{ pies/s}\) en \(t = 0\text{ s}\), y que cambia su sentido de movimiento alcanzando \(v = 32\text{ pies/s}\) exactamente cuando \(t = 4\text{ s}\):
+                    </p>
+                    <ul class="list-decimal pl-5 space-y-1 font-semibold text-blue-900">
+                        <li>Determinar el valor de la constante física \(k\).</li>
+                        <li>Establecer las ecuaciones completas de posición \(x(t)\), sabiendo que \(x = 0\) en \(t = 4\text{ s}\).</li>
+                    </ul>
+                </div>
+
+                <!-- Botón de Solución Desplegable -->
+                <div class="mt-6">
+                    <button onclick="toggleAccordion('exercise-sol')" class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-lg flex items-center gap-2 transition shadow">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                        <span>Revelar Solución Detallada</span>
+                    </button>
+
+                    <div id="exercise-sol" class="hidden mt-4 p-5 bg-white rounded-lg border border-gray-200 text-sm text-gray-700 space-y-4">
+                        <h4 class="font-bold text-blue-900 border-b pb-1">Resolución Paso a Paso en LaTeX:</h4>
+                        
+                        <div>
+                            <p class="font-semibold text-gray-900">1. Encontrar la constante \(k\):</p>
+                            <p class="mt-1">
+                                Integramos la aceleración para obtener velocidad:
+                                $$v(t) = \int a(t)\,dt = \int k t^2\,dt = \frac{k}{3}t^3 + C$$
+                                Usando la condición inicial \(v(0) = -32\text{ pies/s}\):
+                                $$-32 = \frac{k}{3}(0)^3 + C \implies C = -32$$
+                                Por lo tanto, la ecuación horaria de velocidad es:
+                                $$v(t) = \frac{k}{3}t^3 - 32$$
+                                Ahora, aplicamos la segunda condición dada: \(v(4) = 32\text{ pies/s}\):
+                                $$32 = \frac{k}{3}(4)^3 - 32 \implies 32 + 32 = \frac{64}{3}k \implies 64 = \frac{64}{3}k \implies k = 3\text{ pies/s}^4$$
+                            </p>
+                        </div>
+
+                        <hr class="border-gray-200">
+
+                        <div>
+                            <p class="font-semibold text-gray-900">2. Encontrar la ecuación de posición \(x(t)\):</p>
+                            <p class="mt-1">
+                                Sustituyendo \(k = 3\) en la velocidad, obtenemos:
+                                $$v(t) = t^3 - 32$$
+                                Integramos la velocidad para hallar la posición:
+                                $$x(t) = \int v(t)\,dt = \int (t^3 - 32)\,dt = \frac{t^4}{4} - 32t + C_2$$
+                                Usamos la condición dada \(x(4) = 0\):
+                                $$0 = \frac{4^4}{4} - 32(4) + C_2 \implies 0 = 64 - 128 + C_2 \implies C_2 = 64$$
+                                Por lo tanto, la ecuación horaria de la posición final es:
+                                $$x(t) = \frac{t^4}{4} - 32t + 64\text{ pies}$$
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MULTIMEDIA -->
+        <section id="recursos" class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-gray-200">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-blue-100 text-blue-900 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path>
+                    </svg>
+                </span>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-blue-900">Recursos Multimedia del Cuaderno</h2>
+                    <p class="text-xs text-gray-500 mt-0.5">Soporte audiovisual complementario</p>
+                </div>
+            </div>
+
+            <!-- Video de YouTube en ancho completo para mejor legibilidad visual -->
+            <div class="space-y-3 max-w-4xl mx-auto">
+                <h3 class="font-bold text-lg text-gray-900 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.507 9.388.507 9.388.507s7.517 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    Explicación Dinámica Recomendada
+                </h3>
+                <p class="text-sm text-gray-600">Vídeo de apoyo didáctico sobre integración y cinemática lineal de la partícula.</p>
+                <div class="relative overflow-hidden rounded-xl border border-gray-200 shadow-lg aspect-video">
+                    <iframe class="absolute top-0 left-0 w-full h-full" 
+                            src="https://www.youtube.com/embed/fRxuE4ti5eI" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer / Pie de Página (unificado, elegante y centrado) -->
+    <footer class="bg-slate-950 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">
+                <span class="text-slate-400">Desarrollado por:</span>
+                <span class="text-white font-medium">Pedro Pablo Villacorta Rios - 201731650</span>
+                <span class="text-slate-400"> y </span>
+                <span class="text-white font-medium">Willy David Salanic Chanchavác - 202430424</span>
+            </p>
+            <p class="text-sm text-slate-400">© 2026 División de Ingeniería</p>
+            <p class="text-sm text-slate-400">Universidad de San Carlos de Guatemala, CUNOC</p>
+            <p class="text-xs text-slate-400 mt-2">Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2</p>
+        </div>
+    </footer>
+
+    <!-- Scripts de Interactividad de la Página -->
+    <script>
+        // --- 1. Acordeones Desplegables de los Problemas ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(id + '-content') || document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                if (icon) icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                if (icon) icon.classList.remove('rotate-180');
+            }
+        }
+
+        // --- 2. Mapa Conceptual Interactivo ---
+        function showConcept(id) {
+            // Ocultar placeholder
+            document.getElementById('concept-placeholder').classList.add('hidden');
+            
+            // Ocultar todos los detalles de concepto
+            const concepts = ['concept-mags', 'concept-tipos', 'concept-coord', 'concept-intr'];
+            concepts.forEach(item => {
+                document.getElementById(item).classList.add('hidden');
+            });
+            
+            // Mostrar concepto seleccionado
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        // --- 3. Cuestionario de 5 Preguntas ---
+        const quizQuestions = [
+            {
+                q: "¿Qué rama de la física mecánica describe el movimiento de los cuerpos omitiendo las causas que lo originan?",
+                options: [
+                    { text: "Dinámica", correct: false },
+                    { text: "Estática", correct: false },
+                    { text: "Cinemática", correct: true },
+                    { text: "Termodinámica", correct: false }
+                ],
+                explanation: "La cinemática describe matemáticamente el movimiento omitiendo las causas (fuerzas), que son estudiadas por la dinámica."
+            },
+            {
+                q: "Si la aceleración tangencial de una partícula en movimiento curvilíneo es cero, significa que:",
+                options: [
+                    { text: "La trayectoria es obligatoriamente una recta", correct: false },
+                    { text: "El módulo de la velocidad permanece constante", correct: true },
+                    { text: "La dirección del vector velocidad no cambia", correct: false },
+                    { text: "La aceleración total es igual a cero", correct: false }
+                ],
+                explanation: "La aceleración tangencial es responsable del cambio en la magnitud (módulo) de la velocidad. Si es cero, el módulo es constante."
+            },
+            {
+                q: "Para obtener la velocidad final a partir de una función de aceleración, debemos aplicar:",
+                options: [
+                    { text: "Derivación respecto al tiempo", correct: false },
+                    { text: "Integración respecto al tiempo y sumar condiciones de frontera", correct: true },
+                    { text: "La constante de Boltzmann", correct: false },
+                    { text: "Derivada parcial espacial", correct: false }
+                ],
+                explanation: "La aceleración es dv/dt. Al integrar la aceleración con respecto al tiempo e incorporar la constante de velocidad inicial, hallamos la velocidad final."
+            },
+            {
+                q: "Dada la posición x(t) = 1.5t⁴ - 30t² + 5t + 10, ¿cuál es la velocidad instantánea de la partícula en t = 4 segundos?",
+                options: [
+                    { text: "v = 149 m/s", correct: true },
+                    { text: "v = -120 m/s", correct: false },
+                    { text: "v = -70 m/s", correct: false },
+                    { text: "v = 0 m/s", correct: false }
+                ],
+                explanation: "La derivada de x(t) es v(t) = 6t³ - 60t + 5. Evaluando en t=4 s: v(4) = 6(64) - 60(4) + 5 = 384 - 240 + 5 = 149 m/s."
+            },
+            {
+                q: "La aceleración radial o centrípeta en coordenadas intrínsecas siempre apunta hacia:",
+                options: [
+                    { text: "El exterior de la curva", correct: false },
+                    { text: "El centro de curvatura de la trayectoria", correct: true },
+                    { text: "El sentido de la velocidad", correct: false },
+                    { text: "La posición inicial de referencia", correct: false }
+                ],
+                explanation: "La aceleración normal o radial siempre apunta de manera perpendicular hacia el interior, es decir, al centro de curvatura."
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let score = 0;
+        let hasAnsweredCurrent = false;
+
+        function startQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            currentQuestionIdx = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            hasAnsweredCurrent = false;
+            document.getElementById('feedback-panel').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            
+            const qData = quizQuestions[currentQuestionIdx];
+            
+            // Actualizar Progreso
+            const progressPct = ((currentQuestionIdx + 1) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress').style.width = progressPct + '%';
+            document.getElementById('quiz-question-number').innerText = `Pregunta ${currentQuestionIdx + 1} de ${quizQuestions.length}`;
+            document.getElementById('quiz-score-indicator').innerText = `Puntuación: ${score}/${quizQuestions.length}`;
+            
+            // Cargar Texto de Pregunta
+            document.getElementById('question-text').innerText = qData.q;
+            
+            // Cargar Opciones
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-100 transition text-sm flex items-center justify-between";
+                btn.innerHTML = `<span>${opt.text}</span> <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke-width="2"></circle></svg>`;
+                btn.onclick = () => selectOption(btn, opt.correct, qData.explanation);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedBtn, isCorrect, explanation) {
+            if (hasAnsweredCurrent) return;
+            hasAnsweredCurrent = true;
+            
+            const options = document.getElementById('options-container').children;
+            
+            // Marcar respuestas visualmente
+            for (let btn of options) {
+                btn.disabled = true; // Deshabilitar todos
+            }
+            
+            const feedbackPanel = document.getElementById('feedback-panel');
+            const feedbackText = document.getElementById('feedback-text');
+            
+            if (isCorrect) {
+                score++;
+                selectedBtn.className = "w-full text-left p-3 rounded-lg border border-green-500 bg-green-50 text-green-800 font-semibold text-sm flex items-center justify-between";
+                selectedBtn.innerHTML = `<span>${selectedBtn.querySelector('span').innerText}</span> <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
+                
+                feedbackPanel.className = "p-4 rounded-xl text-sm font-semibold flex items-start space-x-3 bg-green-100 text-green-800";
+                feedbackText.innerHTML = `<strong>¡Excelente!</strong> ${explanation}`;
+            } else {
+                selectedBtn.className = "w-full text-left p-3 rounded-lg border border-red-500 bg-red-50 text-red-800 font-semibold text-sm flex items-center justify-between";
+                selectedBtn.innerHTML = `<span>${selectedBtn.querySelector('span').innerText}</span> <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>`;
+                
+                // Mostrar la correcta
+                for (let i = 0; i < options.length; i++) {
+                    const optData = quizQuestions[currentQuestionIdx].options[i];
+                    if (optData.correct) {
+                        options[i].className = "w-full text-left p-3 rounded-lg border border-green-500 bg-green-50 text-green-800 font-semibold text-sm flex items-center justify-between";
+                        options[i].innerHTML = `<span>${options[i].querySelector('span').innerText}</span> <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
+                    }
+                }
+                
+                feedbackPanel.className = "p-4 rounded-xl text-sm font-semibold flex items-start space-x-3 bg-red-100 text-red-800";
+                feedbackText.innerHTML = `<strong>Incorrecto.</strong> ${explanation}`;
+            }
+            
+            feedbackPanel.classList.remove('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
+            document.getElementById('quiz-score-indicator').innerText = `Puntuación: ${score}/${quizQuestions.length}`;
+        }
+
+        function nextQuestion() {
+            currentQuestionIdx++;
+            if (currentQuestionIdx < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultsPanel = document.getElementById('results-panel');
+            resultsPanel.classList.remove('hidden');
+            
+            document.getElementById('final-score').innerText = score;
+            
+            let comment = "";
+            if (score === 5) {
+                comment = "¡Felicidades! Tienes un dominio excepcional de la Cinemática de la Partícula. Estás listo para dinámicas más complejas.";
+            } else if (score >= 3) {
+                comment = "Buen trabajo. Posees un entendimiento robusto de las integrales cinemáticas y componentes de coordenadas, aunque puedes repasar algunos conceptos.";
+            } else {
+                comment = "Te recomendamos revisar detenidamente el ejemplo resuelto paso a paso para afianzar tus bases.";
+            }
+            document.getElementById('results-comment').innerText = comment;
+        }
+    </script>
+
+    <!-- Script de layout global (botón de regresar al índice) -->
+    <script src="../js/global-layout.js"></script>
+
+</body>
+</html>

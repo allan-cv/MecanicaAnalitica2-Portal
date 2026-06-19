@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo y Energía - Mecánica Analítica</title>
+    <!-- Tailwind CSS para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax para renderizar ecuaciones LaTeX -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px; /* Equivalente a 12pt académico */
+            line-height: 1.6;
+        }
+        .latex-equation {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        /* Custom scrollbar para estética premium */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Encabezado / Hero Section (limpiado: solo título e introducción) -->
+    <header class="bg-blue-800 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-8 md:py-12">
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight">Trabajo y Energía</h1>
+            <p class="text-white mt-2 text-base md:text-lg max-w-2xl font-light">
+                Plataforma didáctica interactiva orientada al curso de Análisis Mecánico y Mecánica Analítica.
+            </p>
+        </div>
+    </header>
+
+    <!-- Barra de Navegación Rápida -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm overflow-x-auto">
+        <div class="max-w-7xl mx-auto px-4 flex space-x-1 md:space-x-4 py-2">
+            <button onclick="scrollToSection('fundamentos')" class="px-3 py-2 text-sm font-medium text-indigo-950 hover:bg-slate-100 rounded-lg transition">Fundamentos</button>
+            <button onclick="scrollToSection('biografia')" class="px-3 py-2 text-sm font-medium text-indigo-950 hover:bg-slate-100 rounded-lg transition">Biografía de Inventores</button>
+            <button onclick="scrollToSection('mapa-conceptual')" class="px-3 py-2 text-sm font-medium text-indigo-950 hover:bg-slate-100 rounded-lg transition">Mapa Conceptual</button>
+            <button onclick="scrollToSection('ejercicio-video')" class="px-3 py-2 text-sm font-medium text-indigo-950 hover:bg-slate-100 rounded-lg transition">Análisis Ejercicio 13.60</button>
+            <button onclick="scrollToSection('simulador')" class="px-3 py-2 text-sm font-medium text-indigo-950 hover:bg-slate-100 rounded-lg transition">Simulador</button>
+            <button onclick="scrollToSection('examen')" class="px-3 py-2 text-sm font-medium text-indigo-950 hover:bg-slate-100 rounded-lg transition">Evaluación</button>
+            <button onclick="scrollToSection('bibliografia')" class="px-3 py-2 text-sm font-medium text-indigo-950 hover:bg-slate-100 rounded-lg transition">Bibliografía</button>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-6 py-8 space-y-16">
+
+        <!-- Sección 1: Fundamentos Teóricos (NotebookLM) -->
+        <section id="fundamentos" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-800 p-2.5 rounded-2xl">
+                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Fundamentos Teóricos: Trabajo y Energía</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-700 leading-relaxed text-justify">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 border-b-2 border-indigo-100 pb-1">1. El Concepto de Trabajo ($W$)</h3>
+                        <p>
+                            En la mecánica clásica, el trabajo realizado por una fuerza es una medida de la transferencia de energía mecánica que dicha fuerza ejerce sobre un cuerpo al desplazarlo. Matemáticamente, el trabajo diferencial $dU$ (o $dW$) realizado por una fuerza $\vec{F}$ en un desplazamiento diferencial $d\vec{r}$ se define como:
+                        </p>
+                        <div class="my-3 bg-slate-50 p-3 rounded-xl text-center font-mono latex-equation">
+                            $$dU = \vec{F} \cdot d\vec{r} = F \, ds \cos\theta$$
+                        </div>
+                        <p>
+                            Donde $\theta$ es el ángulo entre la dirección de la fuerza y la trayectoria de desplazamiento. El trabajo total de la fuerza a lo largo de una trayectoria del estado 1 al 2 se calcula mediante la integral de línea:
+                        </p>
+                        <div class="my-3 bg-slate-50 p-3 rounded-xl text-center font-mono latex-equation">
+                            $$U_{1 \to 2} = \int_{r_1}^{r_2} \vec{F} \cdot d\vec{r}$$
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 border-b-2 border-indigo-100 pb-1">2. Energía Cinética ($T$ o $E_k$)</h3>
+                        <p>
+                            La energía cinética representa la capacidad de un cuerpo para realizar trabajo en virtud de su velocidad de movimiento. Integrando la segunda ley de Newton ($\vec{F} = m\vec{a}$) con respecto al desplazamiento, se obtiene el <strong>Principio de Trabajo y Energía</strong>:
+                        </p>
+                        <div class="my-3 bg-slate-50 p-3 rounded-xl text-center font-mono latex-equation">
+                            $$U_{1 \to 2} = T_2 - T_1$$
+                        </div>
+                        <p>
+                            Donde la energía cinética traslacional de una partícula de masa $m$ que se mueve con velocidad $v$ es:
+                        </p>
+                        <div class="my-3 bg-slate-50 p-3 rounded-xl text-center font-mono latex-equation">
+                            $$T = \frac{1}{2} m v^2$$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 border-b-2 border-indigo-100 pb-1">3. Energía Potencial ($V$ o $E_p$)</h3>
+                        <p>
+                            La energía potencial es la energía que posee un cuerpo debido a su posición en un campo de fuerzas conservativo. En dinámica, se analizan principalmente dos fuentes de energía potencial:
+                        </p>
+                        <ul class="list-disc pl-5 mt-2 space-y-2">
+                            <li>
+                                <strong>Energía Potencial Gravitacional ($V_g$):</strong> Producida por la fuerza de gravedad constante cerca de la superficie terrestre:
+                                <div class="my-2 bg-slate-50 p-2 rounded-xl text-center font-mono latex-equation">
+                                    $$V_g = m g y$$
+                                </div>
+                                Donde $y$ es la elevación respecto a un nivel de referencia dado.
+                            </li>
+                            <li>
+                                <strong>Energía Potencial Elástica ($V_e$):</strong> Almacenada en un resorte ideal con constante de rigidez $k$ cuando se deforma una distancia $s$:
+                                <div class="my-2 bg-slate-50 p-2 rounded-xl text-center font-mono latex-equation">
+                                    $$V_e = \frac{1}{2} k s^2$$
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 border-b-2 border-indigo-100 pb-1">4. Conservación de la Energía Mecánica</h3>
+                        <p>
+                            Cuando un sistema dinámico está sujeto únicamente a fuerzas conservativas (gravedad, resortes, etc.), el trabajo realizado se traduce en cambios exactos de su energía potencial. En estas condiciones, el sistema es de carácter conservativo, y se cumple que:
+                        </p>
+                        <div class="my-3 bg-slate-50 p-3 rounded-xl text-center font-mono latex-equation">
+                            $$T_1 + V_1 = T_2 + V_2 \implies E_{\text{mec}} = \text{constante}$$
+                        </div>
+                        <p>
+                            Esta ley de conservación permite resolver problemas de dinámica compleja determinando las velocidades y deformaciones directamente a partir de las coordenadas espaciales, sin requerir la integración paso a paso de las fuerzas a lo largo del tiempo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Biografía de Inventores/Físicos Fundamentales -->
+        <section id="biografia" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-800 p-2.5 rounded-2xl">
+                    <i data-lucide="user-check" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Biografía Científica: James Prescott Joule</h2>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8 items-center md:items-start text-justify">
+                <div class="w-full md:w-1/3 text-center">
+                    <div class="bg-slate-100 rounded-2xl p-6 border border-slate-200 inline-block w-full">
+                        <div class="text-indigo-900 font-bold text-lg">James Prescott Joule</div>
+                        <div class="text-slate-500 text-sm">Físico y Cervezero Británico</div>
+                        <div class="text-indigo-600 font-semibold text-xs mt-1">(1818 – 1889)</div>
+                        <div class="mt-4 border-t border-slate-200 pt-4 text-xs text-left space-y-2 text-slate-600">
+                            <p><strong>Nacionalidad:</strong> Británica</p>
+                            <p><strong>Conocido por:</strong> Descubrimiento de la Ley de Joule, primer principio de la termodinámica, calor de fricción.</p>
+                            <p><strong>Unidad física:</strong> El Julio (Joule), unidad de medida del trabajo y la energía en el Sistema Internacional.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 space-y-4 text-slate-700">
+                    <p>
+                        Nacido en Salford, Lancashire, **James Prescott Joule** fue alumno del renombrado químico John Dalton. A través de experimentos de una precisión exquisita para su época, Joule demostró de manera irrefutable que el calor y el trabajo mecánico son formas equivalentes de energía, estableciendo la base experimental para la **Ley de Conservación de la Energía**.
+                    </p>
+                    <p>
+                        Su experimento más famoso, conocido como el *experimento de la rueda de paletas*, consistía en dejar caer una masa calibrada que hacía girar unas palas sumergidas en un recipiente de agua térmicamente aislado. Midió de forma exacta el aumento de temperatura del líquido causado por la agitación de las paletas, determinando así la constante física conocida como el **Equivalente Mecánico del Calor**:
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-xl text-center font-mono max-w-md mx-auto latex-equation">
+                        $$1 \text{ caloría} \approx 4.184 \text{ Julios}$$
+                    </div>
+                    <p>
+                        Esta labor experimental permitió unificar la termodinámica con la mecánica clásica, logrando que el "trabajo" mecánico y el "calor" térmico fuesen tratados bajo el mismo marco teórico y la misma unidad conceptual. Joule trabajó en conjunto con Lord Kelvin para desarrollar la escala de temperatura absoluta.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Mapa Conceptual de NotebookLM -->
+        <section id="mapa-conceptual" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-800 p-2.5 rounded-2xl">
+                    <i data-lucide="network" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Mapa Conceptual de Trabajo y Energía</h2>
+            </div>
+            <p class="text-slate-600 mb-8 text-center text-sm md:text-base">
+                Estructura lógica que organiza la interrelación entre las fuerzas conservativas, la transferencia de trabajo y la conservación de la energía mecánica.
+            </p>
+
+            <!-- Render de Mapa Conceptual con divs estructurados -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                <!-- Nodo Principal (Cúspide) -->
+                <div class="md:col-span-3 flex justify-center">
+                    <div class="bg-indigo-950 text-white p-5 rounded-2xl border-2 border-indigo-700 shadow-lg text-center w-full max-w-md">
+                        <span class="text-xs bg-indigo-500/30 px-2 py-0.5 rounded-full uppercase tracking-widest font-semibold text-indigo-200">Concepto Central</span>
+                        <h4 class="text-lg font-bold mt-1">Sistemas Dinámicos de Partículas</h4>
+                        <p class="text-xs text-indigo-300 mt-1">Su movimiento se analiza mediante relaciones de Fuerza, Desplazamiento y Velocidad.</p>
+                    </div>
+                </div>
+
+                <!-- Columnas de Ramas Principales -->
+                <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 space-y-4">
+                    <div class="bg-blue-900 text-white p-4 rounded-xl text-center shadow-md">
+                        <h5 class="font-bold text-sm">Método de Trabajo y Energía</h5>
+                    </div>
+                    <p class="text-xs text-slate-600 text-justify">
+                        Integra la fuerza respecto al desplazamiento espacial. Útil cuando no se involucra directamente el tiempo en el cálculo.
+                    </p>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs text-center font-semibold text-slate-700">
+                        $$U_{1 \to 2} = T_2 - T_1$$
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 space-y-4">
+                    <div class="bg-indigo-900 text-white p-4 rounded-xl text-center shadow-md">
+                        <h5 class="font-bold text-sm">Fuerzas Conservativas</h5>
+                    </div>
+                    <p class="text-xs text-slate-600 text-justify">
+                        Fuerzas cuyo trabajo mecánico es independiente de la trayectoria seguida, dependiendo exclusivamente de las posiciones inicial y final.
+                    </p>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs text-center font-semibold text-slate-700">
+                        Gravedad: $V_g = mgy$<br>
+                        Resorte: $V_e = \frac{1}{2}ks^2$
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100 space-y-4">
+                    <div class="bg-emerald-900 text-white p-4 rounded-xl text-center shadow-md">
+                        <h5 class="font-bold text-sm">Conservación de Energía</h5>
+                    </div>
+                    <p class="text-xs text-slate-600 text-justify">
+                        En presencia de fuerzas puramente conservativas, la suma de las energías se mantiene constante en cualquier instante.
+                    </p>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs text-center font-semibold text-slate-700">
+                        $$T_1 + V_1 = T_2 + V_2$$
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Análisis del Ejercicio del Video (13.60) -->
+        <section id="ejercicio-video" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-800 p-2.5 rounded-2xl">
+                    <i data-lucide="video" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Análisis Técnico: Conservación de Energía en Sistemas de Resortes</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Columna de Explicación del Problema -->
+                <div class="lg:col-span-7 space-y-6 text-slate-700">
+                    <div class="bg-slate-50 border-l-4 border-indigo-600 p-5 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 mb-2">Planteamiento del Ejercicio 13.60:</h4>
+                        <p class="text-sm italic">
+                            "Un collarín de $1.5\text{ kg}$ está unido a un resorte y se desliza sin fricción a lo largo de una varilla circular en un plano horizontal. El resorte tiene una longitud no deformada de $150\text{ mm}$ ($0.15\text{ m}$) y una constante elástica de $k = 400\text{ N/m}$. Si se sabe que el collarín parte desde el equilibrio en la posición inicial $A$ y se le da un ligero impulso para ponerlo en movimiento, determine la velocidad del collarín cuando pasa por el punto $B$ y el punto $C$."
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="text-lg font-bold text-slate-900">Desarrollo Matemático de la Solución</h4>
+                        
+                        <p class="text-justify">
+                            <strong>Instante 1: Posición Inicial A (Equilibrio)</strong><br>
+                            En el punto inicial, el resorte tiene una elongación inicial que determinaremos de la geometría de la trayectoria circular. La energía cinética inicial $T_1$ es insignificante o nula ya que se le da "un ligero impulso":
+                            $$T_1 = 0$$
+                            La energía potencial elástica del resorte en esta posición es:
+                            $$V_1 = \frac{1}{2} k s_1^2$$
+                            Donde la deformación inicial es $s_1 = L_1 - L_0$. Del cálculo geométrico detallado, obtenemos el valor total de energía en el instante inicial:
+                            $$E_{\text{mec}} = T_1 + V_1 = 15.125 \text{ J}$$
+                        </p>
+
+                        <p class="text-justify">
+                            <strong>Instante 2: Paso por el punto B</strong><br>
+                            Aplicando la ley de conservación de energía entre el instante inicial 1 y el instante posterior 2:
+                            $$T_1 + V_1 = T_2 + V_2 \implies 15.125 \text{ J} = \frac{1}{2} m v_2^2 + V_{\text{resorte}, 2}$$
+                            Sustituyendo los valores geométricos de deformación en el punto $B$ se despeja el valor de la velocidad lineal del collarín:
+                            $$v_2 = 4.472 \text{ m/s}$$
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Columna del Video / Explicación Dinámica -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="bg-slate-900 text-white rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+                        <!-- Cabecera Simulada del Video Player -->
+                        <div class="px-4 py-3 bg-slate-800 flex items-center gap-2 border-b border-slate-700/50">
+                            <span class="w-3.5 h-3.5 rounded-full bg-red-500"></span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-yellow-500"></span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-green-500"></span>
+                            <span class="text-xs text-slate-400 font-mono ml-auto">explicacion_video.mp4</span>
+                        </div>
+                        
+                        <!-- Contenedor del Iframe de YouTube / Video Demostrativo -->
+                        <div class="relative aspect-video bg-slate-950 flex flex-col items-center justify-center">
+                            <iframe 
+                                class="w-full h-full" 
+                                src="https://www.youtube.com/embed/fAymrE04a_o" 
+                                title="Conservación de Energía - Ejercicio 13.60" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+
+                        <div class="p-4 bg-slate-900">
+                            <h5 class="font-bold text-sm text-slate-100">Análisis de Conservación de Energía</h5>
+                            <p class="text-xs text-slate-400 mt-1">
+                                Video clase explicativa del ejercicio 13.60 de Dinámica. Se resuelven las ecuaciones de la varilla circular plana horizontal con resorte acoplado de constante $k = 400\text{ N/m}$.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Nota Metodológica -->
+                    <div class="bg-indigo-50/50 rounded-2xl p-5 border border-indigo-100/80">
+                        <h5 class="font-bold text-indigo-950 text-sm mb-2 flex items-center gap-1.5">
+                            <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i>
+                            Metodología de Análisis Mecánico
+                        </h5>
+                        <ul class="text-xs text-slate-600 space-y-2 list-decimal pl-4">
+                            <li>Identificar el sistema físico y los límites del mismo (collarín, resorte y guía).</li>
+                            <li>Analizar si existen fuerzas no conservativas (como fricción) que realicen trabajo neto.</li>
+                            <li>Definir los niveles de referencia espaciales para las energías potenciales.</li>
+                            <li>Plantear las ecuaciones de conservación en los instantes de interés geométrico del sistema.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5: Simulador Interactivo de Energía -->
+        <section id="simulador" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-800 p-2.5 rounded-2xl">
+                    <i data-lucide="play-circle" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Simulador Dinámico: Collarín con Resorte en Pista Circular</h2>
+            </div>
+            <p class="text-slate-600 mb-6 text-sm md:text-base">
+                Esta simulación interactiva recrea el comportamiento físico del ejercicio 13.60 analizado en el cuaderno del NotebookLM. Modifica los parámetros físicos y observa cómo cambia en tiempo real la conservación de la energía mecánica total.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Columna de Variables de Control -->
+                <div class="lg:col-span-4 bg-slate-50 p-6 rounded-2xl border border-slate-200/60 space-y-5">
+                    <h4 class="font-bold text-slate-900 text-base mb-2 border-b border-slate-200 pb-2 flex items-center gap-2">
+                        <i data-lucide="sliders" class="w-5 h-5 text-indigo-600"></i>
+                        Parámetros Dinámicos
+                    </h4>
+
+                    <!-- Masa Slider -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold text-slate-700">
+                            <span>Masa del Collarín ($m$):</span>
+                            <span id="lbl-mass" class="text-indigo-600">1.5 kg</span>
+                        </div>
+                        <input type="range" id="param-mass" min="0.5" max="5" step="0.1" value="1.5" class="w-full accent-indigo-600">
+                    </div>
+
+                    <!-- Constante del Resorte Slider -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold text-slate-700">
+                            <span>Constante del Resorte ($k$):</span>
+                            <span id="lbl-k" class="text-indigo-600">400 N/m</span>
+                        </div>
+                        <input type="range" id="param-k" min="100" max="800" step="10" value="400" class="w-full accent-indigo-600">
+                    </div>
+
+                    <!-- Fricción Slider -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold text-slate-700">
+                            <span>Fricción de Pista ($\mu_k$):</span>
+                            <span id="lbl-friction" class="text-indigo-600">0.0 (Liso)</span>
+                        </div>
+                        <input type="range" id="param-friction" min="0" max="0.5" step="0.01" value="0" class="w-full accent-indigo-600">
+                    </div>
+
+                    <!-- Botones de Control de la Simulación -->
+                    <div class="grid grid-cols-2 gap-3 pt-4">
+                        <button id="btn-play-pause" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-sm text-sm transition flex items-center justify-center gap-1.5">
+                            <i data-lucide="play" class="w-4 h-4"></i>
+                            <span id="txt-play">Pausar</span>
+                        </button>
+                        <button id="btn-reset" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 px-4 rounded-xl text-sm transition flex items-center justify-center gap-1.5">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                            Reiniciar
+                        </button>
+                    </div>
+
+                    <div class="p-3.5 bg-blue-50 rounded-xl border border-blue-100 text-xs text-blue-950 space-y-1.5">
+                        <p class="font-bold">Valores en tiempo real:</p>
+                        <p>Fuerza del resorte: <span id="val-spring-f" class="font-mono font-bold">0.0 N</span></p>
+                        <p>Velocidad lineal ($v$): <span id="val-velocity" class="font-mono font-bold">0.00 m/s</span></p>
+                        <p>Energía Mecánica: <span id="val-energy" class="font-mono font-bold">0.00 J</span></p>
+                    </div>
+                </div>
+
+                <!-- Columna del Canvas del Simulador -->
+                <div class="lg:col-span-8 flex flex-col items-center justify-center space-y-4">
+                    <div class="relative w-full aspect-[4/3] bg-slate-900 rounded-3xl overflow-hidden shadow-inner border-2 border-slate-800">
+                        <canvas id="physics-canvas" class="w-full h-full block"></canvas>
+                    </div>
+                    <!-- Leyenda de colores del Gráfico de Energía -->
+                    <div class="flex flex-wrap gap-4 text-xs font-semibold text-slate-600 justify-center">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                            <span>Energía Cinética ($T$)</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                            <span>Energía Potencial Elástica ($V_e$)</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span>Energía Mecánica Total ($E_t$)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 6: Examen de Autoevaluación interactivo (Verdadero/Falso) -->
+        <section id="examen" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-800 p-2.5 rounded-2xl">
+                    <i data-lucide="clipboard-check" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Evaluación Conceptual: Verdadero o Falso</h2>
+            </div>
+            <p class="text-slate-600 mb-8 text-sm md:text-base">
+                Pon a prueba los conocimientos teóricos adquiridos sobre el principio de conservación de energía y las metodologías analíticas aplicadas a sistemas de ingeniería mecánica.
+            </p>
+
+            <form id="quiz-form" class="space-y-6">
+                <!-- Pregunta 1 -->
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200/60 space-y-3">
+                    <p class="font-semibold text-slate-900 text-sm md:text-base">
+                        1. El trabajo realizado por una fuerza conservativa es dependiente de la trayectoria o camino geométrico seguido por la partícula.
+                    </p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q1" value="verdadero" class="accent-indigo-600 w-4 h-4">
+                            Verdadero
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q1" value="falso" class="accent-indigo-600 w-4 h-4">
+                            Falso
+                        </label>
+                    </div>
+                    <div id="feedback-q1" class="hidden text-xs font-semibold p-2.5 rounded-lg"></div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200/60 space-y-3">
+                    <p class="font-semibold text-slate-900 text-sm md:text-base">
+                        2. El teorema del trabajo y la energía cinética ($U_{1 \to 2} = T_2 - T_1$) es válido tanto para fuerzas conservativas como para no conservativas.
+                    </p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q2" value="verdadero" class="accent-indigo-600 w-4 h-4">
+                            Verdadero
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q2" value="falso" class="accent-indigo-600 w-4 h-4">
+                            Falso
+                        </label>
+                    </div>
+                    <div id="feedback-q2" class="hidden text-xs font-semibold p-2.5 rounded-lg"></div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200/60 space-y-3">
+                    <p class="font-semibold text-slate-900 text-sm md:text-base">
+                        3. En el ejercicio 13.60 planteado, la constante elástica del resorte de $400\text{ N/m}$ representa el módulo de rigidez o fuerza necesaria por unidad de elongación lineal del resorte.
+                    </p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q3" value="verdadero" class="accent-indigo-600 w-4 h-4">
+                            Verdadero
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q3" value="falso" class="accent-indigo-600 w-4 h-4">
+                            Falso
+                        </label>
+                    </div>
+                    <div id="feedback-q3" class="hidden text-xs font-semibold p-2.5 rounded-lg"></div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200/60 space-y-3">
+                    <p class="font-semibold text-slate-900 text-sm md:text-base">
+                        4. La energía potencial elástica de un resorte deformado una distancia $s$ se define matemáticamente mediante el término cuadrático de la deformación $V_e = \frac{1}{2}ks$.
+                    </p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q4" value="verdadero" class="accent-indigo-600 w-4 h-4">
+                            Verdadero
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q4" value="falso" class="accent-indigo-600 w-4 h-4">
+                            Falso
+                        </label>
+                    </div>
+                    <div id="feedback-q4" class="hidden text-xs font-semibold p-2.5 rounded-lg"></div>
+                </div>
+
+                <!-- Pregunta 5 -->
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200/60 space-y-3">
+                    <p class="font-semibold text-slate-900 text-sm md:text-base">
+                        5. James Prescott Joule demostró a través de su experimento de ruedas de paletas la conservación unificada de la energía, concluyendo la equivalencia física directa entre el calor y el trabajo mecánico.
+                    </p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q5" value="verdadero" class="accent-indigo-600 w-4 h-4">
+                            Verdadero
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="q5" value="falso" class="accent-indigo-600 w-4 h-4">
+                            Falso
+                        </label>
+                    </div>
+                    <div id="feedback-q5" class="hidden text-xs font-semibold p-2.5 rounded-lg"></div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <button type="button" onclick="evaluarQuiz()" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">
+                        Calificar Respuestas
+                    </button>
+                    <div id="quiz-result" class="hidden font-bold text-lg text-slate-900 bg-slate-100 px-5 py-3 rounded-xl border border-slate-200">
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- Sección 7: Bibliografía -->
+        <section id="bibliografia" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-800 p-2.5 rounded-2xl">
+                    <i data-lucide="library" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Referencias Bibliográficas</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm text-slate-600">
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="font-semibold text-slate-900">[1] Beer, F. P., & Johnston, E. R.</p>
+                    <p class="italic">Mecánica Vectorial para Ingenieros: Dinámica (9.ª edición).</p>
+                    <p class="text-slate-400 mt-1">Soporte matemático fundamental de conservación de energía y principios de impulso en partículas rígidas.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="font-semibold text-slate-900">[2] Hibbeler, R. C.</p>
+                    <p class="italic">Mecánica Vectorial para Ingenieros: Dinámica (10.ª edición).</p>
+                    <p class="text-slate-400 mt-1">Ecuaciones analíticas de trayectoria circular de collarines y diagramas de cuerpo libre asociados a resortes lineales.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="font-semibold text-slate-900">[3] Shames, I. H.</p>
+                    <p class="italic">Ingeniería Mecánica: Dinámica (5.ª edición).</p>
+                    <p class="text-slate-400 mt-1">Análisis riguroso de fuerzas conservativas, potencial gravitatorio y cálculo avanzado de campos vectoriales en movimiento circular.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="font-semibold text-slate-900">[4] McLean, W. G., & Nelson, E. W.</p>
+                    <p class="italic">Mecánica para Ingenieros: Estática y Dinámica (3.ª edición).</p>
+                    <p class="text-slate-400 mt-1">Ejercicios simplificados y resolución de sistemas lineales mediante matrices y conservación de energía mecánica.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer / Pie de Página (unificado, elegante y centrado) -->
+    <footer class="bg-slate-950 text-white py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-sm">
+                <span class="text-slate-400">Desarrollado por:</span>
+                <span class="text-white font-medium">Heidy Margarita Carrillo Méndez (201830011)</span>
+                <span class="text-slate-400"> y </span>
+                <span class="text-white font-medium">Edson Billy Maldonado Hernández (201930026)</span>
+            </p>
+            <p class="text-sm text-slate-400">© 2026 División de Ingeniería</p>
+            <p class="text-sm text-slate-400">Universidad de San Carlos de Guatemala, CUNOC</p>
+            <p class="text-xs text-slate-400 mt-2">Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2</p>
+        </div>
+    </footer>
+
+    <!-- Script para lógica de interfaz y simulación física en Canvas -->
+    <script>
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+
+        // Desplazamiento suave (Scroll) a secciones
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // --- SISTEMA DEL SIMULADOR DINÁMICO EN CANVAS ---
+        const canvas = document.getElementById('physics-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controles HTML del simulador
+        const paramMass = document.getElementById('param-mass');
+        const paramK = document.getElementById('param-k');
+        const paramFriction = document.getElementById('param-friction');
+        const lblMass = document.getElementById('lbl-mass');
+        const lblK = document.getElementById('lbl-k');
+        const lblFriction = document.getElementById('lbl-friction');
+
+        const btnPlayPause = document.getElementById('btn-play-pause');
+        const btnReset = document.getElementById('btn-reset');
+        const txtPlay = document.getElementById('txt-play');
+
+        const valSpringF = document.getElementById('val-spring-f');
+        const valVelocity = document.getElementById('val-velocity');
+        const valEnergy = document.getElementById('val-energy');
+
+        // Configuración física
+        let isRunning = true;
+        let mass = 1.5; // kg
+        let k = 400; // N/m
+        let frictionCoeff = 0.0;
+        let R = 0.3; // radio de la pista circular en metros
+        let theta = 0; // ángulo en radianes del collarín respecto al eje horizontal
+        let omega = 2.0; // velocidad angular en rad/s
+
+        // Para escalamiento visual en el Canvas
+        const pixelScale = 400; // pixeles por metro
+
+        // Inicializar dimensiones del Canvas
+        function resizeCanvas() {
+            const rect = canvas.parentNode.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Escucha de eventos de sliders
+        paramMass.addEventListener('input', (e) => {
+            mass = parseFloat(e.target.value);
+            lblMass.textContent = `${mass.toFixed(1)} kg`;
+        });
+
+        paramK.addEventListener('input', (e) => {
+            k = parseInt(e.target.value);
+            lblK.textContent = `${k} N/m`;
+        });
+
+        paramFriction.addEventListener('input', (e) => {
+            frictionCoeff = parseFloat(e.target.value);
+            lblFriction.textContent = `${frictionCoeff.toFixed(2)}`;
+        });
+
+        btnPlayPause.addEventListener('click', () => {
+            isRunning = !isRunning;
+            if (isRunning) {
+                txtPlay.textContent = "Pausar";
+                btnPlayPause.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                btnPlayPause.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            } else {
+                txtPlay.textContent = "Reanudar";
+                btnPlayPause.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                btnPlayPause.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+            }
+        });
+
+        btnReset.addEventListener('click', () => {
+            theta = 0;
+            omega = 4.0;
+            if (!isRunning) {
+                isRunning = true;
+                txtPlay.textContent = "Pausar";
+                btnPlayPause.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                btnPlayPause.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            }
+        });
+
+        // Bucle de simulación física (Runge-Kutta de paso simple para simplificación)
+        let lastTime = performance.now();
+
+        function updatePhysics(dt) {
+            if (!isRunning || dt <= 0) return;
+
+            // Coordenadas actuales del collarín en la guía circular
+            // Supongamos que la varilla circular está centrada en (0, 0)
+            const x = R * Math.cos(theta);
+            const y = R * Math.sin(theta);
+
+            // Supongamos un resorte anclado en la posición (-R, 0)
+            const anchorX = -R;
+            const anchorY = 0;
+
+            // Distancia del resorte
+            const springDx = x - anchorX;
+            const springDy = y - anchorY;
+            const springLength = Math.sqrt(springDx * springDx + springDy * springDy);
+            const L0 = 0.15; // Longitud no deformada = 150mm
+            const deformation = springLength - L0;
+
+            // Fuerza del resorte (magnitud)
+            const Fs = k * deformation;
+
+            // Dirección radial del vector de fuerza hacia el punto de anclaje
+            const springFx = -Fs * (springDx / springLength);
+            const springFy = -Fs * (springDy / springLength);
+
+            // Vector unitario tangente a la varilla circular en la posición actual
+            // Para ángulo theta, el vector posición es (cos(theta), sin(theta)), 
+            // la tangente unitaria en dirección del incremento de theta es (-sin(theta), cos(theta))
+            const tangentX = -Math.sin(theta);
+            const tangentY = Math.cos(theta);
+
+            // Componente tangencial de la fuerza del resorte
+            const F_tangente = (springFx * tangentX) + (springFy * tangentY);
+
+            // Componente de fricción (opone resistencia al sentido de la velocidad angular omega)
+            const F_friccion = -frictionCoeff * Math.abs(F_tangente) * Math.sign(omega);
+
+            // Fuerza neta tangencial
+            const F_neta = F_tangente + F_friccion;
+
+            // Aceleración tangencial (a_t = F_neta / m)
+            const a_t = F_neta / mass;
+
+            // Aceleración angular (alpha = a_t / R)
+            const alpha = a_t / R;
+
+            // Integración numérica básica de Euler-Cromer
+            omega += alpha * dt;
+            theta += omega * dt;
+
+            // Actualización de datos numéricos en UI
+            valSpringF.textContent = `${Math.abs(Fs).toFixed(1)} N`;
+            const linVelocity = Math.abs(omega * R);
+            valVelocity.textContent = `${linVelocity.toFixed(2)} m/s`;
+
+            // Cálculo exacto de energías para los gráficos
+            const Ek = 0.5 * mass * linVelocity * linVelocity;
+            const Ep_elastic = 0.5 * k * deformation * deformation;
+            const E_total = Ek + Ep_elastic;
+
+            valEnergy.textContent = `${E_total.toFixed(2)} J`;
+
+            return { Ek, Ep_elastic, E_total };
+        }
+
+        function draw(energies) {
+            // Limpiar fondo
+            ctx.fillStyle = '#0f172a'; // Slate-900
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radiusPixels = R * pixelScale * (canvas.width / 800);
+
+            // Dibujar pista circular
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radiusPixels, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#334155'; // Slate-700
+            ctx.lineWidth = 14;
+            ctx.stroke();
+
+            // Dibujar anclaje del resorte en (-R, 0) -> a la izquierda de la pista
+            const anchorPxX = centerX - radiusPixels;
+            const anchorPxY = centerY;
+
+            ctx.beginPath();
+            ctx.arc(anchorPxX, anchorPxY, 8, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ef4444'; // Red-500
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Posición del collarín en pixeles
+            const colPxX = centerX + radiusPixels * Math.cos(theta);
+            const colPxY = centerY + radiusPixels * Math.sin(theta);
+
+            // Dibujar el resorte (Línea zig-zag)
+            ctx.beginPath();
+            ctx.moveTo(anchorPxX, anchorPxY);
+            
+            const numSegments = 16;
+            const dx = colPxX - anchorPxX;
+            const dy = colPxY - anchorPxY;
+            const segmentLen = Math.sqrt(dx*dx + dy*dy);
+            
+            for (let i = 1; i < numSegments; i++) {
+                const fraction = i / numSegments;
+                let perpX = -dy / segmentLen;
+                let perpY = dx / segmentLen;
+                
+                // Alternar oscilaciones del resorte
+                const offset = (i % 2 === 0 ? 1 : -1) * 8;
+                
+                const stepX = anchorPxX + dx * fraction + perpX * offset;
+                const stepY = anchorPxY + dy * fraction + perpY * offset;
+                ctx.lineTo(stepX, stepY);
+            }
+            ctx.lineTo(colPxX, colPxY);
+            ctx.strokeStyle = '#cbd5e1'; // Slate-300
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Dibujar collarín
+            ctx.beginPath();
+            ctx.arc(colPxX, colPxY, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = '#6366f1'; // Indigo-500
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Dibujar Vector de Velocidad en pantalla (Flecha verde)
+            const velMag = omega * R;
+            const vX = -Math.sin(theta) * velMag * 10;
+            const vY = Math.cos(theta) * velMag * 10;
+
+            ctx.beginPath();
+            ctx.moveTo(colPxX, colPxY);
+            ctx.lineTo(colPxX + vX, colPxY + vY);
+            ctx.strokeStyle = '#10b981'; // Emerald-500
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Dibujar barras de energía integradas (Esquina superior izquierda)
+            if (energies) {
+                const barX = 20;
+                let barY = 25;
+                const maxBarWidth = 160;
+                const scale = 5; // Pixeles por Julio
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '10px Arial';
+                ctx.fillText("Análisis Energético (Julios)", barX, barY - 8);
+
+                // Barra Cinética
+                ctx.fillStyle = '#3b82f6'; // Blue
+                ctx.fillRect(barX, barY, Math.min(energies.Ek * scale, maxBarWidth), 8);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(`Ek: ${energies.Ek.toFixed(2)} J`, barX + Math.min(energies.Ek * scale, maxBarWidth) + 5, barY + 8);
+
+                // Barra Elástica
+                barY += 16;
+                ctx.fillStyle = '#f59e0b'; // Amber
+                ctx.fillRect(barX, barY, Math.min(energies.Ep_elastic * scale, maxBarWidth), 8);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(`Ep: ${energies.Ep_elastic.toFixed(2)} J`, barX + Math.min(energies.Ep_elastic * scale, maxBarWidth) + 5, barY + 8);
+
+                // Barra Mecánica Total
+                barY += 16;
+                ctx.fillStyle = '#10b981'; // Emerald
+                ctx.fillRect(barX, barY, Math.min(energies.E_total * scale, maxBarWidth), 8);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(`Et: ${energies.E_total.toFixed(2)} J`, barX + Math.min(energies.E_total * scale, maxBarWidth) + 5, barY + 8);
+            }
+        }
+
+        function loop(timestamp) {
+            const dt = (timestamp - lastTime) / 1000;
+            lastTime = timestamp;
+
+            // Evitar grandes saltos de delta en pestañas inactivas
+            const clampedDt = Math.min(dt, 0.1);
+
+            const energies = updatePhysics(clampedDt);
+            draw(energies);
+
+            requestAnimationFrame(loop);
+        }
+
+        // Iniciar el bucle una vez cargado el DOM
+        window.onload = function() {
+            requestAnimationFrame(loop);
+        };
+
+
+        // --- LÓGICA DE EXAMEN INTERACTIVO ---
+        function evaluarQuiz() {
+            const correctAnswers = {
+                q1: "falso",       // Trabajo no depende de trayectoria para fuerzas conservativas
+                q2: "verdadero",   // Principio de trabajo y energía es universal
+                q3: "verdadero",   // Definición conceptual de la rigidez de un resorte
+                q4: "falso",       // Falta el cuadrado de la elongación: Ep = 0.5 * k * s^2
+                q5: "verdadero"    // Equivalencia física calor-trabajo mecánico
+            };
+
+            const explanations = {
+                q1: "El trabajo de una fuerza conservativa NO depende de la trayectoria, únicamente del punto inicial y final.",
+                q2: "El Teorema de Trabajo y Energía cinética es aplicable a cualquier tipo de fuerza (fricción o conservativa).",
+                q3: "Correcto, la constante elástica k se expresa en N/m y define la rigidez elástica.",
+                q4: "Falso. La energía potencial elástica tiene una relación cuadrática con la elongación: V = 1/2 * k * s^2.",
+                q5: "Correcto, Joule determinó la constante mecánica del calor mediante un sistema de pesas de agitación rotatoria."
+            };
+
+            let score = 0;
+            const form = document.getElementById('quiz-form');
+
+            for (let q in correctAnswers) {
+                const selected = form.querySelector(`input[name="${q}"]:checked`);
+                const feedbackDiv = document.getElementById(`feedback-${q}`);
+                
+                feedbackDiv.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+
+                if (selected) {
+                    if (selected.value === correctAnswers[q]) {
+                        score++;
+                        feedbackDiv.textContent = `¡Correcto! ${explanations[q]}`;
+                        feedbackDiv.classList.add('bg-green-100', 'text-green-800');
+                    } else {
+                        feedbackDiv.textContent = `Incorrecto. ${explanations[q]}`;
+                        feedbackDiv.classList.add('bg-red-100', 'text-red-800');
+                    }
+                } else {
+                    feedbackDiv.textContent = `Pregunta sin contestar. ${explanations[q]}`;
+                    feedbackDiv.classList.add('bg-amber-100', 'text-amber-800');
+                }
+                feedbackDiv.classList.remove('hidden');
+            }
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.innerHTML = `Tu calificación: <span class="text-indigo-600">${score} / 5</span> (${(score/5*100).toFixed(0)}%)`;
+            resultDiv.classList.remove('hidden');
+        }
+    </script>
+
+    <!-- Script de layout global (botón de regresar al índice) -->
+    <script src="../js/global-layout.js"></script>
+
+</body>
+</html>

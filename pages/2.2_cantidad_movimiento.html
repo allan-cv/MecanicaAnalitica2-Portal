@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2 Cantidad de Movimiento Lineal y Angular - Mecánica Analítica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+
+    <!-- HEADER ESTANDARIZADO: fondo azul bg-blue-800, texto blanco, sin autores -->
+    <header class="bg-blue-800 text-white py-16 px-4 md:px-8 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">2.2 Cantidad de Movimiento Lineal y Angular</h1>
+            <p class="text-lg md:text-xl mb-6">En el estudio de la física, el movimiento se presenta en diversas formas,
+                siendo dos de las fundamentales el movimiento lineal y el rotacional[cite: 2]. Comprender ambas
+                magnitudes y su principio de conservación nos permite predecir el comportamiento dinámico de múltiples
+                sistemas físicos[cite: 5].</p>
+            <!-- Se eliminó el bloque de autores -->
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto py-12 px-4 md:px-8">
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8 border-b-2 border-slate-200 pb-2">Conceptos Fundamentales
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                    <h3 class="text-xl font-bold text-blue-600 mb-4">Cantidad de Movimiento Lineal</h3>
+                    <p class="text-slate-900">La cantidad de movimiento lineal describe la inercia de un objeto en
+                        traslación, calculada como el producto de su masa por su velocidad[cite: 3].</p>
+                </div>
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                    <h3 class="text-xl font-bold text-blue-600 mb-4">Cantidad de Movimiento Angular</h3>
+                    <p class="text-slate-900">Por otro lado, la cantidad de movimiento angular hace lo propio para los
+                        objetos que giran, con la particularidad de que aquí influye su inercia de rotación y su
+                        velocidad angular[cite: 4].</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b-2 border-slate-200 pb-2">Metodología: La "Receta"
+                para Resolver Problemas</h2>
+            <p class="text-slate-900 mb-8">A la hora de resolver un problema de cantidad de movimiento (ya sea lineal o
+                angular), puedes seguir estos pasos como si se tratara de preparar una receta matemática[cite: 7]:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">
+                            1</div>
+                        <h3 class="text-lg font-bold text-slate-900">Preparar los ingredientes (Identificar variables)
+                            [cite: 8]</h3>
+                    </div>
+                    <ul class="list-disc pl-5 text-slate-900 space-y-2">
+                        <li><strong>Para movimiento lineal:</strong> Busca en el problema la masa del objeto y su
+                            velocidad de traslación[cite: 9].</li>
+                        <li><strong>Para movimiento angular:</strong> Identifica el momento de inercia o el radio de
+                            giro, y su velocidad angular o lineal[cite: 10].</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">
+                            2</div>
+                        <h3 class="text-lg font-bold text-slate-900">Mezclar usando la ecuación [cite: 11]</h3>
+                    </div>
+                    <ul class="list-disc pl-5 text-slate-900 space-y-2">
+                        <li><strong>Lineal:</strong> Multiplica la masa por la velocidad (p = m &middot; v)[cite: 12].
+                        </li>
+                        <li><strong>Angular:</strong> Multiplica el momento de inercia por la velocidad angular (L = I
+                            &middot; &omega;) o la masa por la velocidad y el radio (L = m &middot; v &middot; R)[cite:
+                            13].</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">
+                            3</div>
+                        <h3 class="text-lg font-bold text-slate-900">Sazonar con la Conservación [cite: 14]</h3>
+                    </div>
+                    <p class="text-slate-900">Verifica si hay fuerzas externas o momentos de torsión aplicados[cite:
+                        14]. Si el sistema está libre de ellos, la cantidad de movimiento inicial debe ser exactamente
+                        igual a la final (p<sub>i</sub> = p<sub>f</sub> o L<sub>i</sub> = L<sub>f</sub>)[cite: 15].</p>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">
+                            4</div>
+                        <h3 class="text-lg font-bold text-slate-900">Servir con las unidades correctas [cite: 16]</h3>
+                    </div>
+                    <p class="text-slate-900">Asegúrate de que tu respuesta final lineal esté en kg&middot;m/s y la
+                        respuesta angular en kg&middot;m&sup2;/s[cite: 17].</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b-2 border-slate-200 pb-2">Ejemplos de Aplicación
+            </h2>
+            <p class="text-slate-900 mb-8">Para ver la receta en acción, analicemos un ejemplo de cada uno[cite: 19]:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 border-t-4 border-t-blue-600">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Ejemplo Lineal</h3>
+                    <p class="text-slate-900 mb-4">Imagina un ave de 5 kg de masa que vuela a una velocidad de 34
+                        m/s[cite: 20].</p>
+                    <div class="bg-slate-50 p-4 rounded-md border border-slate-200">
+                        <p class="text-slate-900 font-mono text-sm">Cálculo: p = m &middot; v</p>
+                        <p class="text-slate-900 font-mono text-sm">p = 5 kg &middot; 34 m/s</p>
+                        <p class="text-slate-900 font-bold mt-2">Resultado: 170 kg&middot;m/s [cite: 21]</p>
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 border-t-4 border-t-indigo-600">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Ejemplo Angular</h3>
+                    <p class="text-slate-900 mb-4">Considera una barra uniforme delgada de 1 m de largo con una masa de
+                        7 kg que gira sobre su centro a una velocidad angular de 18 rad/s[cite: 22].</p>
+                    <div class="bg-slate-50 p-4 rounded-md border border-slate-200 space-y-2">
+                        <p class="text-slate-900 font-mono text-sm">1. Inercia (I) = (1/12) &middot; m &middot; L&sup2;
+                            = 0,58 kg&middot;m&sup2; [cite: 23]</p>
+                        <p class="text-slate-900 font-mono text-sm">2. Fórmula: L = I &middot; &omega;</p>
+                        <p class="text-slate-900 font-mono text-sm">L = 0,58 &middot; 18</p>
+                        <p class="text-slate-900 font-bold mt-2">Resultado: 10,44 kg&middot;m&sup2;/s [cite: 24]</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="bg-white shadow-md rounded-lg p-6 md:p-8 border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b-2 border-slate-200 pb-2">Conclusiones</h2>
+                <div class="space-y-4 text-slate-900">
+                    <p>El estudio comparado de la cantidad de movimiento lineal y angular nos revela una de las
+                        simetrías más hermosas de la naturaleza: la correspondencia absoluta entre el mundo de la
+                        traslación y el mundo de la rotación[cite: 26].</p>
+                    <p>A través de esta unidad, hemos aprendido que cada magnitud lineal tiene un "espejo" en el ámbito
+                        angular[cite: 27]. La masa se convierte en momento de inercia, la velocidad lineal se transforma
+                        en velocidad angular, y las fuerzas netas se traducen en momentos de torsión[cite: 28].</p>
+                    <p>Más allá de las fórmulas, el verdadero pilar de este tema es el <strong>Principio de
+                            Conservación</strong>[cite: 30]. Cuando un sistema está aislado, su cantidad de movimiento
+                        se vuelve una constante inmutable en el tiempo[cite: 32]. Esto explica cómo un clavadista
+                        olímpico altera su velocidad de giro en el aire modificando su momento de inercia [cite: 34], y
+                        la razón por la cual las estrellas de neutrones giran a velocidades vertiginosas tras
+                        colapsar[cite: 35].</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b-2 border-slate-200 pb-2">Quiz Interactivo</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 space-y-4">
+
+                <details class="group bg-slate-50 border border-slate-200 rounded-lg">
+                    <summary
+                        class="flex justify-between items-center font-bold cursor-pointer list-none text-slate-900 p-4">
+                        <span>1. ¿Qué variables se necesitan identificar como primer paso para resolver un problema de
+                            movimiento lineal?</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                                width="24">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 pt-0 text-slate-900 border-t border-slate-200 mt-2">
+                        <strong>Respuesta:</strong> Se busca en el problema la masa del objeto y su velocidad de
+                        traslación[cite: 9].
+                    </div>
+                </details>
+
+                <details class="group bg-slate-50 border border-slate-200 rounded-lg">
+                    <summary
+                        class="flex justify-between items-center font-bold cursor-pointer list-none text-slate-900 p-4">
+                        <span>2. ¿Cuáles son las dos fórmulas principales para calcular la cantidad de movimiento
+                            angular?</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                                width="24">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 pt-0 text-slate-900 border-t border-slate-200 mt-2">
+                        <strong>Respuesta:</strong> L = I &middot; &omega; (momento de inercia por velocidad angular) o
+                        L = m &middot; v &middot; R (masa por velocidad por radio)[cite: 13].
+                    </div>
+                </details>
+
+                <details class="group bg-slate-50 border border-slate-200 rounded-lg">
+                    <summary
+                        class="flex justify-between items-center font-bold cursor-pointer list-none text-slate-900 p-4">
+                        <span>3. ¿Qué condición debe cumplirse para que la cantidad de movimiento se conserve?</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                                width="24">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 pt-0 text-slate-900 border-t border-slate-200 mt-2">
+                        <strong>Respuesta:</strong> El sistema debe estar libre de fuerzas externas netas o momentos de
+                        torsión aplicados (aislado)[cite: 14, 32].
+                    </div>
+                </details>
+
+                <details class="group bg-slate-50 border border-slate-200 rounded-lg">
+                    <summary
+                        class="flex justify-between items-center font-bold cursor-pointer list-none text-slate-900 p-4">
+                        <span>4. En el experimento del bloque girando atado a un cordel, ¿por qué al tirar del cordel no
+                            se genera un momento de torsión externo?</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                                width="24">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 pt-0 text-slate-900 border-t border-slate-200 mt-2">
+                        <strong>Respuesta:</strong> Porque la fuerza con la que se tira del cordel apunta directamente
+                        hacia el centro del agujero, que es el eje de rotación[cite: 48].
+                    </div>
+                </details>
+
+                <details class="group bg-slate-50 border border-slate-200 rounded-lg">
+                    <summary
+                        class="flex justify-between items-center font-bold cursor-pointer list-none text-slate-900 p-4">
+                        <span>5. ¿Cuáles son las unidades correctas para expresar la respuesta final de la cantidad de
+                            movimiento angular?</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                                width="24">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 pt-0 text-slate-900 border-t border-slate-200 mt-2">
+                        <strong>Respuesta:</strong> kg&middot;m&sup2;/s[cite: 17].
+                    </div>
+                </details>
+
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b-2 border-slate-200 pb-2">Recursos Visuales y
+                Audiovisuales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="bg-white shadow-md rounded-lg p-6 border border-slate-200 flex flex-col items-center">
+                    <h3 class="text-xl font-bold text-blue-600 mb-4">Mapa Mental del Tema</h3>
+                    <div
+                        class="w-full h-[350px] md:h-[500px] lg:h-[650px] bg-slate-50 border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center p-4 overflow-hidden">
+			<img src="../img/img_2.2.png" alt="Mapa del movimiento" class="max-w-full max-h-full object-contain cursor-pointer" id="mentalMap">
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white shadow-md rounded-lg p-6 border border-slate-200 flex flex-col items-center justify-center">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-4">Material Audiovisual</h3>
+                    <p class="text-slate-900 text-center mb-8">Refuerza la comprensión de las fórmulas y el principio de
+                        conservación con las siguientes explicaciones en video.</p>
+
+                    <div class="flex flex-col w-full space-y-4 px-4 md:px-8">
+                        <a href="https://youtu.be/7ufGP-DkzAo?si=sOw9zV_axxhnmMBh" target="_blank"
+                            class="bg-blue-600 hover:opacity-90 text-white font-bold py-3 px-6 rounded-lg text-center transition shadow-md">
+                            Ver Video 1: Teoría y Conceptos
+                        </a>
+                        <a href="https://youtu.be/JHURbn9x5HM?si=7cTdtlT1pkYS6e6N" target="_blank"
+                            class="bg-indigo-600 hover:opacity-90 text-white font-bold py-3 px-6 rounded-lg text-center transition shadow-md">
+                            Ver Video 2: Resolución de Ejercicios
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE REFERENCIAS BIBLIOGRÁFICAS (contenido, no footer) -->
+        <section class="mb-8">
+            <div class="bg-white shadow-md rounded-lg p-6 md:p-8 border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b-2 border-slate-200 pb-2">Referencias Bibliográficas</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700">
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>Hibbeler, R. C. (2016). <i>Ingeniería Mecánica: Dinámica</i> (14a ed.). Pearson Educación.</li>
+                        <li>Beer, F. P., Johnston, E. R., & Cornwell, P. J. (2010). <i>Mecánica vectorial para ingenieros:
+                                Dinámica</i> (9a ed.). McGraw-Hill.</li>
+                        <li>Serway, R. A., & Jewett, J. W. (2018). <i>Física para ciencias e ingeniería. Volumen 1</i> (10a
+                            ed.). Cengage Learning.</li>
+                        <li>Meriam, J. L., & Kraige, L. G. (2012). <i>Engineering Mechanics: Dynamics</i> (7th ed.). John
+                            Wiley & Sons.</li>
+                    </ol>
+                    <ol class="list-decimal pl-5 space-y-2" start="5">
+                        <li>Resnick, R., Halliday, D., & Krane, K. S. (2001). <i>Física, Volumen 1</i> (5a ed.). Grupo
+                            Editorial Patria.</li>
+                        <li>Sears, F. W., Zemansky, M. W., Young, H. D., & Freedman, R. A. (2013). <i>Física universitaria,
+                                Volumen 1</i> (13a ed.). Pearson.</li>
+                        <li>Marion, J. B. (1995). <i>Dinámica clásica de las partículas y sistemas</i>. Reverté.</li>
+                        <li>Tipler, P. A., & Mosca, G. (2010). <i>Física para la ciencia y la tecnología, Volumen 1</i> (6a
+                            ed.). Reverté.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NUEVO FOOTER UNIFICADO (bg-slate-950, texto centrado, autores y créditos) -->
+    <footer class="bg-slate-950 text-white py-8 px-4 text-center">
+        <p class="text-slate-400">
+            Desarrollado por: 
+            <span class="text-white">Jennifer Johanna Mateo Rojas 202130397 / Jorge Roche González Ixcot 202432078</span>
+        </p>
+        <p class="text-slate-400">© 2026 División de Ingeniería</p>
+        <p class="text-slate-400">Universidad de San Carlos de Guatemala, CUNOC</p>
+        <p class="text-slate-400">Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2</p>
+    </footer>
+
+    <!-- Modal para la imagen (sin cambios) -->
+    <div id="imageModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+        <button id="closeModal"
+            class="absolute top-4 right-6 text-white text-5xl font-bold hover:opacity-75 transition">
+            &times;
+        </button>
+        <div class="overflow-hidden">
+            <img id="modalImage" src="" class="max-h-[90vh] max-w-[90vw] select-none" draggable="false">
+        </div>
+    </div>
+
+    <script>
+        // Script del modal (sin cambios)
+        const img = document.getElementById('mentalMap');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.getElementById('closeModal');
+
+        let scale = 1;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+
+        function updateTransform() {
+            modalImg.style.transform =
+                `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        img.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modalImg.src = img.src;
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            modalImg.style.cursor = 'grab';
+            updateTransform();
+        });
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        modalImg.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                scale += 0.2;
+            } else {
+                scale -= 0.2;
+            }
+            scale = Math.min(Math.max(scale, 0.5), 5);
+            if (scale <= 1) {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+            }
+            updateTransform();
+        }, { passive: false });
+
+        modalImg.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            modalImg.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            modalImg.style.cursor = 'grab';
+        });
+
+        modalImg.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    </script>
+<script src="../js/global-layout.js"></script>
+</body>
+
+</html>
