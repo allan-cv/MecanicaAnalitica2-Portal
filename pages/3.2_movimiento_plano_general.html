@@ -6,6 +6,18 @@
     <title>Análisis del movimiento plano general: Velocidad y Aceleración</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'slate-955': '#0b1120',
+                    }
+                }
+            }
+        }
+    </script>
     
     <script>
         window.MathJax = {
@@ -20,27 +32,21 @@
 
     <style>
         .math-display { overflow-x: auto; padding: 0.75rem 0; margin: 0.5rem 0; }
+        .bg-slate-955 { background-color: #0b1120; }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 relative antialiased">
 <script src="../js/global-layout.js"></script>
-    <header class="bg-slate-900 text-white p-8 md:p-12 shadow-lg text-center md:text-left">
+
+    <!-- HEADER: fondo azul sólido, autores removidos -->
+    <header class="bg-blue-800 text-white p-8 md:p-12 shadow-lg text-center md:text-left">
         <div class="max-w-6xl mx-auto space-y-4">
             <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white">
                 Análisis del Movimiento Plano General: Velocidad y Aceleración
             </h1>
-            <p class="text-slate-300 max-w-3xl leading-relaxed text-sm md:text-base text-justify md:text-left">
+            <p class="text-blue-100 max-w-3xl leading-relaxed text-sm md:text-base text-justify md:text-left">
                 Estudio detallado y riguroso de los principios cinemáticos fundamentales aplicados a cuerpos rígidos, analizando sus componentes absolutos y relativos para la resolución de mecanismos y eslabonamientos complejos en la ingeniería moderna.
             </p>
-            <div class="pt-2">
-                <span class="inline-block bg-indigo-600 text-white font-semibold px-4 py-2 rounded-md shadow-sm text-sm">
-                    Autor: 202130990 Ricardo Orozco 
-                  
-                </span>
-<span class="inline-block bg-indigo-600 text-white font-semibold px-4 py-2 rounded-md shadow-sm text-sm">
-                    Autor:  202232101 Jorge Chuc
-                </span>
-            </div>
         </div>
     </header>
 
@@ -55,7 +61,7 @@
             </section>
 
             <section class="bg-white shadow-md rounded-lg p-6 border border-slate-200">
-                <h2 class="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Resumen Ejecutivo</h2>
+                <h2 class="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Resumen</h2>
                 <p class="leading-relaxed text-justify text-sm md:text-base text-slate-700 space-y-4">
                     La investigación formal de la cinemática plana de cuerpos rígidos establece que cualquier desplazamiento en el plano puede interpretarse vectorialmente como la suma de un movimiento de traslación pura respecto a un punto de referencia (punto base) sumado a un movimiento de rotación pura alrededor de ese mismo punto base. Este enfoque analítico permite descomponer problemas geométricos hiperestáticos o complejos en sistemas acoplados de ecuaciones lineales fácilmente resolubles.
                 </p>
@@ -265,7 +271,7 @@
                 </div>
         </section>
 
-<section id="seccion-mapa-conceptual" class="bg-white shadow-md rounded-lg p-6 border border-slate-200 my-8">
+        <section id="seccion-mapa-conceptual" class="bg-white shadow-md rounded-lg p-6 border border-slate-200 my-8">
             <div class="text-center py-4" id="mapa-presentacion">
                 <h2 class="text-2xl font-bold text-slate-900 mb-3">Estructura y Análisis del Movimiento Plano General</h2>
                 <p class="text-slate-600 max-w-2xl mx-auto mb-6 text-sm text-justify md:text-center">
@@ -402,7 +408,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     `;
-                    // Desplazamiento suave al mapa
                     setTimeout(() => {
                         contenedor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }, 150);
@@ -416,7 +421,6 @@
                     `;
                 }
                 
-                // Forzar a MathJax a renderizar las ecuaciones matemáticas internas al abrir el panel
                 if (window.MathJax && !contenedor.classList.contains('hidden')) {
                     MathJax.typesetPromise([contenedor]);
                 }
@@ -463,8 +467,36 @@
         </section>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 p-6 text-center text-sm border-t border-slate-800">
-        <p>&copy; 2026 Proyecto Académico Universitario - Cinemática de Cuerpos Rígidos.</p>
+    <!-- FOOTER UNIFICADO: bg-slate-955 con autores, universidad e información académica -->
+    <footer class="bg-slate-955 text-white py-10 px-6 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto text-center space-y-5">
+
+            <!-- Autores -->
+            <div>
+                <p class="text-xs uppercase tracking-widest text-slate-400 mb-2 font-semibold">Desarrollado por</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-8">
+                    <div class="bg-slate-800 rounded-lg px-5 py-3 inline-block">
+                        <p class="text-white font-bold text-sm">Ricardo Orozco</p>
+                        <p class="text-slate-400 text-xs mt-0.5">Carnet: 202130990</p>
+                    </div>
+                    <div class="bg-slate-800 rounded-lg px-5 py-3 inline-block">
+                        <p class="text-white font-bold text-sm">Jorge Chuc</p>
+                        <p class="text-slate-400 text-xs mt-0.5">Carnet: 202232101</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Separador -->
+            <div class="border-t border-slate-700 w-24 mx-auto"></div>
+
+            <!-- Información institucional -->
+            <div class="space-y-1">
+                <p class="text-white font-semibold text-sm">© 2026 División de Ingeniería</p>
+                <p class="text-slate-300 text-sm">Universidad de San Carlos de Guatemala, CUNOC</p>
+                <p class="text-slate-500 text-xs mt-2">Desarrollado con fines exclusivamente didácticos &mdash; Mecánica Analítica 2</p>
+            </div>
+
+        </div>
     </footer>
 
     <div id="mapModal" class="fixed inset-0 z-50 hidden bg-black/70 flex justify-center items-center p-4 backdrop-blur-sm transition-opacity">
