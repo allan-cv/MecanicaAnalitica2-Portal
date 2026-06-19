@@ -18,8 +18,8 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans leading-relaxed min-h-screen flex flex-col">
 <script src="../js/global-layout.js"></script>
-    <!-- HERO / ENCABEZADO -->
-    <header class="bg-slate-900 text-white py-16 px-4 md:px-8 border-b-4 border-blue-600 shadow-lg">
+    <!-- HERO / ENCABEZADO (limpiado: solo título e introducción) -->
+    <header class="bg-blue-800 text-white py-16 px-4 md:px-8 border-b-4 border-blue-600 shadow-lg">
         <div class="max-w-6xl mx-auto">
             <span class="bg-blue-600 text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full text-white inline-block mb-4">
                 Portal de Mecánica Analítica
@@ -27,17 +27,9 @@
             <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
                 El Péndulo Simple
             </h1>
-            <p class="text-lg md:text-xl text-slate-300 max-w-3xl mb-6">
+            <p class="text-lg md:text-xl text-white max-w-3xl mb-6">
                 Un análisis riguroso de sus fundamentos físicos, modelación diferencial por métodos dinámicos y energéticos, y su relevancia en el diseño de ingeniería.
             </p>
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 border-t border-slate-700/50">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase tracking-widest">Autor de Investigación</p>
-                    <p class="text-sm md:text-base font-semibold text-slate-200">
-                        Ludvin Majukutaj Ajanel Santos — Carné: 202230386
-                    </p>
-                </div>
-            </div>
         </div>
     </header>
 
@@ -407,37 +399,33 @@
             </div>
         </section>
 
-    </main>
-
-    <!-- FOOTER / BIBLIOGRAFÍA -->
-    <footer class="bg-slate-900 text-slate-400 py-12 px-4 md:px-8 border-t border-slate-800">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8">
-            <!-- Author signature -->
-            <div class="space-y-2">
-                <h4 class="text-white font-bold text-md">Portal de Mecánica Analítica</h4>
-                <p class="text-sm text-slate-400 max-w-sm">
-                    Diseñado con fines exclusivamente académicos para la asimilación del movimiento armónico simple.
-                </p>
-                <p class="text-xs text-slate-500 pt-2">
-                    &copy; 2026 Universidad de Ingeniería. Todos los derechos reservados.
-                </p>
-            </div>
-
-            <!-- Referencias Bibliográficas -->
-            <div id="referencias" class="space-y-3">
-                <h4 class="text-white font-semibold text-sm uppercase tracking-wider">Referencias Bibliográficas</h4>
-                <ul class="space-y-1.5 text-xs text-slate-500">
-                    <li>
-                        • Beer, F. P., Johnston, E. R., &amp; Cornwell, P. J. (2010). <span class="italic">Mecánica Vectorial para Ingenieros: Dinámica</span> (9na Ed.). McGraw-Hill.
-                    </li>
-                    <li>
-                        • OpenStax. (2021). <span class="italic">Física Universitaria Volumen 1</span>. Acceso gratuito en openstax.org.
-                    </li>
-                    <li>
-                        • González López, A. (2022). <span class="italic">Manual de Mecánica Clásica</span>. Universidad Complutense de Madrid.
-                    </li>
+        <!-- SECCIÓN 5: REFERENCIAS BIBLIOGRÁFICAS (movidas del footer al body) -->
+        <section id="referencias" class="scroll-mt-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                5. Referencias Bibliográficas
+            </h2>
+            <div class="bg-white shadow-md rounded-lg p-6 md:p-8 border border-slate-200">
+                <ul class="space-y-3 text-sm text-slate-700 list-disc pl-5">
+                    <li>Beer, F. P., Johnston, E. R., &amp; Cornwell, P. J. (2010). <span class="italic">Mecánica Vectorial para Ingenieros: Dinámica</span> (9na Ed.). McGraw-Hill.</li>
+                    <li>OpenStax. (2021). <span class="italic">Física Universitaria Volumen 1</span>. Acceso gratuito en openstax.org.</li>
+                    <li>González López, A. (2022). <span class="italic">Manual de Mecánica Clásica</span>. Universidad Complutense de Madrid.</li>
                 </ul>
             </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER UNIFICADO (nuevo, con fondo bg-slate-955 y texto centrado) -->
+    <footer class="bg-slate-950 text-white py-8 px-4 md:px-8 mt-auto">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-sm">
+                <span class="text-slate-400">Desarrollado por:</span>
+                <span class="text-white font-medium">Ludvin Majukutaj Ajanel Santos (202230386)</span>
+            </p>
+            <p class="text-sm text-slate-400">© 2026 División de Ingeniería</p>
+            <p class="text-sm text-slate-400">Universidad de San Carlos de Guatemala, CUNOC</p>
+            <p class="text-xs text-slate-400 mt-2">Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2</p>
         </div>
     </footer>
 
