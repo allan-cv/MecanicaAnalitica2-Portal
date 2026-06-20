@@ -39,20 +39,25 @@
     overflow-y: hidden;
   }
   mjx-container[display="true"] mjx-math { display: inline-block; }
+  
+  /* Definición de la clase personalizada bg-slate-955 seleccionada por el administrador */
+  .bg-slate-955 {
+    background-color: #0b0f19;
+  }
 </style>
 </head>
 
 <body class="bg-slate-50 text-slate-900">
 <script src="../js/global-layout.js"></script>
 <!-- ================================================================== -->
-<!-- HERO / ENCABEZADO                                                   -->
+<!-- HERO / ENCABEZADO (Estandarizado a bg-blue-800 text-white y limpio) -->
 <!-- ================================================================== -->
-<header class="bg-slate-900 text-white">
+<header class="bg-blue-800 text-white">
   <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
     <h1 class="text-3xl md:text-5xl font-bold mb-5 leading-tight">
       Cinética del Movimiento Plano:<br>Fuerzas y Aceleraciones
     </h1>
-    <p class="text-slate-300 text-base md:text-lg max-w-3xl mb-8">
+    <p class="text-blue-100 text-base md:text-lg max-w-3xl mb-8">
       Relación entre las fuerzas externas que actúan sobre un cuerpo rígido y el
       movimiento que producen: la aceleración de su centro de masa y su aceleración
       angular, mediante las tres ecuaciones de movimiento.
@@ -99,12 +104,7 @@
           </marker>
         </defs>
       </svg>
-      <p class="text-slate-500 text-xs mt-2">Disco que rueda sin deslizar: traslación de \(G\) + rotación, simultáneas.</p>
-    </div>
-
-    <div class="border-t border-slate-700 pt-5 text-sm text-slate-400">
-      <p><span class="text-slate-200 font-semibold">Autores:</span> Rocío Adilene Chaj Hernández · Luis Alejandro Fuentes Coronado</p>
-      <p><span class="text-slate-200 font-semibold">Curso:</span> Mecánica Analítica 2 — CUNOC, Universidad de San Carlos de Guatemala</p>
+      <p class="text-blue-200 text-xs mt-2">Disco que rueda sin deslizar: traslación de \(G\) + rotación, simultáneas.</p>
     </div>
   </div>
 </header>
@@ -517,88 +517,27 @@
     </div>
   </section>
 
-  <!-- BOTÓN VOLVER AL INICIO -->
- 
-
 </main>
 
+<script src="../js/global-layout.js"></script>
+
 <!-- ================================================================== -->
-<!-- MODAL: FUNDAMENTO DE LAS ECUACIONES                                 -->
+<!-- FOOTER UNIFICADO (Estandarizado a bg-slate-955)                    -->
 <!-- ================================================================== -->
-<div id="modal-fundamento" class="hidden fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto" style="background:rgba(15,23,42,.85);">
-  <div class="bg-white rounded-2xl max-w-3xl w-full my-8">
-    <div class="flex items-center justify-between p-5 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl">
-      <h3 class="text-lg md:text-xl font-bold text-slate-900">Fundamento de las ecuaciones de movimiento</h3>
-      <button onclick="cerrarFundamento()" class="text-slate-400 hover:text-slate-900 text-3xl leading-none">&times;</button>
-    </div>
-    <div class="p-6 space-y-6 text-sm text-slate-700">
-
-      <!-- Punto de partida -->
-      <div>
-        <h4 class="font-bold text-slate-900 mb-2">1. Punto de partida: la segunda ley de Newton</h4>
-        <p class="mb-3">Para una partícula, la segunda ley de Newton relaciona la fuerza resultante con la aceleración. Un cuerpo rígido es un conjunto de infinitas partículas; al sumar (integrar) la ley sobre todas ellas, las fuerzas internas se cancelan por pares (tercera ley de Newton) y solo sobreviven las fuerzas externas. El resultado para el centro de masa \(G\) es:</p>
-        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-          $$\sum \vec{F} = m\,\vec{\bar{a}}$$
-        </div>
-        <p class="mt-3">Es decir, el centro de masa se mueve como si toda la masa estuviera concentrada en él y todas las fuerzas externas actuaran sobre ese punto.</p>
-      </div>
-
-      <!-- Componentes -->
-      <div>
-        <h4 class="font-bold text-slate-900 mb-2">2. Separación en componentes \(x\) e \(y\)</h4>
-        <p class="mb-3">La ecuación vectorial anterior se cumple en cada dirección de forma independiente. Proyectándola sobre un sistema de ejes inercial se obtienen dos ecuaciones escalares:</p>
-        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 flex flex-col md:flex-row md:justify-around gap-2 overflow-x-auto">
-          <div class="text-center">$$\sum F_x = m\,\bar{a}_x$$</div>
-          <div class="text-center">$$\sum F_y = m\,\bar{a}_y$$</div>
-        </div>
-        <p class="mt-3">Esto es válido porque los vectores se descomponen en componentes ortogonales que no interfieren entre sí: la suma de fuerzas en \(x\) solo produce aceleración en \(x\), y lo mismo en \(y\).</p>
-      </div>
-
-      <!-- Momento -->
-      <div>
-        <h4 class="font-bold text-slate-900 mb-2">3. ¿Por qué el momento respecto a \(G\) produce \(\bar{I}\alpha\)?</h4>
-        <p class="mb-3">Las dos ecuaciones de fuerza describen cómo se traslada el cuerpo, pero no cómo gira. Para la rotación se analiza el <em>momento</em> de las fuerzas. Cada partícula de masa \(dm\), situada a una distancia \(\rho\) del centro de masa, posee una aceleración tangencial \(a_t = \rho\,\alpha\) debida al giro. La fuerza efectiva tangencial sobre ella es \(dm\cdot\rho\,\alpha\), y su momento respecto a \(G\) vale \(\rho\,(dm\cdot\rho\,\alpha) = \rho^2\,\alpha\,dm\).</p>
-        <p class="mb-3">Sumando (integrando) el momento de todas las partículas:</p>
-        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-          $$\sum M_G = \left(\int \rho^2\,dm\right)\alpha = \bar{I}\,\alpha$$
-        </div>
-        <p class="mt-3">La integral \(\int \rho^2\,dm\) es justamente la definición del <strong>momento de inercia centroidal</strong> \(\bar{I}\). Por eso el momento neto respecto a \(G\) es igual a \(\bar{I}\alpha\): \(\bar{I}\) mide cuánta "resistencia rotacional" ofrece la distribución de masa, igual que \(m\) mide la resistencia a la traslación.</p>
-      </div>
-
-      <!-- Las tres ecuaciones -->
-      <div>
-        <h4 class="font-bold text-slate-900 mb-2">4. Las tres ecuaciones de movimiento</h4>
-        <p class="mb-3">Reuniendo traslación y rotación, el movimiento plano de un cuerpo rígido queda completamente descrito por:</p>
-        <div class="bg-slate-900 text-white rounded-lg p-4 flex flex-col md:flex-row md:justify-around gap-2 overflow-x-auto">
-          <div class="text-center">$$\sum F_x = m\,\bar{a}_x$$</div>
-          <div class="text-center">$$\sum F_y = m\,\bar{a}_y$$</div>
-          <div class="text-center">$$\sum M_G = \bar{I}\,\alpha$$</div>
-        </div>
-      </div>
-
-      <!-- Derivación a = r alfa -->
-      <div>
-        <h4 class="font-bold text-slate-900 mb-2">5. Derivación de \(\bar{a}=r\alpha\) (rodadura sin deslizamiento)</h4>
-        <p class="mb-3">Cuando una rueda o disco de radio \(r\) rueda sin deslizar, el punto de contacto con el suelo tiene velocidad instantánea nula respecto a la superficie. Esto impone una relación entre cuánto avanza el centro y cuánto gira el cuerpo: en una vuelta completa, el centro recorre exactamente el perímetro \(2\pi r\). Por tanto, el desplazamiento del centro y el ángulo girado están ligados por \(s = r\theta\).</p>
-        <p class="mb-3">Derivando respecto al tiempo se obtiene la relación de velocidades y, derivando otra vez, la de aceleraciones:</p>
-        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-          $$s = r\theta \;\Rightarrow\; \bar{v} = r\omega \;\Rightarrow\; \bar{a} = r\alpha$$
-        </div>
-        <p class="mt-3">Esta <em>ecuación de ligadura</em> conecta el movimiento de traslación (\(\bar{a}\)) con el de rotación (\(\alpha\)), y es la que permite resolver el sistema cuando la fricción es una incógnita. Solo es válida mientras no haya deslizamiento, es decir, mientras \(F\le\mu_s N\).</p>
-      </div>
-
-    </div>
-    <div class="p-5 border-t border-slate-200 text-right">
-      <button onclick="cerrarFundamento()" class="bg-slate-900 hover:bg-slate-800 transition text-white px-6 py-2.5 rounded-lg font-semibold text-sm">Cerrar</button>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer class="bg-slate-900 text-white">
-  <div class="max-w-5xl mx-auto px-6 py-8 text-sm">
-    <p class="font-semibold mb-1">3.3 · Cinética del Movimiento Plano: Fuerzas y Aceleraciones</p>
-    <p class="text-slate-400">Rocío Adilene Chaj Hernández (202330544) · Luis Alejandro Fuentes Coronado (201930992) — Mecánica Analítica 2, CUNOC-USAC</p>
+<footer class="bg-slate-955 text-white border-t border-slate-800">
+  <div class="max-w-5xl mx-auto px-6 py-12 text-center space-y-3">
+    <p class="text-base text-slate-300">
+      <span class="text-slate-400 font-normal">Desarrollado por:</span> <span class="font-semibold text-white">Rocío Adilene Chaj Hernández (202330544) · Luis Alejandro Fuentes Coronado (201930992)</span>
+    </p>
+    <p class="text-sm text-slate-400">
+      &copy; 2026 División de Ingeniería
+    </p>
+    <p class="text-sm text-slate-400">
+      Universidad de San Carlos de Guatemala, CUNOC
+    </p>
+    <p class="text-xs text-slate-500 italic pt-2">
+      Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2
+    </p>
   </div>
 </footer>
 
@@ -621,8 +560,6 @@ function cerrarFundamento(){
 document.getElementById('modal-fundamento').addEventListener('click', function(e){
   if (e.target === this) cerrarFundamento();
 });
-
-/* ===== Recurso multimedia: el botón redirige a YouTube ===== */
 
 /* ===== Evaluación de opción múltiple ===== */
 const PREGUNTAS = [
@@ -701,6 +638,76 @@ function responder(card, opts, btn, p, elegida, idx) {
   }
 }
 </script>
+
+<!-- MODAL: FUNDAMENTO DE LAS ECUACIONES -->
+<div id="modal-fundamento" class="hidden fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto" style="background:rgba(15,23,42,.85);">
+  <div class="bg-white rounded-2xl max-w-3xl w-full my-8">
+    <div class="flex items-center justify-between p-5 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl">
+      <h3 class="text-lg md:text-xl font-bold text-slate-900">Fundamento de las ecuaciones de movimiento</h3>
+      <button onclick="cerrarFundamento()" class="text-slate-400 hover:text-slate-900 text-3xl leading-none">&times;</button>
+    </div>
+    <div class="p-6 space-y-6 text-sm text-slate-700">
+
+      <!-- Punto de partida -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">1. Punto de partida: la segunda ley de Newton</h4>
+        <p class="mb-3">Para una partícula, la segunda ley de Newton relaciona la fuerza resultante con la aceleración. Un cuerpo rígido es un conjunto de infinitas partículas; al sumar (integrar) la ley sobre todas ellas, las fuerzas internas se cancelan por pares (tercera ley de Newton) y solo sobreviven las fuerzas externas. El resultado para el centro de masa \(G\) es:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+          $$\sum \vec{F} = m\,\vec{\bar{a}}$$
+        </div>
+        <p class="mt-3">Es decir, el centro de masa se mueve como si toda la masa estuviera concentrada en él y todas las fuerzas externas actuaran sobre ese punto.</p>
+      </div>
+
+      <!-- Componentes -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">2. Separación en componentes \(x\) e \(y\)</h4>
+        <p class="mb-3">La ecuación vectorial anterior se cumple en cada dirección de forma independiente. Proyectándola sobre un sistema de ejes inercial se obtienen dos ecuaciones escalares:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 flex flex-col md:flex-row md:justify-around gap-2 overflow-x-auto">
+          <div class="text-center">$$\sum F_x = m\,\bar{a}_x$$</div>
+          <div class="text-center">$$\sum F_y = m\,\bar{a}_y$$</div>
+        </div>
+        <p class="mt-3">Esto es válido porque los vectores se descomponen en componentes ortogonales que no interfieren entre sí: la suma de fuerzas en \(x\) solo produce aceleración en \(x\), y lo mismo en \(y\).</p>
+      </div>
+
+      <!-- Momento -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">3. ¿Por qué el momento respecto a \(G\) produce \(\bar{I}\alpha\)?</h4>
+        <p class="mb-3">Las dos ecuaciones de fuerza describen cómo se traslada el cuerpo, pero no cómo gira. Para la rotación se analiza el <em>momento</em> de las fuerzas. Cada partícula de masa \(dm\), situada a una distancia \(\rho\) del centro de masa, posee una aceleración tangencial \(a_t = \rho\,\alpha\) debida al giro. La fuerza efectiva tangencial sobre ella es \(dm\cdot\rho\,\alpha\), y su momento respecto a \(G\) vale \(\rho\,(dm\cdot\rho\,\alpha) = \rho^2\,\alpha\,dm\).</p>
+        <p class="mb-3">Sumando (integrando) el momento de todas las partículas:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+          $$\sum M_G = \left(\int \rho^2\,dm\right)\alpha = \bar{I}\,\alpha$$
+        </div>
+        <p class="mt-3">La integral \(\int \rho^2\,dm\) es justamente la definición del <strong>momento de inercia centroidal</strong> \(\bar{I}\). Por eso el momento neto respecto a \(G\) es igual a \(\bar{I}\alpha\): \(\bar{I}\) mide cuánta "resistencia rotacional" ofrece la distribución de masa, igual que \(m\) mide la resistencia a la traslación.</p>
+      </div>
+
+      <!-- Las tres ecuaciones -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">4. Las tres ecuaciones de movimiento</h4>
+        <p class="mb-3">Reuniendo traslación y rotación, el movimiento plano de un cuerpo rígido queda completamente descrito por:</p>
+        <div class="bg-slate-900 text-white rounded-lg p-4 flex flex-col md:flex-row md:justify-around gap-2 overflow-x-auto">
+          <div class="text-center">$$\sum F_x = m\,\bar{a}_x$$</div>
+          <div class="text-center">$$\sum F_y = m\,\bar{a}_y$$</div>
+          <div class="text-center">$$\sum M_G = \bar{I}\,\alpha$$</div>
+        </div>
+      </div>
+
+      <!-- Derivación a = r alfa -->
+      <div>
+        <h4 class="font-bold text-slate-900 mb-2">5. Derivación de \(\bar{a}=r\alpha\) (rodadura sin deslizamiento)</h4>
+        <p class="mb-3">Cuando una rueda o disco de radio \(r\) rueda sin deslizar, el punto de contacto con el suelo tiene velocidad instantánea nula respecto a la superficie. Esto impone una relación entre cuánto avanza el centro y cuánto gira el cuerpo: en una vuelta completa, el centro recorre exactamente el perímetro \(2\pi r\). Por tanto, el desplazamiento del centro y el ángulo girado están ligados por \(s = r\theta\).</p>
+        <p class="mb-3">Derivando respecto al tiempo se obtiene la relación de velocidades y, derivando otra vez, la de aceleraciones:</p>
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+          $$s = r\theta \;\Rightarrow\; \bar{v} = r\omega \;\Rightarrow\; \bar{a} = r\alpha$$
+        </div>
+        <p class="mt-3">Esta <em>ecuación de ligadura</em> conecta el movimiento de traslación (\(\bar{a}\)) con el de rotación (\(\alpha\)), y es la que permite resolver el sistema cuando la fricción es una incógnita. Solo es válida mientras no haya deslizamiento, es decir, mientras \(F\le\mu_s N\).</p>
+      </div>
+
+    </div>
+    <div class="p-5 border-t border-slate-200 text-right">
+      <button onclick="cerrarFundamento()" class="bg-slate-900 hover:bg-slate-800 transition text-white px-6 py-2.5 rounded-lg font-semibold text-sm">Cerrar</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

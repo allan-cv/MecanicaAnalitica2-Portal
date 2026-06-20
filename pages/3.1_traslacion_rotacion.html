@@ -4,9 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traslación y Rotación sobre un Eje Fijo - Cinemática de Cuerpos Rígidos</title>
-    <!-- Tailwind CSS para el diseño premium y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuración segura de MathJax para renderizado de LaTeX -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            955: '#0f172a' 
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script>
         window.MathJax = {
             tex: {
@@ -130,44 +141,39 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed flex flex-col min-h-screen">
 <script src="../js/global-layout.js"></script>
-    <!-- Header / Banner de Introducción -->
-    <header class="bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 text-white py-12 px-6 shadow-xl relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div class="max-w-5xl mx-auto relative z-10">
-            <span class="bg-blue-500 text-xs font-bold uppercase px-3 py-1 rounded-full text-white tracking-wider">Cinemática de Cuerpos Rígidos</span>
+
+    <header class="bg-blue-800 text-white py-12 px-6 shadow-xl relative overflow-hidden">
+        <div class="max-w-5xl mx-auto relative z-10 text-center">
+            <span class="bg-blue-600 text-xs font-bold uppercase px-3 py-1 rounded-full text-white tracking-wider">Cinemática de Cuerpos Rígidos</span>
             <h1 class="text-3xl md:text-5xl font-black mt-3 mb-4 tracking-tight leading-tight">
                 Traslación y Rotación sobre un Eje Fijo
             </h1>
-            <p class="text-blue-200 text-lg max-w-2xl font-light">
+            <p class="text-blue-100 text-lg max-w-2xl font-light mx-auto">
                 Análisis y desarrollo didáctico de los principios cinemáticos aplicados a elementos de máquinas y eslabonamientos.
             </p>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-4 py-8 md:py-12 space-y-12">
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 md:py-12 space-y-12">
 
-        <!-- 1. INTRODUCCIÓN -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
                 1. Introducción
             </h2>
             <p class="text-slate-600 text-justify text-base md:text-lg leading-relaxed first-letter:text-4xl first-letter:font-bold first-letter:text-blue-600 first-letter:mr-2 first-letter:float-left">
-                La cinemática plana de cuerpos rígidos describe de forma exhaustiva el movimiento de sistemas mecánicos analizando variables de posición, velocidad y aceleración sin considerar las fuerzas que lo producen. En ingeniería mecánica, comprender la traslación y la rotación respecto a un eje fijo es fundamental, pues constituyen los pilares para modelar sistemas complejos de transmisión y mecanismos de eslabonamiento plano. Mientras que la traslación pura garantiza trayectorias equipotenciales y paralelas para cada partícula del cuerpo, la rotación fuerza trayectorias circulares concéntricas alrededor de un eje inamovible, regulado por vectores angulares de velocidad y aceleración fundamentales para el diseño cinemático de engranajes y turbinas.
+                La cinemática plana de cuerpos rígidos describe de forma exhaustiva el movimiento de sistemas mecánicos analizando variables de posición, velocidad y aceleración sin considerar las fuerzas que lo producen. En ingeniería mecánica, comprender la traslación y la rotación respecto a un eje fijo es fundamental, pues constituyen los pilares para modelar sistemas complejos de transmisión y mechanisms de eslabonamiento plano. Mientras que la traslación pura garantiza trayectorias equipotenciales y paralelas para cada partícula del cuerpo, la rotación fuerza trayectorias circulares concéntricas alrededor de un eje inamovible, regulado por vectores angulares de velocidad y aceleración fundamentales para el diseño cinemático de engranajes y turbinas.
             </p>
         </section>
 
-        <!-- 2. DESARROLLO DEL TEMA -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
             <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
                 2. Desarrollo del Tema
             </h2>
 
-            <!-- Resumen de rotación y traslación -->
             <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl">
                 <h3 class="font-bold text-blue-900 mb-1">Resumen del Tema: Traslación y Rotación</h3>
                 <p class="text-sm text-blue-800 leading-relaxed text-justify">
@@ -175,9 +181,7 @@
                 </p>
             </div>
 
-            <!-- Subtemas y Ecuaciones -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <!-- Traslación -->
                 <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
                     <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
                         <span class="p-1.5 bg-blue-100 text-blue-600 rounded-lg text-sm">T</span>
@@ -200,7 +204,6 @@
                     </div>
                 </div>
 
-                <!-- Rotación sobre Eje Fijo -->
                 <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
                     <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
                         <span class="p-1.5 bg-indigo-100 text-indigo-600 rounded-lg text-sm">R</span>
@@ -227,7 +230,6 @@
                 </div>
             </div>
 
-            <!-- SIMULACIÓN INTERACTIVA -->
             <div class="mt-8 border border-slate-200 rounded-xl overflow-hidden shadow-inner">
                 <div class="bg-slate-800 text-white p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
@@ -256,7 +258,6 @@
             </div>
         </section>
 
-        <!-- 3. 5 CONCEPTOS CLAVE -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
@@ -291,7 +292,6 @@
             </div>
         </section>
 
-        <!-- 4. METODOLOGÍA PARA SOLUCIÓN DE EJERCICIOS -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
@@ -323,7 +323,7 @@
                     <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow">4</span>
                     <div>
                         <h3 class="font-bold text-slate-800 text-base">Calcular componentes lineales</h3>
-                        <p class="text-sm text-slate-600">Determine la velocidad lineal ($v = \omega r$) y las aceleraciones normal ($a_n = \omega^2 r$) y tangencial ($a_t = \alpha r$).</p>
+                        <p class="text-sm text-slate-600">Determine la velocidad lineal ($v = \omega r$) and las aceleraciones normal ($a_n = \omega^2 r$) y tangencial ($a_t = \alpha r$).</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-4">
@@ -336,7 +336,6 @@
             </div>
         </section>
 
-        <!-- 5. SOLUCIÓN DE UN EJERCICIO -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
@@ -390,7 +389,6 @@
             </div>
         </section>
 
-        <!-- 6. MAPA MENTAL / CONCEPTUAL DEL CUADERNO (ESPACIADO Y CON TÍTULO ESPECÍFICO) -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
@@ -404,7 +402,6 @@
                         <li>
                             <div class="bg-blue-600 text-white font-extrabold border-none shadow-md">Traslación y Rotación de Cuerpos Rígidos</div>
                             <ul>
-                                <!-- Rama 1: Traslación -->
                                 <li>
                                     <div class="font-bold text-blue-900 bg-blue-50 border-blue-300">1. Traslación Pura</div>
                                     <ul>
@@ -414,7 +411,6 @@
                                         <li><div class="font-semibold text-blue-800">$\omega = 0$<br><span class="text-xs text-slate-500">Sin giro angular</span></div></li>
                                     </ul>
                                 </li>
-                                <!-- Rama 2: Rotación sobre Eje Fijo -->
                                 <li>
                                     <div class="font-bold text-indigo-900 bg-indigo-50 border-indigo-300">2. Rotación sobre Eje Fijo</div>
                                     <ul>
@@ -431,7 +427,6 @@
             </div>
         </section>
 
-        <!-- 7. TEST DE EVALUACIÓN (5 PREGUNTAS) -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
@@ -440,7 +435,6 @@
             <p class="text-xs text-slate-500 mb-6 font-semibold uppercase tracking-wider">Comprueba tu aprendizaje (Respuestas interactivas)</p>
             
             <form id="evaluationTest" class="space-y-6">
-                <!-- Pregunta 1 -->
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                     <p class="font-bold text-slate-800 text-sm md:text-base mb-3">1. En traslación pura de un cuerpo rígido, la velocidad angular ($\omega$) es igual a:</p>
                     <div class="space-y-2">
@@ -460,7 +454,6 @@
                     <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
                 </div>
 
-                <!-- Pregunta 2 -->
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                     <p class="font-bold text-slate-800 text-sm md:text-base mb-3">2. Si un cuerpo rígido rota con aceleración angular $\alpha$, ¿cuánto vale la aceleración tangencial de un punto a distancia $r$ del eje?</p>
                     <div class="space-y-2">
@@ -480,7 +473,6 @@
                     <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
                 </div>
 
-                <!-- Pregunta 3 -->
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                     <p class="font-bold text-slate-800 text-sm md:text-base mb-3">3. La componente normal de la aceleración ($a_n$) en un movimiento circular tiene como función:</p>
                     <div class="space-y-2">
@@ -500,7 +492,6 @@
                     <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
                 </div>
 
-                <!-- Pregunta 4 -->
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                     <p class="font-bold text-slate-800 text-sm md:text-base mb-3">4. Si un disco parte del reposo y experimenta $\alpha = 2 \text{ rad/s}^2$ constante, ¿cuál es su $\omega$ a los $3\text{ s}$?</p>
                     <div class="space-y-2">
@@ -520,7 +511,6 @@
                     <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
                 </div>
 
-                <!-- Pregunta 5 -->
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                     <p class="font-bold text-slate-800 text-sm md:text-base mb-3">5. La ecuación diferencial que relaciona directamente variables de rotación sin necesidad del factor temporal es:</p>
                     <div class="space-y-2">
@@ -549,7 +539,6 @@
             </form>
         </section>
 
-        <!-- 8. CONCLUSIÓN -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
@@ -560,7 +549,6 @@
             </p>
         </section>
 
-        <!-- 9. REFERENCIAS BIBLIOGRÁFICAS (4 FUENTES) -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
@@ -585,41 +573,22 @@
                 </li>
             </ol>
         </section>
-
-        <!-- 10. DESCARGA DE RECURSOS (PDFs CARGADOS) -->
-	
        
     </main>
 
-    <!-- Footer / Datos de Autoría -->
-    <footer class="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800 mt-16 text-center">
-        <div class="max-w-3xl mx-auto space-y-6">
-            <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Autores de la investigación y desarrollo web</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <!-- Claudio -->
-                <div class="space-y-2">
-                    <h4 class="text-white font-extrabold text-lg tracking-tight">Claudio Fernando Monterroso Mendoza</h4>
-                    <div class="inline-flex items-center gap-2 bg-slate-800/80 px-4 py-1.5 rounded-full border border-slate-700/50 text-sm">
-                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-                        <span class="font-mono text-blue-200">Carné: 202130316</span>
-                    </div>
-                </div>
-                <!-- Kevin -->
-                <div class="space-y-2">
-                    <h4 class="text-white font-extrabold text-lg tracking-tight">Kevin Antonio Archila Coj</h4>
-                    <div class="inline-flex items-center gap-2 bg-slate-800/80 px-4 py-1.5 rounded-full border border-slate-700/50 text-sm">
-                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-                        <span class="font-mono text-indigo-200">Carné: 202231075</span>
-                    </div>
-                </div>
+    <footer class="bg-slate-955 text-white py-8 px-6 text-center border-t border-slate-800">
+        <div class="max-w-5xl mx-auto space-y-2">
+            <p class="text-sm text-slate-200">
+                <span class="font-semibold text-white">Desarrollado por:</span> Claudio Fernando Monterroso Mendoza (202130316) y Kevin Antonio Archila Coj (202231075)
+            </p>
+            <div class="text-xs text-slate-400 space-y-1 pt-1">
+                <p>©️ 2026 División de Ingeniería</p>
+                <p>Universidad de San Carlos de Guatemala, CUNOC</p>
+                <p class="italic text-slate-500">Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2</p>
             </div>
-
-            <p class="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-800/60">&copy; 2026 - Universidad de San Carlos de Guatemala. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- LÓGICA DE CONTROL Y SIMULADOR EN LIENZO (CANVAS) -->
     <script>
         const canvas = document.getElementById("physicsCanvas");
         const ctx = canvas.getContext("2d");
