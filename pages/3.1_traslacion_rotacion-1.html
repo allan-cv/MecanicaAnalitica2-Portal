@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traslación y Rotación sobre un Eje Fijo - Cinemática de Cuerpos Rígidos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            955: '#0f172a' 
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            startup: {
+                pageReady: () => {
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        console.log('MathJax listo');
+                    });
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        /* Estilos CSS optimizados para el mapa mental espaciado */
+        .tree * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+        }
+        .tree {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 30px;
+            padding-top: 20px;
+            width: 100%;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+        /* Personalización de scrollbar para navegadores webkit */
+        .tree::-webkit-scrollbar {
+            height: 8px;
+        }
+        .tree::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .tree::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .tree ul {
+            padding-top: 30px;
+            position: relative;
+            display: flex;
+            margin: 0 auto; 
+            min-width: max-content;
+            transition: all 0.5s;
+        }
+        .tree li {
+            float: left; 
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 30px 15px 0 15px; /* Más separación lateral y vertical */
+            transition: all 0.5s;
+        }
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute; 
+            top: 0; 
+            right: 50%;
+            border-top: 2px solid #94a3b8;
+            width: 50%; 
+            height: 30px;
+        }
+        .tree li::after {
+            right: auto; 
+            left: 50%;
+            border-left: 2px solid #94a3b8;
+        }
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child { 
+            padding-top: 0;
+        }
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:last-child::before {
+            border-right: 2px solid #94a3b8;
+            border-radius: 0 5px 0 0;
+        }
+        .tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+        .tree ul ul::before {
+            content: '';
+            position: absolute; 
+            top: 0; 
+            left: 50%;
+            border-left: 2px solid #94a3b8;
+            width: 0; 
+            height: 30px;
+        }
+        .tree li div {
+            border: 2px solid #e2e8f0;
+            padding: 14px 20px; /* Tarjetas más amplias y elegantes */
+            text-decoration: none;
+            color: #334155;
+            font-size: 13.5px;
+            display: inline-block;
+            border-radius: 12px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            max-width: 210px;
+            line-height: 1.4;
+        }
+        .tree li div:hover {
+            background: #f8fafc;
+            border-color: #2563eb;
+            color: #1e40af;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(37, 99, 235, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed flex flex-col min-h-screen">
+<script src="../js/global-layout.js"></script>
+
+    <header class="bg-blue-800 text-white py-12 px-6 shadow-xl relative overflow-hidden">
+        <div class="max-w-5xl mx-auto relative z-10 text-center">
+            <span class="bg-blue-600 text-xs font-bold uppercase px-3 py-1 rounded-full text-white tracking-wider">Cinemática de Cuerpos Rígidos</span>
+            <h1 class="text-3xl md:text-5xl font-black mt-3 mb-4 tracking-tight leading-tight">
+                Traslación y Rotación sobre un Eje Fijo
+            </h1>
+            <p class="text-blue-100 text-lg max-w-2xl font-light mx-auto">
+                Análisis y desarrollo didáctico de los principios cinemáticos aplicados a elementos de máquinas y eslabonamientos.
+            </p>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 md:py-12 space-y-12">
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                1. Introducción
+            </h2>
+            <p class="text-slate-600 text-justify text-base md:text-lg leading-relaxed first-letter:text-4xl first-letter:font-bold first-letter:text-blue-600 first-letter:mr-2 first-letter:float-left">
+                La cinemática plana de cuerpos rígidos describe de forma exhaustiva el movimiento de sistemas mecánicos analizando variables de posición, velocidad y aceleración sin considerar las fuerzas que lo producen. En ingeniería mecánica, comprender la traslación y la rotación respecto a un eje fijo es fundamental, pues constituyen los pilares para modelar sistemas complejos de transmisión y mechanisms de eslabonamiento plano. Mientras que la traslación pura garantiza trayectorias equipotenciales y paralelas para cada partícula del cuerpo, la rotación fuerza trayectorias circulares concéntricas alrededor de un eje inamovible, regulado por vectores angulares de velocidad y aceleración fundamentales para el diseño cinemático de engranajes y turbinas.
+            </p>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
+            <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                2. Desarrollo del Tema
+            </h2>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                <h3 class="font-bold text-blue-900 mb-1">Resumen del Tema: Traslación y Rotación</h3>
+                <p class="text-sm text-blue-800 leading-relaxed text-justify">
+                    El estudio cinemático de los cuerpos rígidos se fundamenta en definir cómo cambian de posición sus partículas a lo largo del tiempo. La <strong>Traslación</strong> se define como el movimiento en el que todos los segmentos del cuerpo mantienen la misma orientación, obligando a que cada partícula posea la misma velocidad y aceleración instantánea ($\vec{v}_A = \vec{v}_B$). Por otro lado, la <strong>Rotación sobre un eje fijo</strong> implica que todas las partículas describen trayectorias circulares concéntricas alrededor de un eje inmóvil, donde las variables lineales dependen directamente del radio y de las propiedades angulares ($\omega$ y $\alpha$).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span class="p-1.5 bg-blue-100 text-blue-600 rounded-lg text-sm">T</span>
+                        Traslación Pura
+                    </h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Ocurre cuando cualquier línea del cuerpo mantiene su orientación paralela durante el trayecto. Puede ser rectilínea o curvilínea.
+                    </p>
+                    <div class="space-y-3 bg-white p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Relaciones Cinemáticas:</p>
+                        <div class="text-center py-2 bg-slate-50 rounded">
+                            <span class="font-mono text-blue-800 text-sm">$$\vec{r}_B = \vec{r}_A + \vec{r}_{B/A}$$</span>
+                        </div>
+                        <div class="text-center py-2 bg-slate-50 rounded">
+                            <span class="font-mono text-blue-800 text-sm">$$\vec{v}_B = \vec{v}_A \quad (\omega = 0)$$</span>
+                        </div>
+                        <div class="text-center py-2 bg-slate-50 rounded">
+                            <span class="font-mono text-blue-800 text-sm">$$\vec{a}_B = \vec{a}_A \quad (\alpha = 0)$$</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span class="p-1.5 bg-indigo-100 text-indigo-600 rounded-lg text-sm">R</span>
+                        Rotación sobre un Eje Fijo
+                    </h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Ocurre cuando las partículas del cuerpo giran alrededor de un eje de rotación inerte y fijo.
+                    </p>
+                    <div class="space-y-3 bg-white p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Relaciones Cinemáticas:</p>
+                        <div class="text-center py-1 bg-slate-50 rounded">
+                            <span class="font-mono text-blue-800 text-xs">$$\omega = \frac{d\theta}{dt}$$</span>
+                        </div>
+                        <div class="text-center py-1 bg-slate-50 rounded">
+                            <span class="font-mono text-blue-800 text-xs">$$\alpha = \frac{d\omega}{dt} = \omega\frac{d\omega}{d\theta}$$</span>
+                        </div>
+                        <div class="text-center py-1 bg-slate-50 rounded">
+                            <span class="font-mono text-blue-800 text-xs">$$v = \omega r$$</span>
+                        </div>
+                        <div class="text-center py-1 bg-slate-50 rounded">
+                            <span class="font-mono text-blue-800 text-xs">$$a_t = \alpha r \quad | \quad a_n = \omega^2 r$$</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 border border-slate-200 rounded-xl overflow-hidden shadow-inner">
+                <div class="bg-slate-800 text-white p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h4 class="font-bold text-sm">Simulador Interactivo de Movimiento</h4>
+                        <p class="text-xs text-slate-400">Intercambia entre traslación y rotación para visualizar los vectores de velocidad (azul) y aceleración normal (rojo).</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btn-mode-trans" onclick="setSimMode('trans')" class="px-3 py-1.5 rounded text-xs font-bold bg-blue-600 text-white hover:bg-blue-500 transition">Traslación</button>
+                        <button id="btn-mode-rot" onclick="setSimMode('rot')" class="px-3 py-1.5 rounded text-xs font-bold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Rotación Fija</button>
+                    </div>
+                </div>
+                <div class="bg-slate-900 p-4 flex flex-col items-center justify-center relative">
+                    <canvas id="physicsCanvas" class="bg-slate-950 rounded-lg max-w-full" width="600" height="280"></canvas>
+                    
+                    <div class="w-full mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-white text-xs px-2">
+                        <div class="flex items-center gap-3">
+                            <label for="speedRange" class="w-24 text-slate-300">Ajustar Rapidez:</label>
+                            <input type="range" id="speedRange" min="1" max="10" value="5" class="w-full accent-blue-500">
+                        </div>
+                        <div class="flex items-center justify-between bg-slate-800/50 p-2 rounded border border-slate-700">
+                            <div><span class="inline-block w-2.5 h-2.5 bg-blue-500 rounded-full mr-1"></span> Velocidad Lineal ($\vec{v}$)</div>
+                            <div><span class="inline-block w-2.5 h-2.5 bg-red-500 rounded-full mr-1"></span> Aceleración Normal ($\vec{a}_n$)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                3. Conceptos Clave
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-blue-300 transition-all">
+                    <span class="text-xs font-bold text-blue-600 uppercase">Concepto 1</span>
+                    <h3 class="font-bold text-slate-800 mt-1 mb-2">Cuerpo Rígido</h3>
+                    <p class="text-xs text-slate-600">Sistema en el cual las distancias entre cualquiera de sus puntos permanecen constantes.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-blue-300 transition-all">
+                    <span class="text-xs font-bold text-blue-600 uppercase">Concepto 2</span>
+                    <h3 class="font-bold text-slate-800 mt-1 mb-2">Movimiento Angular</h3>
+                    <p class="text-xs text-slate-600">Giro en el cual todos los puntos de una línea barren el mismo ángulo $\theta$.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-blue-300 transition-all">
+                    <span class="text-xs font-bold text-blue-600 uppercase">Concepto 3</span>
+                    <h3 class="font-bold text-slate-800 mt-1 mb-2">Velocidad Angular ($\omega$)</h3>
+                    <p class="text-xs text-slate-600">Razón de cambio temporal de la posición angular ($\text{rad/s}$).</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-blue-300 transition-all">
+                    <span class="text-xs font-bold text-blue-600 uppercase">Concepto 4</span>
+                    <h3 class="font-bold text-slate-800 mt-1 mb-2">Aceleración Tangencial</h3>
+                    <p class="text-xs text-slate-600">Componente lineal de la aceleración relacionada directamente con el cambio de rapidez.</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-blue-300 transition-all">
+                    <span class="text-xs font-bold text-blue-600 uppercase">Concepto 5</span>
+                    <h3 class="font-bold text-slate-800 mt-1 mb-2">Aceleración Normal ($a_n$)</h3>
+                    <p class="text-xs text-slate-600">Componente radial que cambia la dirección del vector velocidad.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                4. Metodología para la Solución de Ejercicios
+            </h2>
+            <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow">1</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">Identificar el tipo de movimiento</h3>
+                        <p class="text-sm text-slate-600">Determine si el elemento describe una traslación pura o una rotación sobre un eje de referencia fijo.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow">2</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">Establecer el sistema de referencia y radios</h3>
+                        <p class="text-sm text-slate-600">Ubique el eje de rotación y determine la distancia radial $r$ desde el centro a los puntos requeridos.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow">3</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">Resolver la cinemática angular</h3>
+                        <p class="text-sm text-slate-600">Encuentre las variables angulares $\theta$, $\omega$, $\alpha$ integrando las relaciones diferenciales o utilizando ecuaciones de aceleración angular constante.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow">4</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">Calcular componentes lineales</h3>
+                        <p class="text-sm text-slate-600">Determine la velocidad lineal ($v = \omega r$) and las aceleraciones normal ($a_n = \omega^2 r$) y tangencial ($a_t = \alpha r$).</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow">5</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">Calcular la aceleración total</h3>
+                        <p class="text-sm text-slate-600">Combine vectorialmente las componentes lineal-radiales usando la relación cuadrática: $a = \sqrt{a_t^2 + a_n^2}$.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                5. Ejemplo de Ejercicio Resuelto
+            </h2>
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                <div class="mb-4">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded">Enunciado</span>
+                </div>
+                <p class="text-slate-800 font-medium text-justify">
+                    Un disco de radio $R = 0.3 \text{ m}$ gira alrededor de un eje fijo que pasa por su centro. El disco parte del reposo ($\omega_0 = 0$) en $t = 0$ y experimenta una aceleración angular constante de $\alpha = 4 \text{ rad/s}^2$ en sentido antihorario. 
+                    Calcule para un punto en el borde del disco en $t = 2.5 \text{ s}$:
+                    <br><strong>a)</strong> La velocidad angular y la posición angular final.
+                    <br><strong>b)</strong> La rapidez lineal, aceleración normal, tangencial y el módulo de la aceleración total del punto.
+                </p>
+
+                <div class="mt-6 border-t border-slate-200 pt-6 space-y-4">
+                    <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                        Solución Paso a Paso
+                    </h3>
+
+                    <div>
+                        <h4 class="font-semibold text-slate-800 text-sm">Paso A: Obtener variables angulares finales</h4>
+                        <div class="bg-white p-3 rounded-lg border border-slate-100 my-2 text-center">
+                            $$\omega = \omega_0 + \alpha t \implies \omega = 0 + (4)(2.5) = 10 \text{ rad/s}$$
+                            $$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2 \implies \theta = 0 + 0 + \frac{1}{2}(4)(2.5)^2 = 12.5 \text{ rad}$$
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-slate-800 text-sm">Paso B: Rapidez lineal del punto periférico</h4>
+                        <div class="bg-white p-3 rounded-lg border border-slate-100 my-2 text-center">
+                            $$v = \omega R \implies v = (10 \text{ rad/s})(0.3 \text{ m}) = 3.0 \text{ m/s}$$
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-slate-800 text-sm">Paso C: Componentes de aceleración lineal y total</h4>
+                        <div class="bg-white p-3 rounded-lg border border-slate-100 my-2 text-center">
+                            $$a_t = \alpha R \implies a_t = (4 \text{ rad/s}^2)(0.3 \text{ m}) = 1.2 \text{ m/s}^2$$
+                            $$a_n = \omega^2 R \implies a_n = (10)^2(0.3) = 30 \text{ m/s}^2$$
+                            $$a = \sqrt{a_t^2 + a_n^2} \implies a = \sqrt{(1.2)^2 + (30)^2} \approx 30.02 \text{ m/s}^2$$
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-3 rounded text-xs text-green-900 font-semibold">
+                        Resultados finales: $\omega = 10\text{ rad/s}$, $\theta = 12.5\text{ rad}$, $v = 3.0\text{ m/s}$, $a_t = 1.2\text{ m/s}^2$, $a_n = 30.0\text{ m/s}^2$, $a_{\text{total}} \approx 30.02\text{ m/s}^2$.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                6. Mapa Mental: Traslación y Rotación sobre un Eje Fijo
+            </h2>
+            <p class="text-xs text-slate-500 mb-6 font-semibold uppercase tracking-wider">Esquema conceptual con distribución espacial optimizada</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 overflow-x-auto">
+                <div class="tree">
+                    <ul>
+                        <li>
+                            <div class="bg-blue-600 text-white font-extrabold border-none shadow-md">Traslación y Rotación de Cuerpos Rígidos</div>
+                            <ul>
+                                <li>
+                                    <div class="font-bold text-blue-900 bg-blue-50 border-blue-300">1. Traslación Pura</div>
+                                    <ul>
+                                        <li><div>Orientación de segmentos permanece constante</div></li>
+                                        <li><div>Trayectorias de puntos son paralelas</div></li>
+                                        <li><div class="font-semibold text-blue-800">$\vec{v}_A = \vec{v}_B$<br><span class="text-xs text-slate-500">Misma velocidad</span></div></li>
+                                        <li><div class="font-semibold text-blue-800">$\omega = 0$<br><span class="text-xs text-slate-500">Sin giro angular</span></div></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <div class="font-bold text-indigo-900 bg-indigo-50 border-indigo-300">2. Rotación sobre Eje Fijo</div>
+                                    <ul>
+                                        <li><div>Giro alrededor de un eje inercial inmóvil</div></li>
+                                        <li><div>Trayectorias circulares concéntricas</div></li>
+                                        <li><div class="font-semibold text-indigo-800">$\vec{v} = \vec{\omega} \times \vec{r}$<br><span class="text-xs text-slate-500">Velocidad lineal</span></div></li>
+                                        <li><div class="font-semibold text-indigo-800">$\vec{a} = \vec{a}_t + \vec{a}_n$<br><span class="text-xs text-slate-500">Aceleración compuesta</span></div></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                7. Test de Evaluación
+            </h2>
+            <p class="text-xs text-slate-500 mb-6 font-semibold uppercase tracking-wider">Comprueba tu aprendizaje (Respuestas interactivas)</p>
+            
+            <form id="evaluationTest" class="space-y-6">
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-slate-800 text-sm md:text-base mb-3">1. En traslación pura de un cuerpo rígido, la velocidad angular ($\omega$) es igual a:</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p1" value="correcta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">Cero ($0$) en todo momento.</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p1" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">La velocidad lineal dividida por el radio.</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p1" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">Variable dependiendo de la posición de la partícula.</span>
+                        </label>
+                    </div>
+                    <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-slate-800 text-sm md:text-base mb-3">2. Si un cuerpo rígido rota con aceleración angular $\alpha$, ¿cuánto vale la aceleración tangencial de un punto a distancia $r$ del eje?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p2" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$a_t = \omega^2 r$</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p2" value="correcta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$a_t = \alpha r$</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p2" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$a_t = \sqrt{a_t^2 + a_n^2}$</span>
+                        </label>
+                    </div>
+                    <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-slate-800 text-sm md:text-base mb-3">3. La componente normal de la aceleración ($a_n$) en un movimiento circular tiene como función:</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p3" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">Cambiar únicamente el módulo de la velocidad.</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p3" value="correcta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">Cambiar de manera instantánea la dirección de la velocidad.</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p3" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">Aumentar o disminuir la aceleración angular.</span>
+                        </label>
+                    </div>
+                    <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-slate-800 text-sm md:text-base mb-3">4. Si un disco parte del reposo y experimenta $\alpha = 2 \text{ rad/s}^2$ constante, ¿cuál es su $\omega$ a los $3\text{ s}$?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p4" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$1.5 \text{ rad/s}$</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p4" value="correcta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$6.0 \text{ rad/s}$</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p4" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$9.0 \text{ rad/s}$</span>
+                        </label>
+                    </div>
+                    <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-slate-800 text-sm md:text-base mb-3">5. La ecuación diferencial que relaciona directamente variables de rotación sin necesidad del factor temporal es:</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p5" value="correcta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$\alpha \, d\theta = \omega \, d\omega$</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p5" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$d\theta = \omega \, dt$</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 bg-white rounded border border-slate-100 hover:bg-slate-100 cursor-pointer">
+                            <input type="radio" name="p5" value="incorrecta" class="w-4 h-4 text-blue-600">
+                            <span class="text-xs md:text-sm text-slate-700">$\omega \, d\theta = \alpha \, d\omega$</span>
+                        </label>
+                    </div>
+                    <div class="feedback-box hidden mt-2 text-xs font-semibold p-2 rounded"></div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 items-center justify-between pt-4">
+                    <button type="button" onclick="calificarTest()" class="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition duration-200">
+                        Verificar Resultados
+                    </button>
+                    <div id="testResultSummary" class="text-sm font-bold text-slate-800"></div>
+                </div>
+            </form>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                8. Conclusión
+            </h2>
+            <p class="text-slate-600 text-justify text-base leading-relaxed">
+                El estudio detallado de la cinemática plana de cuerpos rígidos confirma la necesidad de clasificar de manera inequívoca el tipo de movimiento experimentado por cada eslabón de un sistema mecánico. La diferenciación cuantitativa entre traslación y rotación nos dota de las herramientas analíticas indispensables para modelar y analizar maquinarias reales de la ingeniería civil e industrial. Al interconectar las variables lineales del movimiento con las aceleraciones tangenciales y centrípetas de los componentes giratorios, los ingenieros pueden predecir fatigas de diseño, optimizar dinámicamente el rendimiento cinemático de los mecanismos de transmisión y asegurar la integridad operativa de estructuras dinámicas.
+            </p>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full inline-block"></span>
+                9. Referencias Bibliográficas
+            </h2>
+            <ol class="list-decimal list-inside space-y-3 text-sm text-slate-600">
+                <li class="pl-2">
+                    <span class="font-semibold text-slate-800">Beer, F. P., Johnston, E. R., & Cornwell, P. J. (2010).</span> 
+                    <span class="italic">Mecánica vectorial para ingenieros: Dinámica</span> (9.ª ed., Capítulo 15). McGraw-Hill.
+                </li>
+                <li class="pl-2">
+                    <span class="font-semibold text-slate-800">Bedford, A., & Fowler, W. (2008).</span> 
+                    <span class="italic">Mecánica para ingeniería: Dinámica</span> (5.ª ed., Capítulo 17). Pearson Educación.
+                </li>
+                <li class="pl-2">
+                    <span class="font-semibold text-slate-800">Meriam, J. L., & Kraige, L. G. (2014).</span> 
+                    <span class="italic">Mecánica para ingenieros: Dinámica</span> (3.ª ed., Capítulo 5). Editorial Reverté.
+                </li>
+                <li class="pl-2">
+                    <span class="font-semibold text-slate-800">Hibbeler, R. C. (2016).</span> 
+                    <span class="italic">Ingeniería mecánica: Dinámica</span> (14.ª ed., Capítulo 16). Pearson.
+                </li>
+            </ol>
+        </section>
+       
+    </main>
+
+    <footer class="bg-slate-955 text-white py-8 px-6 text-center border-t border-slate-800">
+        <div class="max-w-5xl mx-auto space-y-2">
+            <p class="text-sm text-slate-200">
+                <span class="font-semibold text-white">Desarrollado por:</span> Claudio Fernando Monterroso Mendoza (202130316) y Kevin Antonio Archila Coj (202231075)
+            </p>
+            <div class="text-xs text-slate-400 space-y-1 pt-1">
+                <p>©️ 2026 División de Ingeniería</p>
+                <p>Universidad de San Carlos de Guatemala, CUNOC</p>
+                <p class="italic text-slate-500">Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById("physicsCanvas");
+        const ctx = canvas.getContext("2d");
+        const speedRange = document.getElementById("speedRange");
+
+        let simMode = "trans"; 
+        let angle = 0;
+        let transX = 50;
+        let transDirection = 1;
+
+        function setSimMode(mode) {
+            simMode = mode;
+            const btnTrans = document.getElementById("btn-mode-trans");
+            const btnRot = document.getElementById("btn-mode-rot");
+            
+            if (mode === 'trans') {
+                btnTrans.className = "px-3 py-1.5 rounded text-xs font-bold bg-blue-600 text-white hover:bg-blue-500 transition";
+                btnRot.className = "px-3 py-1.5 rounded text-xs font-bold bg-slate-700 text-slate-300 hover:bg-slate-600 transition";
+            } else {
+                btnRot.className = "px-3 py-1.5 rounded text-xs font-bold bg-blue-600 text-white hover:bg-blue-500 transition";
+                btnTrans.className = "px-3 py-1.5 rounded text-xs font-bold bg-slate-700 text-slate-300 hover:bg-slate-600 transition";
+            }
+        }
+
+        // Función segura para dbiujar rectángulos redondeados con alta compatibilidad
+        function drawRoundedRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        function drawSimulation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const speed = parseFloat(speedRange.value);
+
+            // Dibujar rejilla de fondo
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 0.5;
+            for(let x = 0; x < canvas.width; x += 40) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for(let y = 0; y < canvas.height; y += 40) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            if (simMode === "trans") {
+                // Lógica de Traslación Curvilínea
+                transX += speed * 0.35 * transDirection;
+                if (transX > canvas.width - 150 || transX < 50) {
+                    transDirection *= -1;
+                }
+
+                const yOffset = 140 + Math.sin(transX / 50) * 20;
+
+                ctx.fillStyle = '#334155';
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 3;
+                
+                // Usando nuestra función segura de rectángulo redondeado
+                drawRoundedRect(ctx, transX, yOffset - 35, 100, 70, 8);
+                ctx.fill();
+                ctx.stroke();
+
+                const p1 = { x: transX + 25, y: yOffset - 15 };
+                const p2 = { x: transX + 75, y: yOffset + 15 };
+
+                [p1, p2].forEach((p, idx) => {
+                    ctx.fillStyle = '#e2e8f0';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    const vLength = speed * 6;
+                    ctx.strokeStyle = '#3b82f6';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p.x + vLength * transDirection, p.y);
+                    ctx.stroke();
+
+                    // Flecha
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.beginPath();
+                    ctx.moveTo(p.x + vLength * transDirection, p.y);
+                    ctx.lineTo(p.x + (vLength - 6) * transDirection, p.y - 4);
+                    ctx.lineTo(p.x + (vLength - 6) * transDirection, p.y + 4);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '10px Arial';
+                    ctx.fillText(`v_${idx+1}`, p.x - 5, p.y - 8);
+                });
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '12px Arial';
+                ctx.fillText("Traslación Curvilínea: v₁ = v₂ | ω = 0", 20, 30);
+
+            } else {
+                // Lógica de Rotación sobre Eje Fijo
+                angle += (speed * 0.015);
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const radius = 90;
+
+                // Disco
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Radios
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1;
+                for(let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.lineTo(centerX + Math.cos(angle + a) * radius, centerY + Math.sin(angle + a) * radius);
+                    ctx.stroke();
+                }
+
+                // Centro fijo
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Punto periférico
+                const px = centerX + Math.cos(angle) * radius;
+                const py = centerY + Math.sin(angle) * radius;
+
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(px, py, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Vector velocidad lineal
+                const tangentAngle = angle + Math.PI / 2;
+                const vLength = speed * 8;
+                const vx = px + Math.cos(tangentAngle) * vLength;
+                const vy = py + Math.sin(tangentAngle) * vLength;
+
+                ctx.strokeStyle = '#3b82f6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(px, py);
+                ctx.lineTo(vx, vy);
+                ctx.stroke();
+
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(vx, vy, 3, 0, Math.PI*2);
+                ctx.fill();
+
+                // Vector aceleración normal (radial)
+                const anLength = (speed * speed) * 0.45;
+                const anx = px - Math.cos(angle) * anLength;
+                const any = py - Math.sin(angle) * anLength;
+
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(px, py);
+                ctx.lineTo(anx, any);
+                ctx.stroke();
+
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(anx, any, 3, 0, Math.PI*2);
+                ctx.fill();
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '12px Arial';
+                ctx.fillText(`Rotación s/ Eje Fijo (Centro) | ω = ${speed.toFixed(1)} rad/s`, 20, 30);
+            }
+
+            requestAnimationFrame(drawSimulation);
+        }
+
+        // Inicialización segura de la animación
+        window.addEventListener('load', () => {
+            drawSimulation();
+        });
+
+        // CALIFICAR EL TEST DE EVALUACIÓN
+        function calificarTest() {
+            const form = document.getElementById("evaluationTest");
+            const questions = ['p1', 'p2', 'p3', 'p4', 'p5'];
+            let correctCount = 0;
+
+            const respuestasCorrectas = {
+                p1: "¡Correcto! En traslación pura, la velocidad angular es nula (ω = 0) de manera uniforme.",
+                p2: "¡Correcto! La aceleración tangencial se asocia a la aceleración angular por medio del radio: a_t = α r.",
+                p3: "¡Correcto! La componente normal cambia radialmente la dirección del vector velocidad lineal.",
+                p4: "¡Correcto! Se deduce de la expresión rotacional de aceleración constante: ω = ω_0 + α t => 2 * 3 = 6 rad/s.",
+                p5: "¡Correcto! La identidad fundamental de rotación vincula α dθ = ω dω al omitir el diferencial de tiempo dt."
+            };
+
+            const respuestasIncorrectas = {
+                p1: "Incorrecto. En traslación el cuerpo no tiene velocidad angular, por lo tanto ω = 0.",
+                p2: "Incorrecto. Recuerde la ecuación de compatibilidad: aceleración tangencial es igual a α r.",
+                p3: "Incorrecto. Recuerde que el cambio en módulo es responsabilidad de la aceleración tangencial.",
+                p4: "Incorrecto. Use la ecuación lineal angular final: ω = α * t.",
+                p5: "Incorrecto. La igualdad correcta se deduce de la velocidad angular y aceleración angular."
+            };
+
+            questions.forEach((q) => {
+                const checkedOption = form.querySelector(`input[name="${q}"]:checked`);
+                const parentDiv = form.querySelector(`input[name="${q}"]`).closest('.p-4');
+                const feedbackBox = parentDiv.querySelector('.feedback-box');
+
+                feedbackBox.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+
+                if (checkedOption) {
+                    if (checkedOption.value === "correcta") {
+                        correctCount++;
+                        feedbackBox.textContent = respuestasCorrectas[q];
+                        feedbackBox.classList.add('bg-green-100', 'text-green-800');
+                    } else {
+                        feedbackBox.textContent = respuestasIncorrectas[q];
+                        feedbackBox.classList.add('bg-red-100', 'text-red-800');
+                    }
+                } else {
+                    feedbackBox.textContent = "Por favor, seleccione una opción para esta pregunta.";
+                    feedbackBox.classList.add('bg-yellow-100', 'text-yellow-800');
+                }
+            });
+
+            const resultSummary = document.getElementById("testResultSummary");
+            resultSummary.textContent = `Puntuación obtenida: ${correctCount} de 5 correctas. (${(correctCount/5 * 100).toFixed(0)}%)`;
+        }
+    </script>
+</body>
+</html>

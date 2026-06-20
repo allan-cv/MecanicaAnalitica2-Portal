@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Aprendizaje: Cinética de Partículas</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
+                        slate: {
+                            955: '#0f172a' // Definición del azul oscuro profundo para el footer
+                        },
                         primary: {
-                            900: '#1e3a8a', // bg-blue-900
-                            700: '#1d4ed8', // hover:bg-blue-700
+                            900: '#1e3a8a',
+                            700: '#1d4ed8',
                         }
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome para Iconos -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- MathJax para visualización perfecta de LaTeX -->
     <script>
         window.MathJax = {
             tex: {
@@ -39,7 +39,6 @@
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans antialiased selection:bg-blue-900 selection:text-white">
 <script src="../js/global-layout.js"></script>
-    <!-- Navbar -->
     <nav class="sticky top-0 z-50 bg-blue-900 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
@@ -61,9 +60,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative overflow-hidden py-24 lg:py-32 bg-blue-900 text-white border-b border-blue-800 shadow-inner">
-        <!-- Grid de ingeniería decorativo de fondo -->
+    <header class="relative overflow-hidden py-24 lg:py-32 bg-blue-800 text-white border-b border-blue-900 shadow-inner">
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#3b82f6_1px,transparent_1px),linear-gradient(to_bottom,#3b82f6_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-10"></div>
         
         <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -74,7 +71,6 @@
                 Cinética de Partículas: <br>
                 <span class="bg-gradient-to-r from-blue-200 via-blue-100 to-white bg-clip-text text-transparent">Segunda Ley del Movimiento</span>
             </h1>
-            <!-- Introducción -->
             <p class="text-lg sm:text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed mb-8 font-light">
                 Este portal académico ofrece un entorno de aprendizaje interactivo diseñado para estudiantes de ingeniería. Explora de forma rigurosa la relación entre los sistemas de fuerzas aplicados a un punto material, su masa inercial y la aceleración resultante. A través de formulaciones matemáticas explícitas, análisis de sistemas de coordenadas cartesianas y curvilíneas, herramientas interactivas de resolución de problemas paso a paso y mapas conceptuales robustos, dominarás los principios cinéticos esenciales que gobiernan la dinámica clásica y el diseño mecánico moderno.
             </p>
@@ -82,17 +78,15 @@
                 <a href="#conceptos" class="px-6 py-3 bg-white text-blue-900 hover:bg-blue-100 font-bold rounded-lg transition-all transform hover:-translate-y-0.5 shadow-lg">
                     Comenzar Aprendizaje
                 </a>
-                <a href="#calculadora" class="px-6 py-3 bg-blue-800 hover:bg-blue-700 text-white font-medium rounded-lg border border-blue-700 transition-all">
+                <a href="#calculadora" class="px-6 py-3 bg-blue-900 hover:bg-blue-700 text-white font-medium rounded-lg border border-blue-700 transition-all">
                     Probar Simulador <i class="fa-solid fa-calculator ml-2"></i>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
 
-        <!-- Sección 1: Conceptos Clave -->
         <section id="conceptos" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -100,7 +94,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Concepto 1 -->
                 <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6 hover:shadow-md transition-all group">
                     <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-900 mb-5 group-hover:scale-110 transition-transform">
                         <i class="fa-solid fa-infinity text-2xl"></i>
@@ -114,7 +107,6 @@
                     </div>
                 </div>
 
-                <!-- Concepto 2 -->
                 <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6 hover:shadow-md transition-all group">
                     <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-900 mb-5 group-hover:scale-110 transition-transform">
                         <i class="fa-solid fa-weight-hanging text-2xl"></i>
@@ -128,7 +120,6 @@
                     </div>
                 </div>
 
-                <!-- Concepto 3 -->
                 <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6 hover:shadow-md transition-all group">
                     <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-900 mb-5 group-hover:scale-110 transition-transform">
                         <i class="fa-solid fa-compass text-2xl"></i>
@@ -144,7 +135,6 @@
             </div>
         </section>
 
-        <!-- Sección 2: Procedimiento de Resolución General -->
         <section id="procedimiento" class="scroll-mt-20 bg-white border border-gray-200 shadow-sm rounded-2xl p-8 lg:p-12">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -155,7 +145,6 @@
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <!-- Paso 1 -->
                 <div class="relative bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <span class="absolute -top-3 -left-3 w-8 h-8 rounded-lg bg-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">1</span>
                     <h4 class="text-gray-800 font-bold mb-2 mt-2">Diagrama de Cuerpo Libre (DCL)</h4>
@@ -163,7 +152,6 @@
                         Aisla físicamente la partícula en estudio. Dibuja de manera clara y explícita todas las fuerzas externas que actúan directamente sobre ella (gravedad, tensiones, fuerzas normales y fricción cinética).
                     </p>
                 </div>
-                <!-- Paso 2 -->
                 <div class="relative bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <span class="absolute -top-3 -left-3 w-8 h-8 rounded-lg bg-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">2</span>
                     <h4 class="text-gray-800 font-bold mb-2 mt-2">Diagrama Cinético (DC)</h4>
@@ -171,7 +159,6 @@
                         Establece la dirección supuesta de la aceleración resultante. Representa gráficamente el vector inercial efectivo $\vec{a}$ (o sus componentes vectoriales) multiplicado por la masa inercial de la partícula, $m\vec{a}$.
                     </p>
                 </div>
-                <!-- Paso 3 -->
                 <div class="relative bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <span class="absolute -top-3 -left-3 w-8 h-8 rounded-lg bg-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">3</span>
                     <h4 class="text-gray-800 font-bold mb-2 mt-2">Selección de Coordenadas</h4>
@@ -179,7 +166,6 @@
                         Elige el sistema de coordenadas de descomposición que simplifique el movimiento: Cartesianas si la trayectoria es rectilínea, o componentes Intrínsecas (Tangencial/Normal) si la trayectoria es curva.
                     </p>
                 </div>
-                <!-- Paso 4 -->
                 <div class="relative bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <span class="absolute -top-3 -left-3 w-8 h-8 rounded-lg bg-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">4</span>
                     <h4 class="text-gray-800 font-bold mb-2 mt-2">Aplicación de Ecuaciones</h4>
@@ -190,7 +176,6 @@
             </div>
         </section>
 
-        <!-- Sección 3: Ejemplo Práctico -->
         <section id="ejemplo" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -198,7 +183,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-                <!-- Enunciado y Formulación -->
                 <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-8 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center gap-2 mb-4">
@@ -226,7 +210,6 @@
                     </div>
                 </div>
 
-                <!-- Solución Paso a Paso -->
                 <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-8 flex flex-col justify-between">
                     <div>
                         <h3 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-square-root-variable text-blue-900 mr-2"></i>Desarrollo de Solución Algebraica</h3>
@@ -253,7 +236,6 @@
             </div>
         </section>
 
-        <!-- Sección 4: Herramienta de Resolución Interactiva -->
         <section id="calculadora" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -270,7 +252,6 @@
                 </div>
 
                 <div class="p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <!-- Formulario de Entrada -->
                     <div class="lg:col-span-5 space-y-6">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2" for="input-masa">Masa de la partícula ($m$)</label>
@@ -301,29 +282,25 @@
                         </button>
                     </div>
 
-                    <!-- Panel de Resultados Matemáticos en Tiempo Real -->
                     <div class="lg:col-span-7 bg-gray-50 rounded-xl border border-gray-200 p-6 sm:p-8 flex flex-col justify-between">
                         <div>
                             <h4 class="text-sm font-bold tracking-wider text-gray-500 uppercase mb-4">MEMORÁNDUM DE CÁLCULO CIENTÍFICO</h4>
                             
                             <div class="space-y-6">
-                                <!-- Línea 1: Gravedad y Normal -->
                                 <div class="border-b border-gray-200 pb-4">
                                     <span class="text-xs text-gray-500 block mb-1">Paso 1: Cálculo del Peso y Normal en Superficie Horizontal</span>
                                     <div class="font-mono text-sm sm:text-base text-gray-800" id="calc-normal">
-                                        $$N = m \cdot g = (12.00\text{ kg}) \times 9.81\text{ m/s}^2 = 117.72\text{ N}$$
+                                        $$N = m \\cdot g = (12.00\text{ kg}) \times 9.81\text{ m/s}^2 = 117.72\text{ N}$$
                                     </div>
                                 </div>
 
-                                <!-- Línea 2: Fricción -->
                                 <div class="border-b border-gray-200 pb-4">
                                     <span class="text-xs text-gray-500 block mb-1">Paso 2: Magnitud de Fuerza Resistiva</span>
                                     <div class="font-mono text-sm sm:text-base text-gray-800" id="calc-friccion">
-                                        $$f_k = \mu_k \cdot N = 0.20 \times 117.72\text{ N} = 23.54\text{ N}$$
+                                        $$f_k = \mu_k \\cdot N = 0.20 \times 117.72\text{ N} = 23.54\text{ N}$$
                                     </div>
                                 </div>
 
-                                <!-- Línea 3: Aceleración -->
                                 <div class="border-b border-gray-200 pb-4">
                                     <span class="text-xs text-gray-500 block mb-1">Paso 3: Segunda Ley aplicada (Fuerzas Colineales Horizontales)</span>
                                     <div class="font-mono text-sm sm:text-base text-gray-800" id="calc-aceleracion">
@@ -333,7 +310,6 @@
                             </div>
                         </div>
 
-                        <!-- Indicador Final de Aceleración -->
                         <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center justify-between">
                             <span class="text-sm font-semibold text-blue-900">Aceleración Dinámica Resultante:</span>
                             <span class="text-2xl sm:text-3xl font-extrabold text-blue-900 font-mono" id="calc-total-display">2.04 m/s²</span>
@@ -343,26 +319,21 @@
             </div>
         </section>
 
-        <!-- Sección 5: Mapa Conceptual NotebookLM -->
         <section id="mapa" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
                 <h2 class="text-3xl font-bold tracking-tight text-gray-800">Mapa Conceptual: Estructura Dinámica NotebookLM</h2>
             </div>
 
-            <!-- Estructura Visual del Mapa Conceptual -->
             <div class="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 sm:p-10 overflow-x-auto">
                 <div class="min-w-[768px] space-y-8 flex flex-col items-center">
-                    <!-- Nodo Principal -->
                     <div class="bg-blue-900 text-white font-black px-6 py-3 rounded-lg shadow-md text-center tracking-wide w-80 text-sm">
                         CINÉTICA DE PARTÍCULAS
                         <span class="block font-normal text-xs opacity-80">(Estructura General NotebookLM)</span>
                     </div>
 
-                    <!-- Conector 1 -->
                     <div class="h-8 w-0.5 bg-gray-300"></div>
 
-                    <!-- Segundo Nivel: Ramas Principales -->
                     <div class="grid grid-cols-3 gap-6 w-full max-w-4xl text-center">
                         <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col justify-between shadow-sm">
                             <span class="font-extrabold text-sm text-blue-900 uppercase">Fundamentos Físicos</span>
@@ -378,14 +349,12 @@
                         </div>
                     </div>
 
-                    <!-- Conectores 2 -->
                     <div class="flex justify-around w-full max-w-3xl">
                         <div class="h-8 w-0.5 bg-gray-300"></div>
                         <div class="h-8 w-0.5 bg-gray-300"></div>
                         <div class="h-8 w-0.5 bg-gray-300"></div>
                     </div>
 
-                    <!-- Tercer Nivel: Subconceptos de Ingeniería -->
                     <div class="grid grid-cols-3 gap-6 w-full max-w-4xl text-xs text-gray-650">
                         <div class="space-y-2">
                             <div class="bg-white p-2.5 rounded border border-gray-200 shadow-sm">Fuerzas Externas Reales (Gravedad, Contacto, Resortes)</div>
@@ -404,7 +373,6 @@
             </div>
         </section>
 
-        <!-- Sección 6: Recursos Multimedia (YouTube) -->
         <section id="multimedia" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -412,7 +380,6 @@
             </div>
 
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 items-stretch">
-                <!-- Tarjeta de Contenido de Video -->
                 <div class="lg:col-span-5 p-8 flex flex-col justify-between bg-gray-50 border-r border-gray-200">
                     <div>
                         <div class="flex items-center gap-2 mb-4">
@@ -429,7 +396,6 @@
                     </div>
                 </div>
 
-                <!-- Contenedor del Iframe de YouTube -->
                 <div class="lg:col-span-7 bg-black flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
                     <iframe 
                         class="w-full h-full aspect-video border-0" 
@@ -442,7 +408,6 @@
             </div>
         </section>
 
-        <!-- Sección 7: Conclusiones Integradas -->
         <section id="conclusiones" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -474,7 +439,6 @@
             </div>
         </section>
 
-        <!-- Sección 8: Evaluación Final Interactiva -->
         <section id="evaluacion" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -482,7 +446,6 @@
             </div>
 
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-                <!-- Cabecera de la Evaluación -->
                 <div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center">
                     <div>
                         <h3 class="text-lg font-bold text-gray-800">Cuestionario Académico</h3>
@@ -491,11 +454,9 @@
                     <span id="quiz-progress" class="px-3 py-1 bg-blue-50 text-blue-900 text-xs font-mono rounded border border-blue-200">Progreso: 0/5</span>
                 </div>
 
-                <!-- Caja de Pregunta -->
                 <div id="quiz-container" class="p-8 space-y-6">
                     <div id="quiz-question-box">
-                        <!-- Generado por JavaScript -->
-                    </div>
+                        </div>
 
                     <div id="quiz-actions" class="flex justify-end pt-4 border-t border-gray-200">
                         <button id="btn-next-quiz" onclick="siguientePregunta()" disabled class="px-6 py-2 bg-gray-300 text-gray-500 font-bold rounded-lg cursor-not-allowed transition-all">
@@ -504,7 +465,6 @@
                     </div>
                 </div>
 
-                <!-- Pantalla de Resultados de Evaluación (Oculta por defecto) -->
                 <div id="quiz-result-box" class="hidden p-8 text-center space-y-6">
                     <div class="w-20 h-20 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mx-auto text-3xl">
                         <i class="fa-solid fa-trophy"></i>
@@ -523,7 +483,6 @@
             </div>
         </section>
 
-        <!-- Sección 9: Referencias Bibliográficas y NotebookLM -->
         <section id="referencias" class="scroll-mt-20">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-1.5 h-8 bg-blue-900 rounded-full"></div>
@@ -531,7 +490,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Fuentes Principales -->
                 <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6 sm:p-8 space-y-6">
                     <h3 class="text-lg font-bold text-gray-800 border-b border-gray-200 pb-3"><i class="fa-solid fa-book text-blue-900 mr-2"></i> Textos y Guías de Estudio</h3>
                     <ul class="space-y-4 text-xs text-gray-600 leading-relaxed font-mono">
@@ -562,7 +520,6 @@
                     </ul>
                 </div>
 
-                <!-- Fuentes Digitales y Curaduría -->
                 <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6 sm:p-8 space-y-6">
                     <h3 class="text-lg font-bold text-gray-800 border-b border-gray-200 pb-3"><i class="fa-solid fa-graduation-cap text-blue-900 mr-2"></i> Material Curado y Recursos Digitales</h3>
                     <ul class="space-y-4 text-xs text-gray-600 leading-relaxed font-mono">
@@ -572,7 +529,7 @@
                         </li>
                         <li>
                             <strong class="text-gray-800 block">[7] Jaramillo Santana, N. (2018).</strong>
-                            <em>Análisis Avanzado de la Cinética de Partículas Basado en la Segunda Ley de Newton.</em> Formulación en coordenadas curvilíneas.
+                            <em>Análisis Advanced de la Cinética de Partículas Basado en la Segunda Ley de Newton.</em> Formulación en coordenadas curvilíneas.
                         </li>
                         <li>
                             <strong class="text-gray-800 block">[8] Generation Genius.</strong>
@@ -597,61 +554,35 @@
             </div>
         </section>
 
-        <!-- Sección 10: Integrantes del Grupo -->
-        <section id="integrantes" class="scroll-mt-20">
-            <div class="bg-white border border-gray-200 shadow-sm rounded-2xl p-8 max-w-4xl mx-auto">
-                <h3 class="text-lg font-bold text-blue-900 uppercase tracking-widest mb-6 text-center">Autores de la Investigación y Desarrollo</h3>
-                
-                <div class="text-center space-y-4 max-w-2xl mx-auto">
-                    <!-- Integrantes agrupados verticalmente con su carné al lado -->
-                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 flex flex-col sm:flex-row justify-between items-center px-6">
-                        <span class="text-gray-800 font-bold text-sm sm:text-base">Cristopher Joseph Estuardo Flores Chávez</span>
-                        <span class="text-xs sm:text-sm text-blue-900 font-mono font-bold mt-1 sm:mt-0">Carné: 202330299</span>
-                    </div>
-                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 flex flex-col sm:flex-row justify-between items-center px-6">
-                        <span class="text-gray-800 font-bold text-sm sm:text-base">Valeska Guadalupe Estrada Solares</span>
-                        <span class="text-xs sm:text-sm text-blue-900 font-mono font-bold mt-1 sm:mt-0">Carné: 202232119</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 mt-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-center md:text-left">
-                <p class="font-bold text-base tracking-wider uppercase text-blue-200">División de Ingeniería</p>
-                <p class="text-xs text-gray-400 mt-1">Universidad de San Carlos de Guatemala</p>
-            </div>
-            
-            <div class="flex flex-col items-center md:items-end text-xs text-gray-400 font-mono gap-1.5">
-                <p>&copy; 2026 Portal de Cinemática y Cinética Clásica</p>
-                <p>Desarrollado y optimizado para despliegue ágil en Vercel</p>
+    <footer class="bg-slate-955 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <p class="text-sm font-medium tracking-wide">
+                <span class="text-slate-400">Desarrollado por:</span> <span class="text-white font-semibold">Cristopher Joseph Estuardo Flores Chávez (Carné: 202330299)</span> y <span class="text-white font-semibold">Valeska Guadalupe Estrada Solares (Carné: 202232119)</span>
+            </p>
+            <div class="text-xs text-slate-400 space-y-1">
+                <p>&copy; 2026 División de Ingeniería</p>
+                <p>Universidad de San Carlos de Guatemala, CUNOC</p>
+                <p class="italic pt-2 text-slate-500">Desarrollado con fines exclusivamente didácticos. Mecánica Analítica 2</p>
             </div>
         </div>
     </footer>
 
-    <!-- Lógica JavaScript del Portal de Aprendizaje -->
     <script>
         // --- 1. Lógica Interactiva del Simulador de Dinámica ---
         function calcularDinamica() {
-            // Captura de datos de los elementos de entrada
             const m = parseFloat(document.getElementById('input-masa').value) || 1.0;
             const F = parseFloat(document.getElementById('input-fuerza').value) || 0.0;
             const mu = parseFloat(document.getElementById('input-friccion').value) || 0.0;
             const g = 9.81;
 
-            // Fórmulas físicas de dinámica
             const N = m * g;
             const fk = mu * N;
             
-            // Aceleración neta de la partícula
             let acc = (F - fk) / m;
-            if (acc < 0) acc = 0.0; // Evita valores negativos si el bloque no se mueve
+            if (acc < 0) acc = 0.0;
 
-            // Actualización de fórmulas en el DOM con renderizado estricto en LaTeX
             const calcNormalDiv = document.getElementById('calc-normal');
             const calcFriccionDiv = document.getElementById('calc-friccion');
             const calcAceleracionDiv = document.getElementById('calc-aceleracion');
@@ -663,7 +594,6 @@
             
             displayTotal.innerText = `${acc.toFixed(2)} m/s²`;
 
-            // Avisamos a MathJax que re-procese el bloque de fórmulas científicas
             if (window.MathJax) {
                 MathJax.typesetPromise([calcNormalDiv, calcFriccionDiv, calcAceleracionDiv]).catch((err) => console.log(err.message));
             }
@@ -736,7 +666,6 @@
             const progress = document.getElementById('quiz-progress');
             const btnSiguiente = document.getElementById('btn-next-quiz');
             
-            // Habilitar / deshabilitar botones
             btnSiguiente.disabled = true;
             btnSiguiente.className = "px-6 py-2 bg-gray-300 text-gray-550 font-bold rounded-lg cursor-not-allowed transition-all";
 
@@ -762,7 +691,6 @@
                 </div>
             `;
 
-            // Procesamos LaTeX en las nuevas preguntas renderizadas dinámicamente
             if (window.MathJax) {
                 MathJax.typesetPromise([container]).catch((err) => console.log(err.message));
             }
@@ -774,12 +702,10 @@
             const botones = document.querySelectorAll('.quiz-option-btn');
             const btnSiguiente = document.getElementById('btn-next-quiz');
 
-            // Deshabilitar el resto de opciones
             botones.forEach((btn, idx) => {
                 btn.disabled = true;
                 btn.className = "w-full text-left p-4 rounded-lg text-sm flex justify-between items-center bg-gray-50/50 border border-gray-100 text-gray-400";
                 
-                // Mostrar la correcta e incorrecta seleccionada
                 if (idx === item.correcta) {
                     btn.className = "w-full text-left p-4 rounded-lg text-sm flex justify-between items-center bg-emerald-50 border border-emerald-500 text-emerald-800 font-semibold";
                     btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
@@ -799,11 +725,9 @@
             }
             feedback.classList.remove('hidden');
 
-            // Habilitar botón de continuar
             btnSiguiente.disabled = false;
             btnSiguiente.className = "px-6 py-2 bg-blue-900 hover:bg-blue-700 text-white font-bold rounded-lg transition-all transform active:scale-95 shadow-md";
 
-            // Aseguramos renderizado de ecuaciones dentro de la justificación
             if (window.MathJax) {
                 MathJax.typesetPromise([feedback]).catch((err) => console.log(err.message));
             }
@@ -814,7 +738,6 @@
             if (indexQuizActual < preguntasQuiz.length) {
                 mostrarPregunta();
             } else {
-                // Fin de la prueba, mostrar resultados
                 document.getElementById('quiz-container').classList.add('hidden');
                 document.getElementById('quiz-progress').classList.add('hidden');
                 
@@ -840,7 +763,6 @@
             mostrarPregunta();
         }
 
-        // Inicializar funciones al cargar la ventana del navegador
         window.onload = function() {
             calcularDinamica();
             mostrarPregunta();
